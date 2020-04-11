@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.back.dao.UserDao">
+
+
+    <select id="getUserList" resultType="com.back.model.UserDto">
+        SELECT id AS id,
+          operator_name AS userName
+        FROM operator
+        WHERE id = 557
+    </select>
+    <select id="getLoginUser" resultType="com.back.vo.UserVo">
+        SELECT
+        u.id AS userId,
+        u.operator_no AS userNo,
+        u.operator_loginName AS loginName,
+        u.operator_password AS password
+        FROM operator u
+        <where>
+            <if test="loginName != null and loginName !=''">
+                and u.operator_loginName = #{loginName}
+            </if>
+            <if test="password != null">
+                and u.operator_password = #{password}
+            </if>
+            <if test="userId != null ">
+                and u.id = #{userId}
+            </if>
+        </where>
+        limit 1
+    </select>
+</mapper>

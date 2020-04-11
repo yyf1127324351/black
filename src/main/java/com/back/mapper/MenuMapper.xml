@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.back.dao.MenuDao">
+
+	<sql id="sql_menu_column">
+		p.id,
+		p.name,
+		p.code,
+		p.type,
+		p.parent_id	parentId,
+		p.level,
+		p.url,
+		p.has_child	hasChild,
+		p.sort
+	</sql>
+
+
+
+    <select id="leftLevel1List" resultType="com.back.model.Menu">
+      select p.id, p.name, p.code, p.type,
+		p.site_type	siteType,
+		p.parent_id	parentId,
+		p.level, p.url,
+		p.has_child	hasChild,
+		p.sort
+		from hr_ph_function p where p.id in (select
+		ph.parent_id
+		from hr_ph_function ph
+		join hr_ph_operator_function pof on pof.function_id = ph.id
+		where pof.operator_id = #{operatorId} and ph.type = 0 and ph.site_type = 2 and ph.`level` = 2
+		) order by p.sort
+    </select>
+    <select id="leftLevel2List" resultType="com.back.model.Menu">
+        select ph.id, ph.name, ph.code, ph.type,
+		ph.site_type	siteType,
+		ph.parent_id	parentId,
+		ph.level, ph.url,
+		ph.has_child	hasChild,
+		ph.sort
+		from hr_ph_function ph
+		join hr_ph_operator_function pof on pof.function_id = ph.id
+		where pof.operator_id = #{operatorId} and ph.type = 0 and ph.site_type = 2 and ph.`level` = 2
+		order by  ph.sort asc
+
+    </select>
+	<select id="getAllMenuTree" resultType="com.back.model.Menu">
+		select
+		<include refid="sql_menu_column"/>
+		FROM hr_ph_function p
+		WHERE p.deleted = 0
+	</select>
+</mapper>

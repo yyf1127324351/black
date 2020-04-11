@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:aop="http://www.springframework.org/schema/aop"
+	   xmlns:tx="http://www.springframework.org/schema/tx"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+		<!-- 配置数据源-采用dbcp连接池  -->
+		<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" >
+			<property name="driverClassName" value="${jdbc.driverClassName}"/>
+			<property name="url" value="${jdbc.url}"/>
+			<property name="username" value="${jdbc.username}"/>
+			<property name="password" value="${jdbc.password}"/>
+		</bean>
+		<!-- 配置sqlSessionFactory -->
+		<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+			<property name="dataSource" ref="dataSource"/>
+			<!-- 配置mybatis的核心配置文件 -->
+			<!-- <property name="configLocation" value="classpath:mybatis-config.xml" /> -->
+			<!-- 配置model类别名, 也可以在实体类前用@Alias(" ")实现 -->
+			<property name="typeAliasesPackage" value="com.back.model"/>
+			<!-- 所有配置的mapper.xml文件 -->
+			<property name="mapperLocations" value="classpath:com/back/mapper/*.xml" />
+		</bean>
+		
+		<!-- 扫描注入mapper接口 -->
+		<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        	 <property name="basePackage" value="com.back.dao" />
+        	 <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+        </bean>
+        <!--  配置事务管理器    -->
+       	<bean name="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+       		<property name="dataSource" ref="dataSource"/>
+       	</bean>
+       	<!--  事务管理 通知  -->
+       	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+       		<tx:attributes>
+				<tx:method name="add*" propagation="REQUIRED" />
+       			
+       			<!-- 对其他方法 使用默认的事务管理 -->  
+       			<tx:method name="*" propagation="REQUIRED" />
+       		</tx:attributes>
+       	</tx:advice>
+      	<aop:config expose-proxy="true">
+			<aop:pointcut id="transactionPointcut" expression="execution(* com.back.service.impl.*.*(..))" />
+			<aop:advisor pointcut-ref="transactionPointcut" advice-ref="txAdvice" />
+		</aop:config>
+       	
+       	<!-- 启用对事务注解的支持 -->  
+    	<tx:annotation-driven transaction-manager="transactionManager"/>
+
+       	
+</beans>

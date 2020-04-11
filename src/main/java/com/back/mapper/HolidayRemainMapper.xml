@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.back.dao.HolidayRemainDao">
+
+    <sql id="holiday_days_where">
+        <where>
+            <if test="operatorName !=null and operatorName!=''">
+                and hhd.operator_name like '%${operatorName}%'
+            </if>
+            <if test="operatorNo !=null and operatorNo!=''">
+                and hhd.operator_no like '%${operatorNo}%'
+            </if>
+            <if test="deptPath !=null ">
+                and d.path like '${deptPath}%'
+            </if>
+            <if test="year !=null ">
+                and hhd.year = #{year}
+            </if>
+            <if test="deptAuthorityList != null and deptAuthorityList.size()>0">
+                and d.`ID` IN
+                <foreach collection="deptAuthorityList" index="index" item="item" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </sql>
+
+    <select id="countHolidayRemain" resultType="java.lang.Long">
+        SELECT count(1)
+        FROM hr_holiday_days hhd
+        LEFT JOIN operator o ON hhd.operator_no = o.operator_no
+        LEFT JOIN department d on o.department_id= d.id
+        <include refid="holiday_days_where"/>
+    </select>
+    <select id="getHolidayRemainList" resultType="com.back.model.HolidayRemainDto">
+        SELECT
+        hhd.id AS id,
+        hhd.operator_name AS operatorName,
+        hhd.operator_no AS operatorNo,
+        hhd.year AS year,
+
+        hhd.total_yearly_holiday AS totalYearlyHoliday,
+        hhd.remain_yearly_holiday AS remainYearlyHoliday,
+        hhd.used_yearly_holiday AS usedYearlyHoliday,
+        hhd.adjustment_yearly_holiday AS adjustmentYearlyHoliday,
+        hhd.lastyear_yearly_holiday AS lastyearYearlyHoliday,
+        hhd.calculate_yearly_holiday AS calculateYearlyHoliday,
+        hhd.calculate_company_yearly_holiday AS calculateCompanyYearlyHoliday,
+
+        IFNULL(convert(hhd.total_exchange_holiday,decimal(10,3)),0) AS totalExchangeHoliday,
+        IFNULL(convert(hhd.remain_exchange_holiday,decimal(10,3)),0) AS remainExchangeHoliday,
+        IFNULL(convert(hhd.used_exchange_holiday,decimal(10,3)),0) AS usedExchangeHoliday,
+        IFNULL(convert(hhd.adjustment_exchange_holiday,decimal(10,3)),0) AS adjustmentExchangeHoliday,
+        IFNULL(convert(hhd.lastyear_exchange_holiday,decimal(10,3)),0) AS lastyearExchangeHoliday,
+        IFNULL(convert(hhd.calculate_exchange_holiday,decimal(10,3)),0) AS calculateExchangeHoliday,
+
+
+        hhd.creator AS creator,
+        hhd.create_date AS createDate,
+        hhd.update_date AS updateDate,
+        d.`NAME` AS departmentName
+
+        FROM hr_holiday_days hhd
+        LEFT JOIN operator o ON hhd.operator_no = o.operator_no
+        LEFT JOIN department d on o.department_id= d.id
+
+        <include refid="holiday_days_where"/>
+        ORDER BY hhd.create_date DESC
+        <if test="page !=null ">
+            limit #{start} , #{rows}
+        </if>
+
+    </select>
+</mapper>
