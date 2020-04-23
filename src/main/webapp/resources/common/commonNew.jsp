@@ -10,9 +10,7 @@
 <link rel="stylesheet" type="text/css" href="/common/easyUI/themes/icon.css">
 <link rel="stylesheet" type="text/css" href="/common/css/bootstrap-select.min.css">
 <link rel="stylesheet" type="text/css" href="/common/css/performance.css">
-<link rel="stylesheet" type="text/css" href="/common/css/layuiButton.css">
 <link rel="stylesheet" type="text/css" href="/common/css/zTreeStyle.css">
-<link rel="stylesheet" type="text/css" href="/common/css/tableExit.css">
 
 
 <script type="text/javascript" src="/common/js/jquery-1.11.3.min.js"></script>
