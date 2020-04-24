@@ -4,7 +4,7 @@ import com.utils.PropertiesLoaderUtils;
 
 public class ConfigConstants {
     private static PropertiesLoaderUtils propertiesLoader = new PropertiesLoaderUtils("config.properties");
-    public static final String LOGIN_RETURN_URL = propertiesLoader.getProperty("login_return_url");
+    public static final String LOGIN_REDIRECT_URL = propertiesLoader.getProperty("login_redirect_url");
     public static final String LOGOUT_URL = propertiesLoader.getProperty("logout_url");
 
     //redis配置

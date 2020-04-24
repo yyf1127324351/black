@@ -13,12 +13,12 @@ function checkLoginName(){
     var loginName = $('#loginName').val();
     loginName = loginName.replace(/(^\s*)|(\s*$)/g,'');
     if(loginName==''||loginName==null){
-        $('#errormsg').html('<font color="red">请输入用户名</font>');
-        $('#errormsg').show();
-        // $("#errormsg").focus();
+        $('#errorMsg').html('<font color="red">请输入用户名</font>');
+        $('#errorMsg').show();
+        // $("#errorMsg").focus();
         return false;
     }else{
-        $('#errormsg').hide();
+        $('#errorMsg').hide();
         return true;
     }
 }
@@ -34,12 +34,12 @@ function checkOldPwd(){
     var oldPwd = $('#oldPwd').val();
     oldPwd = oldPwd.replace(/(^\s*)|(\s*$)/g,'');
     if(oldPwd==''||oldPwd==null){
-        $('#errormsg').html('<font color="red">请输入原密码！</font>');
-        $('#errormsg').show();
+        $('#errorMsg').html('<font color="red">请输入原密码！</font>');
+        $('#errorMsg').show();
         oldPwdCheckResult = false;
         return false;
     }else {
-        $('#errormsg').hide();
+        $('#errorMsg').hide();
     }
 
     $.ajax({
@@ -60,7 +60,7 @@ function checkOldPwd(){
                 // $('#pwd_enc').val(generateMixed(4)+generateNum(2)+$.base64Encode(pwd));
                 // document.getElementById("loginForm").submit();
                 oldPwdCheckResult = true;
-                $('#errormsg').hide();
+                $('#errorMsg').hide();
             } else{
                 // $('#subButton').show();
                 // -1：帐号不存在、0：密码错误：1：成功、-2：人员记录不存在、-3：多条记录
@@ -78,8 +78,8 @@ function checkOldPwd(){
                     msg = '用户名不存在或密码不正确';
                 }
                 oldPwdCheckResult = false;
-                $('#errormsg').html('<font color="red">' + msg +'</font>');
-                $('#errormsg').show();
+                $('#errorMsg').html('<font color="red">' + msg +'</font>');
+                $('#errorMsg').show();
             }
         }
     });
@@ -103,24 +103,24 @@ function submitEditPassword() {
     newPwd2 = newPwd2.replace(/(^\s*)|(\s*$)/g,'');
 
     if (newPwd==''|| newPwd==null){
-        $('#errormsg').html('<font color="red">请输新密码</font>');
+        $('#errorMsg').html('<font color="red">请输新密码</font>');
         setTimeout(function () {
-            $('#errormsg').show();
+            $('#errorMsg').show();
             $("#newPwd").focus();
         },100)
 
         return;
     }else if (newPwd2==''|| newPwd2==null){
-        $('#errormsg').html('<font color="red">请输入确认密码</font>');
+        $('#errorMsg').html('<font color="red">请输入确认密码</font>');
         setTimeout(function () {
-            $('#errormsg').show();
+            $('#errorMsg').show();
             $("#newPwd2").focus();
         },100)
         return;
     }else if (newPwd2 != newPwd){
-        $('#errormsg').html('<font color="red">两次输入的密码不一致</font>');
+        $('#errorMsg').html('<font color="red">两次输入的密码不一致</font>');
         setTimeout(function () {
-            $('#errormsg').show();
+            $('#errorMsg').show();
             $("#newPwd").focus();
         },100)
         return;
@@ -154,12 +154,12 @@ function submitEditPassword() {
                     }
                 );
             }else if (data.code == 422){
-                $('#errormsg').html('<font color="red">请输入一致的新密码</font>');
-                $('#errormsg').show();
+                $('#errorMsg').html('<font color="red">请输入一致的新密码</font>');
+                $('#errorMsg').show();
                 $("#newPwd").focus();
             }else {
-                $('#errormsg').html('<font color="red">系统异常，请联系技术人员</font>');
-                $('#errormsg').show();
+                $('#errorMsg').html('<font color="red">系统异常，请联系技术人员</font>');
+                $('#errorMsg').show();
             }
         }
     });
@@ -201,8 +201,8 @@ function generateNum(n) {
 //     var newPwd = $('#newPwd').val();
 //     newPwd = newPwd.replace(/(^\s*)|(\s*$)/g,'');
 //     if(newPwd==''||newPwd==null){
-//         $('#errormsg').html('<i class="icon icon_error"></i><font color="red">请输入新密码</font>');
-//         $('#errormsg').show();
+//         $('#errorMsg').html('<i class="icon icon_error"></i><font color="red">请输入新密码</font>');
+//         $('#errorMsg').show();
 //         // $("#newPwd").focus();
 //         return false;
 //     }
@@ -222,8 +222,8 @@ function generateNum(n) {
 //     newPwd2 = newPwd2.replace(/(^\s*)|(\s*$)/g,'');
 //
 //     if ((newPwd==''|| newPwd==null) || (newPwd2==''|| newPwd2==null)  || (newPwd != newPwd2)){
-//         $('#errormsg').html('<font color="red">两次输入的密码不一致</font>');
-//         $('#errormsg').show();
+//         $('#errorMsg').html('<font color="red">两次输入的密码不一致</font>');
+//         $('#errorMsg').show();
 //         // $("#newPwd").focus();
 //         return false;
 //     }

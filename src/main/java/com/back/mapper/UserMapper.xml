@@ -4,7 +4,7 @@
 <mapper namespace="com.back.dao.UserDao">
 
 
-    <select id="getUserList" resultType="com.back.model.UserDto">
+    <select id="getUserList" resultType="com.back.model.User">
         SELECT id AS id,
           operator_name AS userName
         FROM operator

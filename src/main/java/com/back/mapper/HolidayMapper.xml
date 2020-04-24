@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.back.dao.HolidayDao">
+
+    <sql id="sql_column">
+        h.id as id,
+        h.staff_id as staffId,
+        h.staff_name as staffName,
+        h.holiday_type as holidayType,
+        h.hours as hours,
+        h.start_time as startTime,
+        h.end_time as endTime,
+        h.year as year,
+        h.reason as reason,
+        h.remark as remark,
+        h.system_source as systemSource,
+        h.oa_id as oaId,
+        h.status as status,
+        h.deleted as deleted,
+        h.create_user as createUser,
+        h.create_user_name as createUserName,
+        h.create_time as createTime,
+        h.update_user as updateUser,
+        h.update_user_name as updateUserName,
+        h.update_time as updateTime
+    </sql>
+    <sql id="sql_where">
+        <if test="staffName !=null and staffName!=''">
+            and h.staff_name like '%${staffName}%'
+        </if>
+    </sql>
+
+    <select id="getHolidayPageList" resultType="com.back.model.Holiday">
+        SELECT
+        <include refid="sql_column"/>
+        FROM kq_holiday h
+        <include refid="sql_where"/>
+        ORDER BY h.create_time DESC
+        <if test="page !=null ">
+            limit #{start} , #{rows}
+        </if>
+    </select>
+    <select id="getHolidayPageCount" resultType="java.lang.Long">
+        SELECT count(1)
+        FROM kq_holiday h
+        <include refid="sql_where"/>
+    </select>
+</mapper>

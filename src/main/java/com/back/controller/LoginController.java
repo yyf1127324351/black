@@ -1,6 +1,6 @@
 package com.back.controller;
 
-import com.back.model.BackUserDto;
+import com.back.model.User;
 import com.back.service.LoginService;
 import com.back.service.UserService;
 import com.back.vo.UserVo;
@@ -8,7 +8,6 @@ import com.common.BaseResponse;
 import com.common.session.SessionContainer;
 import com.constant.ConfigConstants;
 import com.utils.Encodes;
-import com.utils.WebUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,41 +32,36 @@ public class LoginController {
 
     /**
      * 登录
-     * @param backUserDto
+     * @param user
      * */
     @RequestMapping(value = "/login")
-    public ModelAndView login(BackUserDto backUserDto, HttpServletRequest request){
+    public ModelAndView login(User user, HttpServletRequest request){
         if (SessionContainer.getSession() != null) {
-            return new ModelAndView("redirect:" + ConfigConstants.LOGIN_RETURN_URL);
+            return new ModelAndView("redirect:" + ConfigConstants.LOGIN_REDIRECT_URL);
         }
-        ModelAndView mv = new ModelAndView("login/login");
-        if (backUserDto == null || StringUtils.isBlank(backUserDto.getLoginName())) {
-
-            String redirectUrl = request.getParameter("redirectUrl");
-            if (StringUtils.isBlank(redirectUrl)) {
-                redirectUrl = request.getHeader("referer");
-            }
-            mv.addObject("redirectUrl", StringUtils.isNotBlank(redirectUrl) ? redirectUrl : ConfigConstants.LOGIN_RETURN_URL);
+        ModelAndView mv = new ModelAndView("/login/login");
+        if (user == null || StringUtils.isBlank(user.getLoginName())) {
+            return mv;
         }else {
-            String loginName = backUserDto.getLoginName();
+            String loginName = user.getLoginName();
             loginName = loginName.substring(6, loginName.length());
-            String password = backUserDto.getPassword();
+            String password = user.getPassword();
             password = password.substring(6, password.length());
 
-            backUserDto.setLoginName(Encodes.decodeBase64(loginName));
-            backUserDto.setPassword(password);
+            user.setLoginName(Encodes.decodeBase64(loginName));
+            user.setPassword(password);
 
             Map<String,String> param = new HashMap<>();
-            param.put("loginName",backUserDto.getLoginName());
-            param.put("password",backUserDto.getPassword());
+            param.put("loginName",user.getLoginName());
+            param.put("password",user.getPassword());
 
             UserVo userVo = userService.getLoginUser(param);
             if (null == userVo){
                 return mv;
             }else {
-                userVo.setRedirectUrl(backUserDto.getRedirectUrl());
+//                userVo.setRedirectUrl(user.getRedirectUrl());
                 String redirectUrl = loginService.getRedirectUrl(request,userVo);
-                mv.setViewName("redirect:" + (StringUtils.isNotBlank(redirectUrl) ? redirectUrl : ConfigConstants.LOGIN_RETURN_URL));
+                mv.setViewName("redirect:" + (StringUtils.isNotBlank(redirectUrl) ? redirectUrl : ConfigConstants.LOGIN_REDIRECT_URL));
             }
         }
         return mv;
@@ -93,7 +87,7 @@ public class LoginController {
 
     @RequestMapping(value = "/validateLogin")
     @ResponseBody
-    public BaseResponse validateLogin(BackUserDto backUserDto) {
+    public BaseResponse validateLogin(User user) {
         return BaseResponse.success();
     }
 

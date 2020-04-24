@@ -1,19 +1,17 @@
-$(document).ready(function() {
+$(function() {
         document.onkeydown = function (e) {
             if (e.keyCode == '13') {
-                queryHolidayDays();
+                queryList();
             }
         };
 
-
-//查询条件部门选单
     //查询结果datagrid初始化
     $("#data_table").datagrid({
         queryParams:getFormData("searchForm"), //参数
-        url:'/holidayRemain/holidayRemainList',
+        url:'/holiday/getHolidayPageList',
         method:'post',
         loadMsg:"数据装载中,请稍等....",
-        nowrap: false, //单元格内容是否可换行
+        nowrap: true, //单元格内容是否可换行
         fitColumns: false, //自适应网格宽度
         showFooter:false, //是否显示最后一行，统计使用
         pagination:true,
@@ -30,46 +28,27 @@ $(document).ready(function() {
             }
         },
         frozenColumns:[[
-            {title:'操作',field:'id',width:60,align:'center',
+            {title:'操作',field:'id',width:100,align:'center',
                 formatter:function(val,row){
                     var id = row.id;
-                    var year = row.year;
-                    var url = '&nbsp;';
-                    var mydate = new Date();
-                    var nowYear = mydate.getFullYear();
-                    if (nowYear == year){
-                        if(null!=id&&id != ''){
-                            url =url + '<input type=hidden value='+id+' id=hidden_'+id+'><a class="sel_btn ch_cls" href="javascript:editHoliday('+id+')" style="text-decoration:none;">编辑</a>';
-                            // url =url + '<input type=hidden value='+id+' id=hidden_'+id+'><a href="javascript:editHoliday()" style="text-decoration:none;">编辑</a>';
-                        }
-                        return url;
-                    }
-
+                    var html = "";
+                    html = html +'<a class="sel_btn ch_cls" onclick="editHoliday('+id+')" style="text-decoration:none;">编辑</a>';
+                    return html;
                 }
             },
-            {title:'年份',field:'year',width:40,align:'center',sortable:true},
-            {title:'员工工号',field:'operatorNo',width:100,align:'center',sortable:true},
-            {title:'员工姓名',field:'operatorName',width:80,align:'center',sortable:true},
-            {title:'员工部门',field:'departmentName',width:80,align:'center',sortable:true}
-
+            {title:'员工姓名',field:'staffName',width:80,align:'center'}
         ]],
         columns:[[
-            {title:'总年假(天)',field:'totalYearlyHoliday',width:70,align:'center',sortable:true},
-            {title:'剩余年假(天)',field:'remainYearlyHoliday',width:80,align:'center',sortable:true},
-            {title:'已用年假(天)',field:'usedYearlyHoliday',width:100,align:'center',sortable:true},
-            {title:'上年结转年假(天)',field:'lastyearYearlyHoliday',width:100,align:'center',sortable:true},
-            {title:'当年年假(天)',field:'calculateYearlyHoliday',width:100,align:'center',sortable:true},
-            {title:'当年公司年假(天)',field:'calculateCompanyYearlyHoliday',width:100,align:'center',sortable:true},
-            {title:'年假调整(天)',field:'adjustmentYearlyHoliday',width:100,align:'center',sortable:true},
-
-
-            {title:'总调休(小时)',field:'totalExchangeHoliday',width:80,align:'center',sortable:true},
-            {title:'剩余调休(小时)',field:'remainExchangeHoliday',width:90,align:'center',sortable:true},
-            {title:'已用调休(小时)',field:'usedExchangeHoliday',width:100,align:'center',sortable:true},
-            {title:'上年结转调休假(小时)',field:'lastyearExchangeHoliday',width:130,align:'center',sortable:true},
-            {title:'当年调休(小时)',field:'calculateExchangeHoliday',width:100,align:'center',sortable:true},
-            {title:'调休假调整(小时)',field:'adjustmentExchangeHoliday',width:100,align:'center',sortable:true},
-
+            {title:'假期类型',field:'holidayType',width:80,align:'center'},
+            {title:'请假时长(小时)',field:'hours',width:100,align:'center',sortable:true},
+            {title:'年份',field:'year',width:80,align:'center',sortable:true},
+            {title:'请假开始时间',field:'startTime',width:160,align:'center',sortable:true},
+            {title:'请假结束时间',field:'endTime',width:160,align:'center',sortable:true},
+            {title:'状态',field:'status',width:100,align:'center',sortable:true},
+            {title:'数据来源',field:'systemSource',width:100,align:'center',sortable:true},
+            {title:'OA单号',field:'oaId',width:100,align:'center',sortable:true},
+            {title:'请假原因',field:'reason',width:300,align:'center',sortable:true},
+            {title:'备注',field:'remark',width:200,align:'center',sortable:true}
         ]]
 
 
@@ -125,9 +104,9 @@ function bindEnter(event) {
     }
 }
 //假期余额-搜索
-function queryHolidayDays(){
+function queryList(){
     var data=getFormData("search_form");
-    $('#data_result').datagrid({url:'/holiday/holidayRemainList',queryParams:data});
+    $('#data_result').datagrid({url:'/holiday/getHolidayPageList',queryParams:data});
 }
 //假期余额-重置查询条件输入框
 function clearFormData(){
@@ -255,6 +234,5 @@ function getFormData(form){
             data[item["name"]] = item["value"];
         }
     });
-    debugger;
     return data;
 }

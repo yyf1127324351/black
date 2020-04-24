@@ -19,7 +19,7 @@
 <form id="loginForm" id="loginForm" method = 'post'  action = '/le/login'  >
 	<div class="login_m">
 		<div class="login_logo"><span style="font-size: 35px;">修改密码</span></div>
-		<div class="login_boder" style="padding-bottom: 10%">
+		<div class="login_div" style="padding-bottom: 10%">
 			<input type="hidden" id="redirectUrl" name="ssoRedirectUrl" value="${redirectUrl!''}">
 		    <input type="hidden" id="systemAlias" name="systemAlias" value="${systemAlias!''}">
 		    <input type="hidden" id="orgTitlePkid" name="orgTitlePkid" value = "10000">
@@ -42,7 +42,7 @@
 						<input type="password" id="newPwd2" class="txt_input" placeholder="请再次输入新密码"/>
 					</label>
 				   <div class="rem_sub" style="margin-top: 16px;">
-                       <div id="errormsg" class="errorDiv" style="margin-top: 8px;"></div>
+                       <div id="errorMsg" class="errorDiv" style="margin-top: 8px;"></div>
 					   <br/>
 				    <label>
 				      <input type="button" class="sub_buttons" id="subButton" value="确认" onclick="javascript:submitEditPassword();" style="opacity: 0.7;">
@@ -54,7 +54,7 @@
 				  </div>
 			</div>
 		</div>
-		<!--login_boder end-->
+		<!--login_div end-->
 	</div>
 <!--login_m end-->
 </form>

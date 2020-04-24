@@ -1,12 +1,12 @@
 package com.back.service;
 
-import com.back.model.UserDto;
+import com.back.model.User;
 import com.back.vo.UserVo;
 
 import java.util.Map;
 
 public interface UserService {
-    UserDto getUserList();
+    User getUserList();
 
     UserVo getLoginUser(Map<String, String> param);
 }

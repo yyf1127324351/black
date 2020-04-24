@@ -1,6 +1,6 @@
 package com.back.controller;
 
-import com.back.model.UserDto;
+import com.back.model.User;
 import com.back.service.UserService;
 import com.common.BaseResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ public class UserController {
     @RequestMapping("/getUserList")
     @ResponseBody
     public BaseResponse getUserList(){
-        UserDto userDto = userService.getUserList();
+        User userDto = userService.getUserList();
         return BaseResponse.success(userDto);
     }
 }

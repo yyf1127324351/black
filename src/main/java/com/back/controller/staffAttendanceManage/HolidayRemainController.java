@@ -14,7 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
  * 假期余额管理controller
  * */
 @Controller
-@RequestMapping("/holiday")
+@RequestMapping("/holidayRemain")
 public class HolidayRemainController {
     private static Logger logger = LoggerFactory.getLogger(HolidayRemainController.class);
 
@@ -40,7 +40,7 @@ public class HolidayRemainController {
         try {
             return holidayRemainService.getHolidayRemainList(holidayRemainDto);
         }catch (Exception e){
-            logger.error("holidayRemain/holidayRemainList-exception:",e);
+            logger.error("holiday/holidayRemainList-exception:{}",e);
             return BaseResponse.error();
         }
 

@@ -1,45 +1,38 @@
 
 $(document).ready(function() {
     $("#loginName").focus();
-    //loginInit();//登录时初始化提示DIV为隐藏
-
     //回车登录
-    $('input').keyup(function(e) {
-        if(e.keyCode == '13') {
+    document.onkeydown = function (e) {
+        if (e.keyCode == '13') {
             login();
         }
-    })
+    };
 });
 
 /**
  * 登录function
  */
 function login(){
-    //loginInit();
     $('#subButton').hide();
     if(validateLoginNameAndPwd()){//前台数据校验
-        vilidateLogin();
+        validateLogin();
     }
 
 }
 /**
  * 登录后台数据验证
  */
-function vilidateLogin(){
-    $('#errormsg').hide();
-    $('#subButton').hide();
+function validateLogin(){
+    $('#errorMsg').hide();
     var loginName = $('#loginName').val();
     loginName = loginName.replace(/(^\s*)|(\s*$)/g,'');
     var password = $('#password').val();
     password = password.replace(/(^\s*)|(\s*$)/g,'');
     $.ajax({
         url : '/login/validateLogin',
-        //data:'loginName='+encodeURIComponent($.base64Encode(loginName))+'&pwd='+encodeURIComponent($.base64Encode(pwd)),
         data: {
             loginName: generateMixed(4)+generateNum(2)+$.base64Encode(loginName),
-            password:generateMixed(4)+generateNum(2)+$.base64Encode(password),
-            //isProd: getUrlParam('isProd'),
-            systemAlias:$("#systemAlias").val()
+            password:generateMixed(4)+generateNum(2)+$.base64Encode(password)
         },
         type : 'POST',
         cache:false,
@@ -68,8 +61,8 @@ function vilidateLogin(){
                     msg = '用户名不存在或密码不正确';
                 }
                 oldPwdCheckResult = false;
-                $('#errormsg').html('<font color="red">' + msg +'</font>');
-                $('#errormsg').show();
+                $('#errorMsg').html('<font color="red">' + msg +'</font>');
+                $('#errorMsg').show();
             }
         }
     });
@@ -79,53 +72,49 @@ function vilidateLogin(){
  * @returns {Boolean}
  */
 function validateLoginNameAndPwd(){
-    var ret = true;
-    var loginName = $('#loginName').val();
-    loginName = loginName.replace(/(^\s*)|(\s*$)/g,'');
-
+    var result = true;
+    var loginName = $('#loginName').val().replace(/(^\s*)|(\s*$)/g,'');
     if(loginName==''||loginName==null){
-        $('#errormsg').html('<font color="red">请输入用户名</font>');
-        $('#errormsg').show();
+        $('#errorMsg').html('<font color="red">请输入用户名</font>');
+        $('#errorMsg').show();
         $("#loginName").focus();
         $('#subButton').show();//显示登录按钮
         return false;
     }
+
     if($('#pwdDiv').is(':visible')) {
-        var pwd = $('#password').val();
-        pwd = pwd.replace(/(^\s*)|(\s*$)/g, '');
+        var pwd = $('#password').val().replace(/(^\s*)|(\s*$)/g, '');
         if (pwd == '' || pwd == null) {
-            $('#errormsg').html('<font color="red">请输入密码</font>');
-            $('#errormsg').show();
+            $('#errorMsg').html('<font color="red">请输入密码</font>');
+            $('#errorMsg').show();
             $("#password").focus();
             $('#subButton').show();//显示登录按钮
             return false;
         }
     }
-    return ret;
+    return result;
 }
 /**
  * 登录账号输入框失去焦点是验证
  */
 function onblurLoginName(){
-    var loginName = $('#loginName').val();
-    loginName = loginName.replace(/(^\s*)|(\s*$)/g,'');
+    var loginName = $('#loginName').val().replace(/(^\s*)|(\s*$)/g,'');
     if(loginName==''||loginName==null){
-        $('#errormsg').html('<font color="red">请输入用户名</font>');
-        $('#errormsg').show();
+        $('#errorMsg').html('<font color="red">请输入用户名</font>');
+        $('#errorMsg').show();
         // $("#loginName").focus();
     }else{
-        $('#errormsg').hide();
+        $('#errorMsg').hide();
     }
 }
 /**
  * 登录密码输入框失去焦点是验证
  */
 function onblurPwd(){
-    var password = $('#password').val();
-    password = password.replace(/(^\s*)|(\s*$)/g,'');
+    var password = $('#password').val().replace(/(^\s*)|(\s*$)/g,'');
     if(password==''||password==null){
-        $('#errormsg').html('<font color="red">请输入密码</font>');
-        $('#errormsg').show();
+        $('#errorMsg').html('<font color="red">请输入密码</font>');
+        $('#errorMsg').show();
         //IE中会出现循环focus
         //$("#pwd").focus();
         $('#subButton').show();//显示登录按钮
@@ -171,8 +160,8 @@ function resetPassword() {
     var loginName = $('#loginName').val();
     loginName = loginName.replace(/(^\s*)|(\s*$)/g,'');
     if(loginName==''||loginName==null){
-        $('#errormsg').html('<font color="red">请输入用户名,才能重置密码</font>');
-        $('#errormsg').show();
+        $('#errorMsg').html('<font color="red">请输入用户名,才能重置密码</font>');
+        $('#errorMsg').show();
         $("#loginName").focus();
     }else{
         layer.open({

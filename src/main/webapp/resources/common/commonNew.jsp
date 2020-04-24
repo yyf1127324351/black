@@ -19,8 +19,6 @@
 <script type="text/javascript" src="/common/js/easyui-lang-zh_CN.js"></script>
 <script type="text/javascript" src="/common/js/jquery.autocomplete.js"></script>
 <script type="text/javascript" src="/common/js/jquery.min.js"></script>
-<script type="text/javascript" src="/common/js/daterangepicker.js"></script>
-<script type="text/javascript" src="/common/js/public.js"></script>
 <script type="text/javascript" src="/common/js/layer.min.js"></script>
 <script type="text/javascript" src="/common/js/moment.min.js"></script>
 <script type="text/javascript" src="/common/js/bootstrap-select.min.js"></script>

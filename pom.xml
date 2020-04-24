@@ -165,13 +165,19 @@
     <dependency>
       <groupId>com.alibaba</groupId>
       <artifactId>druid</artifactId>
-      <version>1.0.29</version>
+      <version>1.1.21</version>
     </dependency>
+    <!--dbcp dependencies -->
+    <!--<dependency>-->
+      <!--<groupId>commons-dbcp</groupId>-->
+      <!--<artifactId>commons-dbcp</artifactId>-->
+      <!--<version>1.4</version>-->
+    <!--</dependency>-->
     <!-- mysql dependencies -->
     <dependency>
       <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>
-      <version>5.1.38</version>
+      <version>8.0.16</version>
     </dependency>
     <!-- redis -->
     <dependency>
