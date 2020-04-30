@@ -8,7 +8,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 public class BaseController {
@@ -16,27 +15,26 @@ public class BaseController {
 	/**
 	 * 获得request中的参数
 	 *
-	 * @param request
 	 * @return string object类型的map
 	 */
 	public HashMap<String, Object> getParametersMap(HttpServletRequest request) {
-		HashMap<String, Object> hashMap = new HashMap<String, Object>();
+		HashMap<String, Object> hashMap = new HashMap<>();
 		if (request == null) {
 			request = ((ServletRequestAttributes) RequestContextHolder
 					.getRequestAttributes()).getRequest();
 		}
 		Map req = request.getParameterMap();
 		if ((req != null) && (!req.isEmpty())) {
-			Map<String, Object> p = new HashMap<String, Object>();
+			Map<String, Object> p = new HashMap<>();
 			Collection keys = req.keySet();
-			for (Iterator i = keys.iterator(); i.hasNext();) {
-				String key = (String) i.next();
+			for (Object key1 : keys) {
+				String key = (String) key1;
 				Object value = req.get(key);
-				Object v = null;
+				Object v;
 				if ((value.getClass().isArray())
 						&& (((Object[]) value).length > 0)) {
 					if (((Object[]) value).length > 1) {
-						v = ((Object[]) value);
+						v = value;
 					} else {
 						v = ((Object[]) value)[0];
 					}
@@ -65,12 +63,9 @@ public class BaseController {
 	}
 	/**
 	 * 将cookie封装到Map里面
-	 *
-	 * @param request
-	 * @return
 	 */
 	private static Map<String, String> ReadCookieMap(HttpServletRequest request) {
-		Map<String, String> cookieMap = new HashMap<String, String>();
+		Map<String, String> cookieMap = new HashMap<>();
 		Cookie[] cookies = request.getCookies();
 		if (null != cookies) {
 			for (Cookie cookie : cookies) {

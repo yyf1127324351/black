@@ -1,4 +1,3 @@
-<link rel="icon" href="/resources/favicon.ico" mce_href="/resources/favicon.ico" type="image/x-ico"/>
 <link rel="stylesheet" type="text/css" href="/common/css/bootstrap-table.css">
 <link rel="stylesheet" type="text/css" href="/common/css/daterangepicker-bs3.css">
 <link rel="stylesheet" type="text/css" href="/common/css/iconfont.min.css">

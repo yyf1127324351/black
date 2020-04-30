@@ -2,6 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.back.dao.UserDao">
+    <update id="updateLoginPassword">
+        UPDATE operator
+        SET operator_password = #{newPassword}
+        where operator_status = 1 and id = #{userId} and operator_password = #{loginPassword}
+    </update>
 
 
     <select id="getUserList" resultType="com.back.model.User">
@@ -10,7 +15,7 @@
         FROM operator
         WHERE id = 557
     </select>
-    <select id="getLoginUser" resultType="com.back.vo.UserVo">
+    <select id="getLoginUserByMap" resultType="com.back.vo.UserVo">
         SELECT
         u.id AS userId,
         u.operator_no AS userNo,
@@ -27,7 +32,28 @@
             <if test="userId != null ">
                 and u.id = #{userId}
             </if>
+            <if test="status != null">
+                and u.operator_status = #{status}
+            </if>
+            <if test="status == null">
+                and u.operator_status = 1
+            </if>
         </where>
         limit 1
+    </select>
+    <select id="getLoginUserByLoginName" resultType="com.back.vo.UserVo">
+        SELECT
+        u.id AS userId,
+        u.operator_no AS userNo,
+        u.operator_loginName AS loginName,
+        u.operator_password AS password
+        FROM operator u
+        WHERE u.operator_status = 1 and u.operator_loginName = #{loginName}
+    </select>
+    <select id="getUserByIdAndPassword" resultType="java.lang.Integer">
+        SELECT
+        count(1)
+        FROM operator u
+        WHERE u.operator_status = 1 and u.id = #{userId} and u.operator_password = #{loginPassword}
     </select>
 </mapper>

@@ -8,12 +8,13 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>后台系统登录</title>
     <%@include file="/resources/common/commonNew.jsp" %>
+    <link rel="icon" type="image/x-ico" href="/resources/favicon.ico?v=${v}" mce_href="/resources/favicon.ico?v=${v}"/>
     <link type="text/css" rel="stylesheet" href="/resources/login/login.css?v=${v}"/>
     <script type="text/javascript" src="/common/js/jquery.base64.js?v=${v}"></script>
     <script type="text/javascript" src="/resources/login/login.js?v=${v}"></script>
 </head>
 <body class="login">
-<form id="loginForm" id="loginForm" method = 'post'  action = '/login/login'  >
+<form id="loginForm" method = 'post'  action = '/login/login'  >
     <div class="login_m">
         <div class="login_logo"><span style="font-size: 35px;">后台系统登录</span></div>
         <div class="login_div" style="padding-bottom: 6%;">
@@ -29,9 +30,7 @@
                     <input type="password" id="password" class="txt_input" placeholder="输入密码" onblur="onblurPwd();">
                 </label>
                 <h2 style="text-align: right;margin-right: 3%;">
-                    <a href="javascript:editPassword();" style="color: #0b6ac6">修改密码</a>
-                    &nbsp;&nbsp;&nbsp;
-                    <a href="javascript:resetPassword();" style="color: #0b6ac6">重置密码</a>
+                    <a onclick="forgetPassword()" style="color: #0b6ac6">忘记密码</a>
                 </h2>
                 <div class="rem_sub" style="margin-top: 16px;margin-right: 2%;">
                     <label style="margin-right: 4%">

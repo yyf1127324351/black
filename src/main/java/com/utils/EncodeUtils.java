@@ -18,7 +18,7 @@ import java.net.URLEncoder;
  * 3.Commons-Lang的xml/html escape
  * 4.JDK提供的URLEncoder
  */
-public class Encodes {
+public class EncodeUtils {
 
 	private static final String DEFAULT_URL_ENCODING = "UTF-8";
 	private static final char[] BASE62 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".toCharArray();

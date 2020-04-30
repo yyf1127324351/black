@@ -625,7 +625,8 @@ ul, ol, dl {
 
 .dialog-toolbar,
 .dialog-button {
-    border: none;
+    /*border: none;*/
+    top: 0px;
 }
 
 .window .window-header {
@@ -663,9 +664,9 @@ ul, ol, dl {
     margin: 0 10px 0 0;
 }
 
-.dialog-button .l-btn {
-    width: 70px;
-}
+/*.dialog-button .l-btn {*/
+    /*width: 70px;*/
+/*}*/
 
 #btn-sure {
     color: #fff;

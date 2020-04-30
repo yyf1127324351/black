@@ -26,8 +26,7 @@ public class HolidayRemainController {
      * */
     @RequestMapping("/goRemainManage")
     public ModelAndView goRemainManage(){
-        ModelAndView mv = new ModelAndView("/staffAttendanceManage/holidayRemainPage");
-        return mv;
+        return new ModelAndView("/staffAttendanceManage/holidayRemainPage");
     }
 
     /**

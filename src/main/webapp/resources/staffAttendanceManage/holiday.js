@@ -97,12 +97,7 @@ $(function() {
     });
 
 });
-//假期余额-回车键搜索
-function bindEnter(event) {
-    if (event.keyCode == 13) {
-        queryHolidayDays();
-    }
-}
+
 //假期余额-搜索
 function queryList(){
     var data=getFormData("search_form");

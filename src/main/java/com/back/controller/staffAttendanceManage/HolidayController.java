@@ -22,8 +22,7 @@ public class HolidayController {
      * */
     @RequestMapping("/goHolidayPage")
     public ModelAndView goHolidayPage(){
-        ModelAndView mv = new ModelAndView("/staffAttendanceManage/holidayPage");
-        return mv;
+        return new ModelAndView("/staffAttendanceManage/holidayPage");
     }
 
     /**

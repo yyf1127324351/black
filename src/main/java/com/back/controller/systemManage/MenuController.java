@@ -18,8 +18,7 @@ public class MenuController {
 
     @RequestMapping("/goMenu")
     public ModelAndView goMenu(){
-        ModelAndView mv = new ModelAndView("/systemManage/menuPage");
-        return mv;
+        return new ModelAndView("/systemManage/menuPage");
     }
 
     @RequestMapping("/getAllMenuTree")

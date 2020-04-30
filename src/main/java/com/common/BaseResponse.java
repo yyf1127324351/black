@@ -30,36 +30,36 @@ public class BaseResponse<T> {
         this.message = message;
     }
 
-    public BaseResponse(Integer code, String message, T data) {
+    private BaseResponse(Integer code, String message, T data) {
         this.code = code;
         this.message = message;
         this.data = data;
     }
 
     public static <T> BaseResponse<T> success() {
-        return new BaseResponse<T>(BaseResponse.ResponseCode.SUCCESS.value, BaseResponse.ResponseCode.SUCCESS.description, null);
+        return new BaseResponse<>(BaseResponse.ResponseCode.SUCCESS.value, BaseResponse.ResponseCode.SUCCESS.description, null);
     }
 
     public static <T> BaseResponse<T> success(String message) {
-        return new BaseResponse<T>(BaseResponse.ResponseCode.SUCCESS.value, message, null);
+        return new BaseResponse<>(BaseResponse.ResponseCode.SUCCESS.value, message, null);
     }
     public static <T> BaseResponse<T> success(T data) {
-        return new BaseResponse<T>(BaseResponse.ResponseCode.SUCCESS.value, BaseResponse.ResponseCode.SUCCESS.description, data);
+        return new BaseResponse<>(BaseResponse.ResponseCode.SUCCESS.value, BaseResponse.ResponseCode.SUCCESS.description, data);
     }
     public static <T> BaseResponse<T> success(String message, T data) {
-        return new BaseResponse<T>(BaseResponse.ResponseCode.SUCCESS.value, message, data);
+        return new BaseResponse<>(BaseResponse.ResponseCode.SUCCESS.value, message, data);
     }
     public static <T> BaseResponse<T> error() {
-        return new BaseResponse<T>(BaseResponse.ResponseCode.SYS_ERROR.value, BaseResponse.ResponseCode.SYS_ERROR.description, null);
+        return new BaseResponse<>(BaseResponse.ResponseCode.SYS_ERROR.value, BaseResponse.ResponseCode.SYS_ERROR.description, null);
     }
     public static <T> BaseResponse<T> error(String message) {
-        return new BaseResponse<T>(BaseResponse.ResponseCode.SYS_ERROR.value, message, null);
+        return new BaseResponse<>(BaseResponse.ResponseCode.SYS_ERROR.value, message, null);
     }
-    public static <T> BaseResponse<T> paramEerror() {
-        return new BaseResponse<T>(BaseResponse.ResponseCode.PARAM_CHECK_FAIL.value, BaseResponse.ResponseCode.PARAM_CHECK_FAIL.description, null);
+    public static <T> BaseResponse<T> paramError() {
+        return new BaseResponse<>(BaseResponse.ResponseCode.PARAM_CHECK_FAIL.value, BaseResponse.ResponseCode.PARAM_CHECK_FAIL.description, null);
     }
-    public static <T> BaseResponse<T> paramEerror(String message) {
-        return new BaseResponse<T>(BaseResponse.ResponseCode.PARAM_CHECK_FAIL.value, message, null);
+    public static <T> BaseResponse<T> paramError(String message) {
+        return new BaseResponse<>(BaseResponse.ResponseCode.PARAM_CHECK_FAIL.value, message, null);
     }
 
     public Integer getCode() {
@@ -123,9 +123,6 @@ public class BaseResponse<T> {
             return value;
         }
 
-        public String getDescription() {
-            return description;
-        }
 
     }
 

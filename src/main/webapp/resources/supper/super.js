@@ -36,9 +36,9 @@ $(function() {
 
     /*设置按钮的下拉菜单*/
     $('.super-setting-icon').on('click', function() {
-        $('#mm').menu('show', {
+        $('#setDiv').menu('show', {
             top: 50,
-            left: document.body.scrollWidth - 130
+            left: document.body.scrollWidth
         });
     });
 
@@ -71,14 +71,7 @@ $(function() {
         $(this).addClass('themeActive');
     });
 
-    /*退出系统*/
-    $("#logout").on('click', function() {
-        $.messager.confirm('提示', '确定退出系统？', function(r) {
-            if(r) {
-                console.log('确定退出')
-            }
-        });
-    });
+
 });
 $.parser.onComplete = function() {
     $("#index").css('opacity', 1);
