@@ -10,7 +10,6 @@ import com.utils.EncodeUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.support.nativejdbc.OracleJdbc4NativeJdbcExtractor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -44,8 +43,18 @@ public class LoginController {
         }
         ModelAndView mv = new ModelAndView("/login/login");
         if (user == null || StringUtils.isBlank(user.getLoginName())) {
+            String redirectUrl = request.getParameter("redirectUrl");
+            if (StringUtils.isBlank(redirectUrl)) {
+                redirectUrl = request.getHeader("referer");
+                if (redirectUrl.substring(redirectUrl.length() - 1, redirectUrl.length()).equals("/")) {
+                    redirectUrl = redirectUrl.substring(0, redirectUrl.length() - 1);
+                }
+                redirectUrl = redirectUrl + ConfigConstants.LOGIN_REDIRECT_URL;
+            }
+            mv.addObject("redirectUrl", redirectUrl);
             return mv;
         } else {
+            //解码用户名密码
             decodeLoginNamePassword(user);
 
             Map<Object, String> param = new HashMap<>();
@@ -56,7 +65,8 @@ public class LoginController {
             if (null == userVo) {
                 return mv;
             } else {
-//                userVo.setRedirectUrl(user.getRedirectUrl());
+                userVo.setRedirectUrl(user.getRedirectUrl());
+                //获取重定向地址
                 String redirectUrl = loginService.getRedirectUrl(request, userVo);
                 mv.setViewName("redirect:" + (StringUtils.isNotBlank(redirectUrl) ? redirectUrl : ConfigConstants.LOGIN_REDIRECT_URL));
             }

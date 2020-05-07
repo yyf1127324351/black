@@ -18,8 +18,9 @@
     <div class="login_m">
         <div class="login_logo"><span style="font-size: 35px;">后台系统登录</span></div>
         <div class="login_div" style="padding-bottom: 6%;">
+            <input type="hidden" id="redirectUrl" name="redirectUrl" value="${redirectUrl}">
             <input id="loginName_enc" name="loginName" type="hidden" />
-            <input id="pwd_enc" name="password" type="hidden" />
+            <input id="password_enc" name="password" type="hidden" />
             <div class="login_padding" id="login_model" style="margin-left: 7px;">
                 <h2>用户名</h2>
                 <label>

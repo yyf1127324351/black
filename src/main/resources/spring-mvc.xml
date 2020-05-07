@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	   xmlns:context="http://www.springframework.org/schema/context"
-	   xmlns:mvc="http://www.springframework.org/schema/mvc"
-	   xsi:schemaLocation="
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="
 		http://www.springframework.org/schema/beans 
 		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd 
 		http://www.springframework.org/schema/context 
@@ -12,47 +12,60 @@
 		http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
 		">
 
-		<!-- 扫描controller -->
-		<context:component-scan base-package="com.back.controller"/>
+    <!-- 扫描controller -->
+    <context:component-scan base-package="com.back.controller"/>
 
-		<mvc:resources location="/resources/" mapping="/resources/**"/>
-		<mvc:resources location="/common/" mapping="/common/**"/>
+    <mvc:resources location="/resources/" mapping="/resources/**"/>
+    <mvc:resources location="/common/" mapping="/common/**"/>
 
-		<!-- 默认的注解映射的支持 -->
-		<mvc:annotation-driven>
-			<mvc:message-converters>
-				<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
-					<property name="objectMapper">
-						<bean class="com.fasterxml.jackson.databind.ObjectMapper">
-							<property name="dateFormat">
-								<bean class="java.text.SimpleDateFormat">
-									<constructor-arg type="java.lang.String" value="yyyy-MM-dd HH:mm:ss" />
-								</bean>
-							</property>
-							<property name="timeZone" value="GMT+8" />
-						</bean>
-					</property>
-					<property name="supportedMediaTypes">
-						<list>
-							<value>text/html;charset=UTF-8</value>
-							<value>text/plain;charset=UTF-8</value>
-							<value>application/json;charset=UTF-8</value>
-						</list>
-					</property>
-				</bean>
-			</mvc:message-converters>
-		</mvc:annotation-driven>
+    <!-- 默认的注解映射的支持 -->
+    <mvc:annotation-driven>
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                <property name="objectMapper">
+                    <bean class="com.fasterxml.jackson.databind.ObjectMapper">
+                        <property name="dateFormat">
+                            <bean class="java.text.SimpleDateFormat">
+                                <constructor-arg type="java.lang.String" value="yyyy-MM-dd HH:mm:ss"/>
+                            </bean>
+                        </property>
+                        <property name="timeZone" value="GMT+8"/>
+                    </bean>
+                </property>
+                <property name="supportedMediaTypes">
+                    <list>
+                        <value>text/html;charset=UTF-8</value>
+                        <value>text/plain;charset=UTF-8</value>
+                        <value>application/json;charset=UTF-8</value>
+                    </list>
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
 
-		<!--对模型视图名称的解析，即在模型视图名称添加前后缀 -->
-		<bean id="view" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-			<property name="prefix" value="/WEB-INF/view/"/>
-			<property name="suffix" value=".jsp"/>
-		</bean>
+    <!--对模型视图名称的解析，即在模型视图名称添加前后缀 -->
+    <bean id="view" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/view/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
 
-		<!-- 支持上传文件 -->
-		<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-			<property name="defaultEncoding" value="utf-8"></property>
-			<property name="maxUploadSize" value="10485760000"></property>
-			<property name="maxInMemorySize" value="40960"></property>
-		</bean>
+    <!-- 拦截器配置 -->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <mvc:exclude-mapping path="/common/**"/>
+            <mvc:exclude-mapping path="/resources/**"/>
+            <mvc:exclude-mapping path="/login/login"/>
+            <mvc:exclude-mapping path="/login/validateLogin"/>
+            <mvc:exclude-mapping path="/login/logout"/>
+            <bean class="com.common.interceptor.LoginInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
+    <!-- 支持上传文件 -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="defaultEncoding" value="utf-8"></property>
+        <property name="maxUploadSize" value="10485760000"></property>
+        <property name="maxInMemorySize" value="40960"></property>
+    </bean>
 </beans>

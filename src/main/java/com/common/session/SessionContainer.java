@@ -8,7 +8,7 @@ import com.back.vo.UserVo;
  */
 public class SessionContainer {
 
-    private static final ThreadLocal<UserVo> sessionThreadLocal = new ThreadLocal<UserVo>();
+    private static final ThreadLocal<UserVo> sessionThreadLocal = new ThreadLocal<>();
 
     public static UserVo getSession() {
         return sessionThreadLocal.get();

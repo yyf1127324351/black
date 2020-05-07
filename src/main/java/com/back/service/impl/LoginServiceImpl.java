@@ -5,10 +5,11 @@ import com.back.service.LoginService;
 import com.back.service.RedisService;
 import com.back.vo.UserVo;
 import com.constant.Constants;
+import com.utils.CodeUtils;
+import com.utils.DateUtils;
 import com.utils.DesEncryptUtils;
 import com.utils.WebUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,63 +24,38 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public String getRedirectUrl(HttpServletRequest request, UserVo userVo) {
-
-        // 有效时长为从登录到当天24点
-        Integer expirationTime = WebUtils.getTodayCookieTimeOut();
         String ip = WebUtils.getClientIp(request);
-        // 用户信息的cookie
-        String ssoKey = generateSsoKey(userVo, ip);
-        userVo.setLoginTime(DateFormatUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
+        userVo.setLoginTime(DateUtils.formatDateToString(new Date()));
         userVo.setIp(ip);
-        // 将用户信息添加至redis缓存（使用json字符串）
-        redisService.set(ssoKey, JSONObject.toJSONString(userVo), expirationTime);
+        userVo.setPassword(null);
+        //生成有个 TokenKey
+        String tokenKey = generateTokenKey(userVo);
+        //失效时长（有效时长为从登录到当天24点）
+        Integer expirationTime = DateUtils.getTodayRemainTimes();
+        //将用户信息添加至redis缓存（使用json字符串）
+        redisService.set(Constants.TOKEN + ":" + tokenKey, JSONObject.toJSONString(userVo), expirationTime);
 
-        // 根据SSOKEY生成临时TOKEN
-        String tmpKey = "";
-        if (StringUtils.isNotEmpty(ssoKey)) {
-            tmpKey = ssoKey + getCodes(6);
-            redisService.set(tmpKey, JSONObject.toJSONString(userVo), 7200);
-        }
+        // 根据tokenKey生成临时TOKEN:tmpTokenKey
+        String tmpTokenKey = tokenKey + CodeUtils.getRandomCodes(6);
+        redisService.set(Constants.TMP_TOKEN + ":" + tmpTokenKey, JSONObject.toJSONString(userVo), 7200);
+
+        //重定向地址
         String redirectUrl = userVo.getRedirectUrl();
-        if (StringUtils.isNotBlank(redirectUrl)) {
-            // 简单消除如果有参数sso_token的影响
-            redirectUrl = WebUtils.handleSpeccialUrlParam(redirectUrl);
-            // 添加token参数
-            if (redirectUrl.indexOf("?") >= 0) {
-                redirectUrl += ("&" + Constants.SSO_TOKEN + "=" + ssoKey);
-                if (StringUtils.isNotEmpty(tmpKey)) {
-                    redirectUrl += ("&" + Constants.SSO_TOKEN_TEMP + "=" + tmpKey);
-                }
-            } else {
-                redirectUrl += ("?" + Constants.SSO_TOKEN + "=" + ssoKey);
-                if (StringUtils.isNotEmpty(tmpKey)) {
-                    redirectUrl += ("&" + Constants.SSO_TOKEN_TEMP + "=" + tmpKey);
-                }
-            }
+        if (!StringUtils.isNotBlank(redirectUrl)) {
+            return redirectUrl;
         }
+        // 添加token参数
+        if (redirectUrl.contains("?")) {
+            redirectUrl = redirectUrl.substring(0, redirectUrl.indexOf("?"));
+        }
+        redirectUrl += ("?" + Constants.TOKEN + "=" + tokenKey);
+        redirectUrl += ("&" + Constants.TMP_TOKEN + "=" + tmpTokenKey);
         return redirectUrl;
     }
 
-    private String generateSsoKey(UserVo userVo, String ip) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("sso");
-        sb.append("_");
-        sb.append(userVo.getUserId());
-        sb.append("_");
-        sb.append(userVo.getLoginName());
-        sb.append("_");
-        sb.append(ip);
-        sb.append("_").append(DateFormatUtils.format(new Date(), "yyyyMMddHHmmssSSS"));
-        String ssoKey = DesEncryptUtils.encrypt(sb.toString());
-        return ssoKey;
+    private String generateTokenKey(UserVo userVo) {
+        String sb = "sso" + "_" + userVo.getUserId() + "_" + userVo.getLoginName() + "_" + userVo.getIp() + "_" + DateUtils.formatDateToString3(new Date());
+        return DesEncryptUtils.encrypt(sb);
     }
-    private String getCodes(int length) {
-        String a = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        StringBuffer rands = new StringBuffer();
-        for (int i = 0; i < length; i++) {
-            int rand = (int) (Math.random() * a.length());
-            rands.append(a.charAt(rand));
-        }
-        return rands.toString();
-    }
+
 }

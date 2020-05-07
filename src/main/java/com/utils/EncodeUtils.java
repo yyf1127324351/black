@@ -41,13 +41,7 @@ public class EncodeUtils {
 		}
 	}
 
-	/**
-	 * Base64编码.
-	 */
-	public static String encodeBase64(byte[] input) {
-		//byte[] b = input.getBytes();
-		return Base64.encodeBase64String(input);
-	}
+
 
 	/**
 	 * Base64编码, URL安全(将Base64中的URL非法字符'+'和'/'转为'-'和'_', 见RFC3548).
@@ -56,6 +50,13 @@ public class EncodeUtils {
 		return Base64.encodeBase64URLSafeString(input);
 	}
 
+	/**
+	 * Base64编码.
+	 */
+	public static String encodeBase64(byte[] input) {
+		//byte[] b = input.getBytes();
+		return Base64.encodeBase64String(input);
+	}
 	/**
 	 * Base64解码.
 	 */

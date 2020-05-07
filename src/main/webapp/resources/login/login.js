@@ -38,7 +38,7 @@ function validateLogin() {
         success: function (data) {
             if (data.code == '200') {
                 $('#loginName_enc').val(generateMixed(4) + generateNum(2) + $.base64Encode(loginName));
-                $('#pwd_enc').val(generateMixed(4) + generateNum(2) + $.base64Encode(password));
+                $('#password_enc').val(generateMixed(4) + generateNum(2) + $.base64Encode(password));
                 $("#loginForm").submit();
             } else {
                 $('#subButton').show();

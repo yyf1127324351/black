@@ -19,6 +19,7 @@
         SELECT
         u.id AS userId,
         u.operator_no AS userNo,
+        u.operator_name as userName,
         u.operator_loginName AS loginName,
         u.operator_password AS password
         FROM operator u

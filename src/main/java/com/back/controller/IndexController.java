@@ -2,6 +2,7 @@ package com.back.controller;
 
 import com.back.model.Menu;
 import com.back.service.MenuService;
+import com.common.session.SessionContainer;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -38,9 +39,10 @@ public class IndexController {
         }
 
         mv.addObject("level1List", level1List); // 检化验数据管理
-//        mv.addObject("curUserName", SessionContainer.getUserName());
-        mv.addObject("curUserName", "黄慧颖");
-        mv.addObject("userId", "1");
+        mv.addObject("curUserName", SessionContainer.getUserName());
+        mv.addObject("userId", SessionContainer.getUserId());
+//        mv.addObject("curUserName", "黄慧颖");
+//        mv.addObject("userId", "1");
         return mv;
     }
 }
