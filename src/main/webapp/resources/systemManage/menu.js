@@ -38,6 +38,55 @@ $(document).ready(function () {
         },
         onBeforeExpand: function (node) {
         },
+        //右键组织crud
+        onContextMenu : function(e, node) {
+            $(this).tree('select',node.target);
+            e.preventDefault();
+
+            debugger;
+            var menuId = node.id;
+            if (menuId == 0) {
+                $('#menu_edit').hide();
+                $('#menu_del').hide();
+            }else {
+                $('#menu_edit').show();
+                $('#menu_del').show();
+            }
+            var type = node.type;
+            if(type == 1) {
+                layer.alert('末级菜单下不能新增！', {icon: 0, title: "提示"});
+                return;
+            }else {
+                $('#handleMenu').menu('show', {
+                    left : e.pageX,
+                    top : e.pageY,
+
+                    onClick: function(item) {
+                        if(item.text == '新增') {
+
+                            addInfo(node);
+                        } else if(item.text == '编辑') {
+                            if(node.type==null){
+                                $.messager.alert('提示', '请勿编辑公司节点', 'warning');
+                                return;
+                            }
+                            updateInfo(node);
+                        } else if(item.text == '失效') {
+                            if(node.type==null){
+                                $.messager.alert('提示', '请勿删除公司节点', 'warning');
+                                return;
+                            }
+                            disableInfo(node);
+                        }else if(item.text == '导出'){
+                            exportInfo(node);
+                        }
+
+                    }
+
+                });
+            }
+
+        },
         onExpand: function (node) {
             node.id = node.id.split("_")[0];
         },

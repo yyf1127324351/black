@@ -11,7 +11,7 @@ public interface MenuService {
 
     List<Menu> leftLevel2List();
 
-    List<TreeNode> getAllMenuTree();
+    List<Menu> getAllMenuTree();
 
     BaseResponse getMenuPageList(Menu menu);
 }

@@ -27,7 +27,7 @@ public class MenuController {
 
     @RequestMapping("/getAllMenuTree")
     @ResponseBody
-    public List<TreeNode> getAllMenuTree(){
+    public List<Menu> getAllMenuTree(){
         return  menuService.getAllMenuTree();
     }
 

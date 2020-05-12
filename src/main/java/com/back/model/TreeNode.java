@@ -1,11 +1,14 @@
 package com.back.model;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
+
+/**
+ * 可用做 部门树，菜单树，字典树等转换
+ * */
 
 @Getter
 @Setter
@@ -51,6 +54,7 @@ public class TreeNode {
                     mark = true;
                     if (node2.getChildren() == null) {
                         node2.setChildren(new ArrayList<>());
+                        node2.setText(node2.getText());
                         node2.setState("closed");// 让父节点显示关闭
                     }
                     node2.getChildren().add(node1);

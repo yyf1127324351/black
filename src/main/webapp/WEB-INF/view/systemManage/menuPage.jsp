@@ -42,8 +42,6 @@
                            data-options="iconCls:'icon-search'">搜索</a>
                         <a class="easyui-linkbutton toolButton" onclick="javascript:clearQuery()" data-options="iconCls:'icon-clear'"
                            style="margin-top: 2px">重置</a>
-                        <%--<a class="easyui-linkbutton toolButton" onclick="javascript:openAddDialog()" id="add-btn"--%>
-                           <%--data-options="iconCls:'icon-add'" style="margin-top: 2px">新增</a>--%>
                     </td>
                 </table>
             </div>
@@ -51,6 +49,13 @@
         </div>
     </div>
 </div>
+
+<div id="handleMenu" class="easyui-menu" style="width:120px;">
+    <div id="menu_add" data-options="iconCls:'icon-add'">新增</div>
+    <div id="menu_edit" data-options="iconCls:'icon-edit'">编辑</div>
+    <div id="menu_del" data-options="iconCls:'icon-remove'">失效</div>
+</div>
+
 
 </body>
 </html>

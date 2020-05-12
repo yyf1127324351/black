@@ -80,23 +80,23 @@ $.parser.onComplete = function() {
 /**
  * 初始化示例
  */
-function initDemo() {
-    /*初始化示例div*/
-    var demoPanelId = 'demoPanel' + (new Date()).getTime();
-    $('#demoPanel').attr('id', demoPanelId);
-    var demoPaneCodeId = 'demoPanelCode' + (new Date()).getTime();
-    $('#demoPanelCode').attr('id', demoPaneCodeId);
-
-    /*示例导航选中样式*/
-    $(".demo-list>ul>li").on('click', function() {
-        $('#et-demo').tabs('select', '预览');
-
-        $(this).siblings().removeClass('super-accordion-selected');
-        $(this).addClass('super-accordion-selected');
-        //加载页面
-        $('#' + demoPanelId).panel('open').panel('refresh', $(this).data('url'));
-    });
-}
+// function initDemo() {
+//     /*初始化示例div*/
+//     var demoPanelId = 'demoPanel' + (new Date()).getTime();
+//     $('#demoPanel').attr('id', demoPanelId);
+//     var demoPaneCodeId = 'demoPanelCode' + (new Date()).getTime();
+//     $('#demoPanelCode').attr('id', demoPaneCodeId);
+//
+//     /*示例导航选中样式*/
+//     $(".demo-list>ul>li").on('click', function() {
+//         $('#et-demo').tabs('select', '预览');
+//
+//         $(this).siblings().removeClass('super-accordion-selected');
+//         $(this).addClass('super-accordion-selected');
+//         //加载页面
+//         $('#' + demoPanelId).panel('open').panel('refresh', $(this).data('url'));
+//     });
+// }
 
 function openTab(text,url){
     if($('#tabs').tabs('exists',text)){

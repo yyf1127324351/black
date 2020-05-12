@@ -11,9 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import static java.util.Comparator.comparing;
 
@@ -48,32 +46,47 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public List<TreeNode> getAllMenuTree() {
+    public List<Menu> getAllMenuTree() {
+        List<Menu> list = new ArrayList<>();
         //查询出所有的菜单
         List<Menu> menuList = menuDao.getAllMenuTree();
-
-        List<TreeNode> nodeList = new ArrayList<>();
-        menuList.forEach(e -> {
-            TreeNode node = new TreeNode();
-            node.setId(e.getId());
-            node.setText(e.getName());
-            node.setParentId(e.getParentId());
-            node.setHasChild(e.getHasChild());
-            nodeList.add(node);
-        });
-        //转成所有1级菜单树
-        List<TreeNode> treeNodeList = TreeNode.convertToTreeList(nodeList);
-
-        TreeNode rootTreeNode = new TreeNode();
-        rootTreeNode.setId(0);
-        rootTreeNode.setState("close");
-        rootTreeNode.setText("菜单");
-        rootTreeNode.setHasChild(1);
-        rootTreeNode.setChildren(treeNodeList);
-
-        List<TreeNode> list = new ArrayList<>();
-        list.add(rootTreeNode);
+        if (CollectionUtils.isNotEmpty(menuList)) {
+            List<Menu> newMenuList = Menu.convertToTreeDataByParentId(menuList);
+            Menu menu = new Menu();
+            menu.setId(0);
+            menu.setState("close");
+            menu.setText("菜单");
+            menu.setHasChild(1);
+            menu.setChildren(newMenuList);
+            list.add(menu);
+        }
         return list;
+
+
+
+//        List<TreeNode> nodeList = new ArrayList<>();
+//        menuList.forEach(e -> {
+//            TreeNode node = new TreeNode();
+//            node.setId(e.getId());
+//            node.setText(e.getName());
+//            node.setParentId(e.getParentId());
+//            node.setLevel(node.getLevel());
+//            node.setHasChild(e.getHasChild());
+//            nodeList.add(node);
+//        });
+//        //转成所有1级菜单树
+//        List<TreeNode> treeNodeList = TreeNode.convertToTreeList(nodeList);
+//
+//        TreeNode rootTreeNode = new TreeNode();
+//        rootTreeNode.setId(0);
+//        rootTreeNode.setState("close");
+//        rootTreeNode.setText("菜单");
+//        rootTreeNode.setHasChild(1);
+//        rootTreeNode.setChildren(treeNodeList);
+//
+//        List<TreeNode> list = new ArrayList<>();
+//        list.add(rootTreeNode);
+
 
     }
 
@@ -99,4 +112,5 @@ public class MenuServiceImpl implements MenuService {
             }
         }
     }
+
 }
