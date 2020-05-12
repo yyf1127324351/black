@@ -1420,7 +1420,7 @@
   cursor: default;
 }
 .datagrid-row-selected {
-  background: #CCE6FF;
+  background: #eeeeee;
   color: #000;
 }
 .datagrid-row-editing .textbox,
@@ -2579,7 +2579,7 @@
   color: #444;
 }
 .tree-node-selected {
-  background: #CCE6FF;
+  background: #eeeeee;
   color: #000;
 }
 .tree-node-hidden {

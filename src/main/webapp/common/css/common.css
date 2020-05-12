@@ -1,5 +1,5 @@
-.datagrid-header-row td{background-color:#1AB1D8;color:#fff;text-align:center}
-.fixed-table-header div{background-color:#1AB1D8;color:#fff;text-align:center}
+.datagrid-header-row td{background-color:#3498db;color:#fff;text-align:center}
+.fixed-table-header div{background-color:#3498db;color:#fff;text-align:center}
 .sel_btn {
     height: 20px;
     line-height: 20px;
@@ -11,7 +11,7 @@
     color: #fdffff;
 }
 .ch_cls {
-    background: #1ab1d8;
+    background: #3498db;
 }
 .search-label { display: inline-block; min-width: 50px; text-align: right; font-weight: bold; padding-right: 5px; }
 .search-row { margin: 2px 0; }

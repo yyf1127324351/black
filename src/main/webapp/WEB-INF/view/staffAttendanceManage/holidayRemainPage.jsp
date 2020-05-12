@@ -10,7 +10,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>假期余额</title>
     <%@include file="/resources/common/common.jsp" %>
-    <script type="text/javascript" src="/resources/common/export.js"></script>
+    <script type="text/javascript" src="/resources/common/export.js?v=${v}"></script>
     <script type="text/javascript" src="/resources/staffAttendanceManage/holidayRemain.js?v=${v}"></script>
 </head>
 <body class="easyui-layout">

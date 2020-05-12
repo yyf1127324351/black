@@ -47,7 +47,7 @@ public class Menu extends BaseDto {
 					mark = true;
 					if (node2.getChildren() == null) {
 						node2.setChildren(new ArrayList<>());
-//						node2.setState("closed");//让父节点显示关闭
+						node2.setState("closed");//让父节点显示关闭
 					}
 					node2.getChildren().add(node1);
 					break;

@@ -81,7 +81,7 @@
             <div title="${item.name}" data-options="iconCls:'fa fa-navicon'">
 
                 <c:forEach items="${item.children}" var="item2">
-                    <ul>
+                    <ul class="level2">
                         <li data-url='${item2.url}'>${item2.name}</li>
                     </ul>
                 </c:forEach>

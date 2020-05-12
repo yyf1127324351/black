@@ -45,7 +45,8 @@ ul, ol, dl {
     font-size: 18px;
     font-weight: bold;
     padding-left: 0px;
-    background-color: #2980b9;
+    background-color: #3498db;
+    /*border-right:1px solid #fff;*/
 }
 
 .super-navigation-main {
@@ -68,6 +69,7 @@ ul, ol, dl {
 .super-setting-left {
     float: left;
     margin-left: 250px;
+    border-left:1px solid #fff;
 }
 
 .super-setting-left ul {

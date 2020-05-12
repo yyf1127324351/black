@@ -20,7 +20,8 @@ $.fn.progressbar.defaults.height = 18; //进度条
 $(function() {
     /*左侧导航分类选中样式*/
     $(".panel-body .accordion-body>ul>li").on('click', function() {
-        $(this).siblings().removeClass('super-accordion-selected');
+        $('.level2>li').removeClass('super-accordion-selected');
+        // $(this).siblings().removeClass('super-accordion-selected');
         $(this).addClass('super-accordion-selected');
 
         //新增一个选项卡

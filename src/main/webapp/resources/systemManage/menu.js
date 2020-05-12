@@ -88,7 +88,7 @@ $(document).ready(function () {
 
         },
         onExpand: function (node) {
-            node.id = node.id.split("_")[0];
+            // node.id = node.id.split("_")[0];
         },
         onLoadSuccess: function (node) {
             $(".tree-icon,.tree-file").removeClass("tree-icon tree-file");
