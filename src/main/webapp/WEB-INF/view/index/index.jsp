@@ -42,15 +42,15 @@
 <div data-options="region:'north',border:false" class="super-north" style="height: 50px;">
     <!--顶部-->
     <div class="super-navigation">
-        <div class="super-navigation-title" style="text-align: center">black后台系统</div>
+        <div class="super-navigation-title" style="text-align: center;">black后台系统</div>
         <div class="super-navigation-main">
-            <div class="super-setting-left">
-                <%--<ul>--%>
-                <%--<li><i class="fa fa-commenting-o"></i></li>--%>
-                <%--<li><i class="fa fa-envelope-o"></i></li>--%>
-                <%--<li><i class="fa fa-bell-o"></i></li>--%>
-                <%--</ul>--%>
-            </div>
+            <%--<div class="super-setting-left">
+                <ul>
+                <li><i class="fa fa-commenting-o"></i></li>
+                <li><i class="fa fa-envelope-o"></i></li>
+                <li><i class="fa fa-bell-o"></i></li>
+                </ul>
+           </div>--%>
             <div class="super-setting-right">
                 <ul>
                     <li class="user" style="text-align: center">

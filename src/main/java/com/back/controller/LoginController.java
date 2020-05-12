@@ -66,7 +66,7 @@ public class LoginController {
                 return mv;
             } else {
                 userVo.setRedirectUrl(user.getRedirectUrl());
-                //获取重定向地址
+                //获取重定向地址 生成token并缓存至redis
                 String redirectUrl = loginService.getRedirectUrl(request, userVo);
                 mv.setViewName("redirect:" + (StringUtils.isNotBlank(redirectUrl) ? redirectUrl : ConfigConstants.LOGIN_REDIRECT_URL));
             }

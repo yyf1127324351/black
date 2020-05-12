@@ -27,7 +27,7 @@ public class MenuServiceImpl implements MenuService {
     public List<Menu> leftLevel1List() {
 
         List<Menu> left = menuDao.leftLevel1List("00001");
-        List<Menu> tree = Menu.converToTreeDataByParentId(left);
+        List<Menu> tree = Menu.convertToTreeDataByParentId(left);
         this.sortPhFuntionList(tree);
         return tree;
 
@@ -37,7 +37,7 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public List<Menu> leftLevel2List() {
         List<Menu> left = menuDao.leftLevel2List("00001");
-        List<Menu> tree = Menu.converToTreeDataByParentId(left);
+        List<Menu> tree = Menu.convertToTreeDataByParentId(left);
         this.sortPhFuntionList(tree);
         return tree;
     }
