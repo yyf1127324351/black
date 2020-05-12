@@ -255,6 +255,5 @@ function getFormData(form){
             data[item["name"]] = item["value"];
         }
     });
-    debugger;
     return data;
 }

@@ -18,7 +18,7 @@ public class BaseResponse<T> {
 
     // easyui datagrid 需要这2个数据才能正确运行事件
     private Long total = 0L;
-    private List<?> rows = new ArrayList<>();
+    private List rows = new ArrayList<>();
 
     public BaseResponse() {
         this.code = BaseResponse.ResponseCode.SUCCESS.value;
@@ -94,11 +94,11 @@ public class BaseResponse<T> {
         this.total = total;
     }
 
-    public List<?> getRows() {
+    public List getRows() {
         return rows;
     }
 
-    public void setRows(List<?> rows) {
+    public void setRows(List rows) {
         this.rows = rows;
     }
 

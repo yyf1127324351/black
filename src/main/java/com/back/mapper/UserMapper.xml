@@ -3,41 +3,41 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.back.dao.UserDao">
     <update id="updateLoginPassword">
-        UPDATE operator
-        SET operator_password = #{newPassword}
-        where operator_status = 1 and id = #{userId} and operator_password = #{loginPassword}
+        UPDATE user
+        SET login_password = #{newPassword}
+        where status = 1 and id = #{userId} and login_password = #{loginPassword}
     </update>
 
 
     <select id="getUserList" resultType="com.back.model.User">
         SELECT id AS id,
-          operator_name AS userName
-        FROM operator
+          user_name AS userName
+        FROM user
         WHERE id = 557
     </select>
     <select id="getLoginUserByMap" resultType="com.back.vo.UserVo">
         SELECT
         u.id AS userId,
-        u.operator_no AS userNo,
-        u.operator_name as userName,
-        u.operator_loginName AS loginName,
-        u.operator_password AS password
-        FROM operator u
+        u.user_no AS userNo,
+        u.user_name as userName,
+        u.login_name AS loginName,
+        u.login_password AS password
+        FROM user u
         <where>
             <if test="loginName != null and loginName !=''">
-                and u.operator_loginName = #{loginName}
+                and u.login_name = #{loginName}
             </if>
             <if test="password != null">
-                and u.operator_password = #{password}
+                and u.login_password = #{password}
             </if>
             <if test="userId != null ">
                 and u.id = #{userId}
             </if>
             <if test="status != null">
-                and u.operator_status = #{status}
+                and u.status = #{status}
             </if>
             <if test="status == null">
-                and u.operator_status = 1
+                and u.status = 1
             </if>
         </where>
         limit 1
@@ -45,16 +45,16 @@
     <select id="getLoginUserByLoginName" resultType="com.back.vo.UserVo">
         SELECT
         u.id AS userId,
-        u.operator_no AS userNo,
-        u.operator_loginName AS loginName,
-        u.operator_password AS password
-        FROM operator u
-        WHERE u.operator_status = 1 and u.operator_loginName = #{loginName}
+        u.user_no AS userNo,
+        u.login_name AS loginName,
+        u.login_password AS password
+        FROM user u
+        WHERE u.status = 1 and u.login_name = #{loginName}
     </select>
     <select id="getUserByIdAndPassword" resultType="java.lang.Integer">
         SELECT
         count(1)
-        FROM operator u
-        WHERE u.operator_status = 1 and u.id = #{userId} and u.operator_password = #{loginPassword}
+        FROM user u
+        WHERE u.status = 1 and u.id = #{userId} and u.login_password = #{loginPassword}
     </select>
 </mapper>

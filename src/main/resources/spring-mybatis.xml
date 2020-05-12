@@ -40,7 +40,7 @@
             <tx:method name="add*" propagation="REQUIRED"/>
 
             <!-- 对其他方法 使用默认的事务管理 -->
-            <tx:method name="*" propagation="REQUIRED"/>
+            <!--<tx:method name="*" propagation="REQUIRED"/>-->
         </tx:attributes>
     </tx:advice>
     <aop:config expose-proxy="true">

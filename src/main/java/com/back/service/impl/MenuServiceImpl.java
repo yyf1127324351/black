@@ -4,18 +4,22 @@ import com.back.dao.MenuDao;
 import com.back.model.Menu;
 import com.back.model.TreeNode;
 import com.back.service.MenuService;
+import com.common.BaseResponse;
+import com.common.session.SessionContainer;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.Arrays;
 import java.util.List;
+
+import static java.util.Comparator.comparing;
 
 /**
  * 系统菜单service实现类
- * */
+ */
 @Service
 public class MenuServiceImpl implements MenuService {
 
@@ -25,30 +29,31 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public List<Menu> leftLevel1List() {
-
-        List<Menu> left = menuDao.leftLevel1List("00001");
-        List<Menu> tree = Menu.convertToTreeDataByParentId(left);
-        this.sortPhFuntionList(tree);
-        return tree;
-
-
+        //查出一级菜单
+        List<Menu> left = menuDao.leftLevel1List(SessionContainer.getUserId());
+        // 转化成easyui tree需要的树形数据
+        List<Menu> treeList = Menu.convertToTreeDataByParentId(left);
+        this.sortMenuList(treeList);
+        return treeList;
     }
 
     @Override
     public List<Menu> leftLevel2List() {
-        List<Menu> left = menuDao.leftLevel2List("00001");
-        List<Menu> tree = Menu.convertToTreeDataByParentId(left);
-        this.sortPhFuntionList(tree);
-        return tree;
+        //查出二级菜单
+        List<Menu> left = menuDao.leftLevel2List(SessionContainer.getUserId());
+        // 转化成easyui tree需要的树形数据
+        List<Menu> treeList = Menu.convertToTreeDataByParentId(left);
+        this.sortMenuList(treeList);
+        return treeList;
     }
 
     @Override
     public List<TreeNode> getAllMenuTree() {
         //查询出所有的菜单
-        List<Menu>  menuList =  menuDao.getAllMenuTree();
+        List<Menu> menuList = menuDao.getAllMenuTree();
 
         List<TreeNode> nodeList = new ArrayList<>();
-        menuList.forEach(e->{
+        menuList.forEach(e -> {
             TreeNode node = new TreeNode();
             node.setId(e.getId());
             node.setText(e.getName());
@@ -70,32 +75,27 @@ public class MenuServiceImpl implements MenuService {
         list.add(rootTreeNode);
         return list;
 
+    }
 
-
-
-
+    @Override
+    public BaseResponse getMenuPageList(Menu menu) {
+        BaseResponse baseResponse = new BaseResponse();
+        if (StringUtils.isNotBlank(menu.getMenuIds())) {
+            List<String> ids = Arrays.asList(menu.getMenuIds().split(","));
+            menu.setIds(ids);
+        }
+        baseResponse.setTotal(menuDao.getMenuPageCount(menu));
+        List<Menu> list = menuDao.getMenuPageList(menu);
+        baseResponse.setRows(list);
+        return baseResponse;
     }
 
     // 排序
-    private void sortPhFuntionList(List<Menu> tree) {
-        Collections.sort(tree, new Comparator<Menu>() {
-            @Override
-            public int compare(Menu o1, Menu o2) {
-                if (o1.getSort() == null && o2.getSort() == null) {
-                    return 0;
-                }
-                if (o1.getSort() == null) {
-                    return 1;
-                }
-                if (o2.getSort() == null) {
-                    return -1;
-                }
-                return o1.getSort().compareTo(o2.getSort());
-            }
-        });
-        for (Menu pf : tree) {
-            if (CollectionUtils.isNotEmpty(pf.getChildren())) {
-                this.sortPhFuntionList(pf.getChildren());
+    private void sortMenuList(List<Menu> list) {
+        list.sort(comparing(Menu::getSortNumber));
+        for (Menu menu : list) {
+            if (CollectionUtils.isNotEmpty(menu.getChildren())) {
+                this.sortMenuList(menu.getChildren());
             }
         }
     }

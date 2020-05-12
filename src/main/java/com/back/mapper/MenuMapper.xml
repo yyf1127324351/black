@@ -5,14 +5,28 @@
 
     <sql id="sql_menu_column">
 		m.id,
-		m.name,
+		m.name as name,
 		m.code,
 		m.type,
-		m.parent_id	parentId,
+		m.parent_id as parentId,
 		m.level,
 		m.url,
-		m.has_child	hasChild,
-		m.sort
+		m.has_child as hasChild,
+		m.sort_number as sortNumber,
+		m.deleted
+	</sql>
+	<sql id="sql_where">
+		<where>
+			<if test="name !=null and name!=''">
+				and m.name like CONCAT('%',#{name},'%')
+			</if>
+			<if test="ids != null and ids.size()>0">
+				and m.id IN
+				<foreach collection="ids" index="index" item="item" open="(" close=")" separator=",">
+					#{item}
+				</foreach>
+			</if>
+		</where>
 	</sql>
 
 	<select id="leftLevel1List" resultType="com.back.model.Menu">
@@ -22,16 +36,16 @@
 		m2.parent_id
 		from menu m2
 		join menu_user mu on mu.menu_id = m2.id
-		where mu.user_id = #{operatorId} and m2.type = 0 and m2.`level` = 2
-		) order by m.sort
+		where mu.user_id = #{userId} and m2.type = 0 and m2.`level` = 2
+		) order by m.sort_number asc
 	</select>
     <select id="leftLevel2List" resultType="com.back.model.Menu">
         select
 		<include refid="sql_menu_column"/>
 		from menu m
 		join menu_user mu on mu.menu_id = m.id
-		where mu.user_id = #{operatorId} and m.type = 0  and m.`level` = 2
-		order by  m.sort asc
+		where mu.user_id = #{userId} and m.type = 0  and m.`level` = 2
+		order by  m.sort_number asc
     </select>
     <select id="getAllMenuTree" resultType="com.back.model.Menu">
         select
@@ -39,4 +53,20 @@
         FROM menu m
         WHERE m.deleted = 0
     </select>
+	<select id="getMenuPageList" resultType="com.back.model.Menu">
+		select
+		<include refid="sql_menu_column"/>
+		from menu m
+		<include refid="sql_where"/>
+		<if test="page !=null ">
+			limit #{start} , #{rows}
+		</if>
+
+	</select>
+	<select id="getMenuPageCount" resultType="java.lang.Long">
+		select
+		count(1)
+		from menu m
+		<include refid="sql_where"/>
+	</select>
 </mapper>

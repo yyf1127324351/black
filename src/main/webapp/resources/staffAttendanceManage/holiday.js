@@ -101,7 +101,7 @@ $(function() {
 //假期余额-搜索
 function queryList(){
     var data=getFormData("search_form");
-    $('#data_result').datagrid({url:'/holiday/getHolidayPageList',queryParams:data});
+    $('#data_table').datagrid({url:'/holiday/getHolidayPageList',queryParams:data});
 }
 //假期余额-重置查询条件输入框
 function clearFormData(){
