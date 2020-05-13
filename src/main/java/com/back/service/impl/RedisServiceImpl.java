@@ -29,11 +29,12 @@ public class RedisServiceImpl implements RedisService {
         config.setMaxTotal(100);
         config.setMaxIdle(20);
         config.setMaxWaitMillis(1000L);
-        if (IP.equals("192.168.2.18")) {
-            jedisPool = new JedisPool(config, IP, PORT, 1000, PASSWORD);
-        } else {
-            jedisPool = new JedisPool(config, IP, PORT, 1000);
-        }
+        jedisPool = new JedisPool(config, IP, PORT, 1000, PASSWORD);
+//        if (IP.equals("192.168.2.18")) {
+//            jedisPool = new JedisPool(config, IP, PORT, 1000, PASSWORD);
+//        } else {
+//            jedisPool = new JedisPool(config, IP, PORT, 1000);
+//        }
     }
 
     /**

@@ -263,9 +263,34 @@
       <version>4.2.6.RELEASE</version>
       <!--<scope>test</scope>-->
     </dependency>
-
-
   </dependencies>
+
+  <profiles>
+    <!-- 生产环境 -->
+    <profile>
+      <id>prod</id>
+      <properties>
+        <environment>prod</environment>
+      </properties>
+    </profile>
+    <!-- 测试环境 -->
+    <profile>
+      <id>test</id>
+      <properties>
+        <environment>test</environment>
+      </properties>
+    </profile>
+    <!-- 开发环境 -->
+    <profile>
+      <id>local</id>
+      <properties>
+        <environment>local</environment>
+      </properties>
+      <activation>
+        <activeByDefault>true</activeByDefault><!-- 默认激活该profile节点-->
+      </activation>
+    </profile>
+  </profiles>
 
   <build>
     <finalName>com.black</finalName>
@@ -279,8 +304,15 @@
       </resource>
       <resource>
         <directory>src/main/resources</directory>
+        <excludes>
+          <exclude>environment/**</exclude>
+        </excludes>
+      </resource>
+      <resource>
+        <directory>src/main/resources/environment/${environment}</directory>
       </resource>
     </resources>
+
     <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
       <plugins>
         <plugin>
