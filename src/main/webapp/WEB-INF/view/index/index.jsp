@@ -23,6 +23,7 @@
     <link rel="stylesheet" type="text/css" href="/common/easyUI/themes/icon.css?v=${v}">
 
     <script type="text/javascript" src="/common/js/jquery-form.js?v=${v}"></script>
+    <script type="text/javascript" charset="utf-8" src="/resources/index/index.js?v=${v}"></script>
     <style type="text/css">
         #tabs .tabs-panels .panel-body {
             overflow: hidden;
@@ -36,7 +37,7 @@
             top: 0px !important;
         }
     </style>
-    <script type="text/javascript" charset="utf-8" src="/resources/supper/super.js?v=${v}"></script>
+
 </head>
 <body id="main" class="easyui-layout">
 <div data-options="region:'north',border:false" class="super-north" style="height: 50px;">

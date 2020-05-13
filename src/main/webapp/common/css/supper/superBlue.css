@@ -309,6 +309,9 @@ ul, ol, dl {
     background: #E2E2E2;
     box-shadow: inset 3px 0px 0px 0px #3498db;
 }
+/*.super-accordion-selected {*/
+    /*box-shadow: inset 3px 0px 0px 0px #3498db;*/
+/*}*/
 
 .accordion .accordion-body {
     border-width: 0 0 0px;

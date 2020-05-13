@@ -2,7 +2,6 @@ package com.back.service.impl;
 
 import com.back.dao.MenuDao;
 import com.back.model.Menu;
-import com.back.model.TreeNode;
 import com.back.service.MenuService;
 import com.common.BaseResponse;
 import com.common.session.SessionContainer;
@@ -11,7 +10,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static java.util.Comparator.comparing;
 
@@ -56,7 +57,9 @@ public class MenuServiceImpl implements MenuService {
             menu.setId(0);
             menu.setState("close");
             menu.setText("菜单");
+            menu.setName("菜单");
             menu.setHasChild(1);
+            menu.setLevel(0);
             menu.setChildren(newMenuList);
             list.add(menu);
         }
@@ -101,6 +104,23 @@ public class MenuServiceImpl implements MenuService {
         List<Menu> list = menuDao.getMenuPageList(menu);
         baseResponse.setRows(list);
         return baseResponse;
+    }
+
+    @Override
+    public BaseResponse addUpdateMenu(Menu menu) {
+        if (null == menu.getId()) {
+            //新增菜单
+            menuDao.insert(menu);
+            //更新父菜单 是否有子菜单字段
+            menu.setHasChild(1);
+            menuDao.updateParentMenuHasChildren(menu);
+
+        }else {
+            //更新菜单
+            menuDao.update(menu);
+        }
+
+        return BaseResponse.success();
     }
 
     // 排序

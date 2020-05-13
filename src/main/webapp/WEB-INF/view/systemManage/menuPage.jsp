@@ -56,6 +56,54 @@
     <div id="menu_del" data-options="iconCls:'icon-remove'">失效</div>
 </div>
 
+<div style="display:none">
+    <div id="addEditMenuDialog" class="dialog">
+        <input type="hidden" id="id" name="id"/>
+        <table style="width:95%;margin:10px 10px 0 20px;">
+            <tr style="height:30px;">
+                <th style="width: 70px;text-align:right;" >菜单名称：<font size="3" color="red">*</font></th>
+                <td style="align:center;">
+                    <input id="name" class="easyui-textbox" prompt="1/30" type="text" style="width: 400px;"data-options="validType:'length[1,30]'"/>
+                </td>
+
+            </tr>
+            <tr style="height:30px;">
+                <th style="width: 75px;text-align:right;">权限编码：<font size="3" color="red">*</font></th>
+                <td style="align:center;">
+                    <input id="code" class="easyui-textbox" prompt="1/50" type="text" style="width: 400px;"data-options="validType:'length[1,50]'"/>
+                </td>
+            </tr>
+            <tr id="url_tr" style="height:30px;">
+                <th style="width: 75px;text-align:right;">菜单地址：<font size="3" color="red">*</font></th>
+                <td style="align:center;">
+                    <input id="url" class="easyui-textbox" prompt="1/100" type="text" style="width: 400px;"data-options="validType:'length[1,100]'"/>
+                </td>
+            </tr>
+            <tr style="height:30px;">
+                <th style="width: 75px;text-align:right;">类型：<font size="3" color="red">*</font></th>
+                <td style="align:center;">
+                    <input type="hidden" id="type"/>
+                    <input type="hidden" id="level"/>
+                    <input id="typeName" class="easyui-textbox" readonly="readonly" prompt="1/50" type="text" style="width: 400px;"data-options="validType:'length[1,50]'"/>
+                </td>
+            </tr>
+            <tr style="height:30px;">
+                <th style="width: 75px;text-align:right;">父菜单名：<font size="3" color="red">*</font></th>
+                <td style="align:center;">
+                    <input type="hidden" id="parentId"/>
+                    <input id="parentName" class="easyui-textbox" readonly="readonly" prompt="1/50" type="text" style="width: 400px;"data-options="validType:'length[1,50]'"/>
+                </td>
+            </tr>
+            <tr style="height:30px;">
+                <th style="width: 75px;text-align:right;">排序值：<font size="3" color="red">*</font></th>
+                <td style="align:center;">
+                    <input id="sortNumber" type="text" class="easyui-numberbox" prompt="请输入正整数" style="width: 400px;" data-options="min:0,precision:0"/>
+                </td>
+            </tr>
+
+        </table>
+    </div>
+</div>
 
 </body>
 </html>

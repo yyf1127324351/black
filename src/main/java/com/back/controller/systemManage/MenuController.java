@@ -1,7 +1,6 @@
 package com.back.controller.systemManage;
 
 import com.back.model.Menu;
-import com.back.model.TreeNode;
 import com.back.service.MenuService;
 import com.common.BaseResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -37,7 +36,6 @@ public class MenuController {
     @RequestMapping("/getMenuPageList")
     @ResponseBody
     public BaseResponse getMenuPageList(Menu menu){
-        //分页参数
         try {
             return menuService.getMenuPageList(menu);
         }catch (Exception e){
@@ -46,5 +44,19 @@ public class MenuController {
         }
 
     }
+    /**
+     * 添加或更新菜单
+     * */
+    @RequestMapping("/addUpdateMenu")
+    @ResponseBody
+    public BaseResponse addUpdateMenu(Menu menu){
+        try {
+            return menuService.addUpdateMenu(menu);
+        }catch (Exception e){
+            log.error("getMenuPageListException:{}",e.getMessage());
+            return BaseResponse.error();
+        }
+    }
+
 
 }

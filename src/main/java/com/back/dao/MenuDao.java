@@ -16,4 +16,10 @@ public interface MenuDao {
     Long getMenuPageCount(Menu menu);
 
     List<Menu> getMenuPageList(Menu menu);
+
+    void insert(Menu menu);
+
+    void updateParentMenuHasChildren(Menu menu);
+
+    void update(Menu menu);
 }

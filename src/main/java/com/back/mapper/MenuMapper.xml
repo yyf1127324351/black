@@ -28,6 +28,38 @@
 			</if>
 		</where>
 	</sql>
+	<insert id="insert">
+		insert into menu (name,code,type,parent_id,level,url,sort_number) values
+		(
+			#{name},#{code},#{type},#{parentId},#{level},#{url},#{sortNumber}
+		)
+
+	</insert>
+	<update id="updateParentMenuHasChildren">
+		UPDATE menu SET has_child = #{hasChild} where id = #{parentId}
+	</update>
+	<update id="update">
+		UPDATE menu
+		<set>
+			url = #{url},
+			<if test="name != null and name != ''">
+				name = #{name},
+			</if>
+			<if test="code != null and code != ''">
+				code = #{code},
+			</if>
+			<if test="parentId != null">
+				parent_id = #{parentId},
+			</if>
+			<if test="level != null">
+				level = #{level},
+			</if>
+			<if test="sortNumber != null">
+				sort_number = #{sortNumber},
+			</if>
+		</set>
+		where id = #{id}
+	</update>
 
 	<select id="leftLevel1List" resultType="com.back.model.Menu">
 		select

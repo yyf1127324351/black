@@ -43,7 +43,6 @@ $(document).ready(function () {
             $(this).tree('select',node.target);
             e.preventDefault();
 
-            debugger;
             var menuId = node.id;
             if (menuId == 0) {
                 $('#menu_edit').hide();
@@ -53,38 +52,31 @@ $(document).ready(function () {
                 $('#menu_del').show();
             }
             var type = node.type;
+            //如果类型是按钮，则隐藏新增功能
             if(type == 1) {
-                layer.alert('末级菜单下不能新增！', {icon: 0, title: "提示"});
-                return;
+                $('#menu_add').hide();
             }else {
-                $('#handleMenu').menu('show', {
-                    left : e.pageX,
-                    top : e.pageY,
-
-                    onClick: function(item) {
-                        if(item.text == '新增') {
-
-                            addInfo(node);
-                        } else if(item.text == '编辑') {
-                            if(node.type==null){
-                                $.messager.alert('提示', '请勿编辑公司节点', 'warning');
-                                return;
-                            }
-                            updateInfo(node);
-                        } else if(item.text == '失效') {
-                            if(node.type==null){
-                                $.messager.alert('提示', '请勿删除公司节点', 'warning');
-                                return;
-                            }
-                            disableInfo(node);
-                        }else if(item.text == '导出'){
-                            exportInfo(node);
-                        }
-
-                    }
-
-                });
+                $('#menu_add').show();
             }
+            $('#handleMenu').menu('show', {
+                left : e.pageX,
+                top : e.pageY,
+
+                onClick: function(item) {
+                    if(item.text == '新增') {
+                        if(type == 1) {
+                            layer.alert('末级菜单下不能新增！', {icon: 0, title: "提示"});
+                            return;
+                        }
+                        addMenu(node);
+                    } else if(item.text == '编辑') {
+                        updateMenu(node);
+                    } else if(item.text == '删除') {
+                        deleteMenu(node);
+                    }
+                }
+
+            });
 
         },
         onExpand: function (node) {
@@ -94,6 +86,43 @@ $(document).ready(function () {
             $(".tree-icon,.tree-file").removeClass("tree-icon tree-file");
             $(".tree-icon,.tree-folder").removeClass("tree-icon tree-folder tree-folder-open tree-folder-closed");
         }
+    });
+
+    $("#addEditMenuDialog").dialog({
+        width:'550',
+        height:'290',
+        close : true,
+        shadow:false,
+        modal:true,
+        buttons:[{
+            text:'提交',
+            iconCls:'icon-ok',
+            handler:function(){
+                addUpdateMenu();
+            }
+        },{
+            text:'取消',
+            iconCls:'icon-cancel',
+            handler:function(){
+                $('#addEditMenuDialog').dialog('close');
+            }
+        }],
+        onClose:function(){
+            //清空所有数据
+            $('#id').val('');
+            $('#name').textbox('clear');
+            $('#code').textbox('clear');
+            $('#url').textbox('clear');
+            $('#typeName').textbox('clear');
+            $('#parentName').textbox('clear');
+            $('#sortNumber').numberbox('clear');
+            $('#type').val('');
+            $('#level').val('');
+            $('#parentId').val('');
+
+        },
+        closable: true,
+        closed: true   //已关闭
     });
 
     $("#data_table").datagrid({
@@ -129,7 +158,7 @@ $(document).ready(function () {
             {title: '菜单名称', field: 'name', width: 190, align: 'center'}
         ]],
         columns: [[
-            {title: '权限编码', field: 'code', width: 250, align: 'center'},
+            {title: '权限编码', field: 'code', width: 230, align: 'center'},
             {title: '类型', field: 'type', width: 50, align: 'center', sortable: true,
                 formatter: function (val,row) {
                     var level = row.level;
@@ -142,7 +171,7 @@ $(document).ready(function () {
                     }
                 }
             },
-            {title: '父节点', field: 'parentId', width: 60, align: 'center'},
+            {title: '父菜单ID', field: 'parentId', width: 80, align: 'center'},
             {title: '级别', field: 'level', width: 50, align: 'center', sortable: true},
             {title: '菜单地址', field: 'url', width: 400, align: 'left', sortable: true},
             {title: '是否有子节点', field: 'hasChild', width: 100, align: 'center',
@@ -154,7 +183,7 @@ $(document).ready(function () {
                     }
                 }
             },
-            {title: '排序', field: 'sortNumber', width: 50, align: 'center', sortable: true},
+            {title: '排序值', field: 'sortNumber', width: 50, align: 'center', sortable: true},
             {title: '状态', field: 'deleted', width: 70, align: 'center', sortable: true,
                 formatter: function (val) {
                     if (val == 0) {
@@ -186,6 +215,126 @@ function treeClickQueryList(menuIds) {
 function clearQuery() {
     $('#search_form').form('clear');
 }
+
+function addMenu(node) {
+    $('#addEditMenuDialog').dialog('setTitle','新增');
+    $('#addEditMenuDialog').dialog('open');
+    var id = node.id;
+    var level = node.level;
+    if (level == 0){
+        $('#type').val(0);
+        $('#typeName').textbox('setText','菜单栏');
+        $('#url_tr').hide();
+
+    }else if (level == 1){
+        $('#type').val(0);
+        $('#typeName').textbox('setText','菜单');
+        $('#url_tr').show();
+    }else {
+        $('#type').val(1);
+        $('#typeName').textbox('setText','按钮');
+        $('#url_tr').hide();
+    }
+    $('#typeName').textbox('textbox').css('background','#ccc');
+    var nextLevel = level + 1;
+    $('#level').val(nextLevel);
+    var menuName = node.name;
+    $('#parentId').val(id);
+    $('#parentName').textbox('setText',menuName);
+    $('#parentName').textbox('textbox').css('background','#ccc');
+
+
+}
+
+function updateMenu(node) {
+    $('#addEditMenuDialog').dialog('setTitle', '编辑');
+    $('#addEditMenuDialog').dialog('open');
+    $('#id').val(node.id);
+    var level = node.level;
+    if (level == 1) {
+        $('#typeName').textbox('setText', '菜单栏');
+        $('#url_tr').hide();
+    } else if (level == 2) {
+        $('#typeName').textbox('setText', '菜单');
+        $('#url_tr').show();
+    } else {
+        $('#typeName').textbox('setText', '按钮');
+        $('#url_tr').hide();
+    }
+    $('#typeName').textbox('textbox').css('background','#ccc');
+    $('#parentName').textbox('textbox').css('background','#ccc');
+    $('#name').textbox('setText',node.name);
+    $('#code').textbox('setText',node.code);
+    $('#url').textbox('setText',node.url);
+    $('#sortNumber').numberbox('setValue',node.sortNumber);
+    $('#menu_tree').tree('reload');
+    var parent = $('#menu_tree').tree('getParent', node.target);
+    $('#parentName').textbox('setText',parent.name);
+
+}
+
+function addUpdateMenu() {
+    debugger;
+    var id = $('#id').val();
+    var name = $('#name').textbox('getText').replace(/\s+/g, "");
+    var code = $('#code').textbox('getText').replace(/\s+/g, "");
+    var url = $('#url').textbox('getText').replace(/\s+/g, "");
+    var sortNumber = $('#sortNumber').val();
+    var type = $('#type').val();
+    var level = $('#level').val();
+    var parentId =$('#parentId').val();
+    if (null == name || '' == name) {
+        layer.alert('菜单名称不能为空！', {icon: 0, title: "提示"});
+        return;
+    }
+    if (null == code || '' == code) {
+        layer.alert('菜单编码不能为空！', {icon: 0, title: "提示"});
+        return;
+    }
+    if (level == 2 && (null == url || '' == url)) {
+        layer.alert('菜单地址不能为空！', {icon: 0, title: "提示"});
+        return;
+    }
+    if (null == sortNumber || '' == sortNumber) {
+        layer.alert('排序值不能为空！', {icon: 0, title: "提示"});
+        return;
+    }
+    var paramData = {};
+    paramData.id= id;
+    paramData.name= name;
+    paramData.code= code;
+    paramData.url= url;
+    paramData.sortNumber= sortNumber;
+    paramData.type= type;
+    paramData.level= level;
+    paramData.parentId= parentId;
+
+    $.messager.progress();	//防止重复提交
+    $.ajax({
+        type : "POST",
+        url : "/menu/addUpdateMenu",
+        data :paramData,
+        dataType: "json",
+        success : function(result) {
+            $.messager.progress('close');
+            if(result.code == 200){
+                layer.alert('操作成功', {icon: 6, title: "提示"});
+                $("#addEditMenuDialog").dialog('close');
+                $('#menu_tree').tree('reload');
+                queryList();
+            }else {
+                layer.alert(result.message, {icon: 5, title: "提示"});
+            }
+        },
+        error :function(){
+            $.messager.progress('close');
+            layer.alert('系统异常', {icon: 5, title: "提示"});
+        }
+    });
+}
+
+
+
 
 function getFormData(form) {
     var array = $("#" + form).serializeArray();
