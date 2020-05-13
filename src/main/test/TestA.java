@@ -13,7 +13,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations={"classpath:spring.xml", "classpath:spring-mvc.xml"})
+@ContextConfiguration(locations={"classpath:spring.xml","classpath:logback.xml", "classpath:spring-mvc.xml"})
 @WebAppConfiguration
 public class TestA {
     private static Logger logger = LoggerFactory.getLogger(TestA.class);

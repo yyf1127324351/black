@@ -214,6 +214,7 @@ function treeClickQueryList(menuIds) {
 
 function clearQuery() {
     $('#search_form').form('clear');
+    queryList();
 }
 
 function addMenu(node) {
