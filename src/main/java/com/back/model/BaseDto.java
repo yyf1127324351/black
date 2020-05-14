@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.Date;
 import java.util.List;
 @Data
-public class BaseModel {
+public class BaseDto {
     /*数据库表基本字段*/
     private Integer deleted;
     private Long createUser;
@@ -14,17 +14,6 @@ public class BaseModel {
     private Long updateUser;
     private String updateUserName;
     private String updateTime;
-
-
-    /*easyui分页字段*/
-    private Integer page=1;
-    private Integer rows=50;
-    private Integer start = (getPage() - 1) * getRows();
-    private Integer limit = getRows();
-
-    /*排序*/
-    private String sort;
-    private String order;
 
     /*登陆人权限*/
     private List<String> deptAuthorityList;

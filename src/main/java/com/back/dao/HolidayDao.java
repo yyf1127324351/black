@@ -1,11 +1,11 @@
 package com.back.dao;
 
-import com.back.model.Holiday;
+import com.back.vo.HolidayVo;
 
 import java.util.List;
 
 public interface HolidayDao {
-    List<Holiday> getHolidayPageList(Holiday holiday);
+    List<HolidayVo> getHolidayPageList(HolidayVo holiday);
 
-    Long getHolidayPageCount(Holiday holiday);
+    Long getHolidayPageCount(HolidayVo holiday);
 }

@@ -8,13 +8,6 @@
         where status = 1 and id = #{userId} and login_password = #{loginPassword}
     </update>
 
-
-    <select id="getUserList" resultType="com.back.model.User">
-        SELECT id AS id,
-          user_name AS userName
-        FROM user
-        WHERE id = 557
-    </select>
     <select id="getLoginUserByMap" resultType="com.back.vo.UserVo">
         SELECT
         u.id AS userId,

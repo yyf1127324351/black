@@ -3,7 +3,7 @@ package com.back.model;
 import lombok.Data;
 
 @Data
-public class MenuDto {
+public class MenuDto extends BaseDto {
     private Integer id;
     private String name;
     private String code;

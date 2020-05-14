@@ -1,7 +1,6 @@
 package com.back.service.impl;
 
 import com.back.dao.UserDao;
-import com.back.model.User;
 import com.back.service.UserService;
 import com.back.vo.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +16,6 @@ public class UserServiceImpl implements UserService {
     private UserDao userDao;
 
     @Override
-    public User getUserList() {
-        return userDao.getUserList();
-    }
-
-    @Override
     public UserVo getLoginUserByMap(Map<Object, String> param) {
         return userDao.getLoginUserByMap(param);
     }
@@ -34,11 +28,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean checkPassword(Map<Object, String> map) {
         int count = userDao.getUserByIdAndPassword(map);
-        if (count > 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return count > 0;
 
     }
 

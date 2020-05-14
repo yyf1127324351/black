@@ -8,7 +8,7 @@ import java.math.BigDecimal;
  *  员工可用假期天数实体类
  * */
 @Data
-public class HolidayRemainModel extends BaseModel {
+public class HolidayRemainDto extends BaseDto {
     private Long id;
     private String operatorNo; // 员工工号
     private String operatorName; //员工姓名

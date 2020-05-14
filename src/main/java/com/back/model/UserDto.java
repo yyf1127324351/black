@@ -3,7 +3,7 @@ package com.back.model;
 import lombok.Data;
 
 @Data
-public class User {
+public class UserDto {
     private Long userId;
     private String userNo;//员工工号
     private String loginName;//员工账号（登录账号）

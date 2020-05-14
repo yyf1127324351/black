@@ -33,7 +33,7 @@
         LEFT JOIN department d on o.department_id= d.id
         <include refid="holiday_days_where"/>
     </select>
-    <select id="getHolidayRemainList" resultType="com.back.model.HolidayRemainModel">
+    <select id="getHolidayRemainList" resultType="com.back.model.HolidayRemainDto">
         SELECT
         hhd.id AS id,
         hhd.operator_name AS operatorName,

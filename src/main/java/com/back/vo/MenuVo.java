@@ -1,13 +1,12 @@
 package com.back.vo;
 
-import com.back.model.BaseModel;
 import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class MenuVo extends BaseModel {
+public class MenuVo extends BaseVo {
 
 	private Integer id;
 	private String name;

@@ -1,7 +1,7 @@
 package com.back.controller.staffAttendanceManage;
 
-import com.back.model.Holiday;
 import com.back.service.HolidayService;
+import com.back.vo.HolidayVo;
 import com.common.BaseResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,12 +30,12 @@ public class HolidayController {
      * */
     @RequestMapping("/getHolidayPageList")
     @ResponseBody
-    public BaseResponse getHolidayPageList(Holiday holiday){
+    public BaseResponse getHolidayPageList(HolidayVo holidayVo){
         //分页参数
         try {
-            return holidayService.getHolidayPageList(holiday);
+            return holidayService.getHolidayPageList(holidayVo);
         }catch (Exception e){
-            log.error("holidayRemain/holidayRemainList-exception:{}",e);
+            log.error("getHolidayPageListException:{}",e.getMessage());
             return BaseResponse.error();
         }
 

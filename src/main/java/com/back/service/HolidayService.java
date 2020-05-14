@@ -1,8 +1,8 @@
 package com.back.service;
 
-import com.back.model.Holiday;
+import com.back.vo.HolidayVo;
 import com.common.BaseResponse;
 
 public interface HolidayService {
-    BaseResponse getHolidayPageList(Holiday holiday);
+    BaseResponse getHolidayPageList(HolidayVo holidayVo);
 }

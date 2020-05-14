@@ -31,7 +31,7 @@
         </if>
     </sql>
 
-    <select id="getHolidayPageList" resultType="com.back.model.Holiday">
+    <select id="getHolidayPageList" resultType="com.back.vo.HolidayVo">
         SELECT
         <include refid="sql_column"/>
         FROM kq_holiday h

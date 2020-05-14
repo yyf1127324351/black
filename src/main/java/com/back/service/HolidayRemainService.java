@@ -1,8 +1,8 @@
 package com.back.service;
 
-import com.back.model.HolidayRemainModel;
+import com.back.model.HolidayRemainDto;
 import com.common.BaseResponse;
 
 public interface HolidayRemainService {
-    BaseResponse getHolidayRemainList(HolidayRemainModel holidayRemainDto);
+    BaseResponse getHolidayRemainList(HolidayRemainDto holidayRemainDto);
 }

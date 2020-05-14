@@ -1,14 +1,11 @@
-package com.back.model;
+package com.back.vo;
 
 import lombok.Data;
 
 import java.math.BigDecimal;
 
-/**
- *  员工请假记录实体类
- * */
 @Data
-public class Holiday extends BaseModel {
+public class HolidayVo extends BaseVo {
     private Long id;
     private Long staffId;
     private String staffName;
