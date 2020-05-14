@@ -11,7 +11,6 @@
     <select id="getLoginUserByMap" resultType="com.back.vo.UserVo">
         SELECT
         u.id AS userId,
-        u.user_no AS userNo,
         u.user_name as userName,
         u.login_name AS loginName,
         u.login_password AS password
@@ -38,7 +37,6 @@
     <select id="getLoginUserByLoginName" resultType="com.back.vo.UserVo">
         SELECT
         u.id AS userId,
-        u.user_no AS userNo,
         u.login_name AS loginName,
         u.login_password AS password
         FROM user u

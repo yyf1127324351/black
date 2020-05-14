@@ -36,6 +36,7 @@ $(function() {
                     return html;
                 }
             },
+            {title:'员工工号',field:'staffId',width:120,align:'center'},
             {title:'员工姓名',field:'staffName',width:120,align:'center'}
         ]],
         columns:[[
@@ -56,7 +57,7 @@ $(function() {
                    }
                 }
             },
-            {title:'数据来源',field:'systemSource',width:100,align:'center',
+            {title:'数据来源',field:'systemSource',width:100,fixed:false,align:'center',
                 formatter:function(val){
                     if (val == 1) {
                         return "OA";
@@ -67,9 +68,9 @@ $(function() {
                     }
                 }
             },
-            {title:'OA单号',field:'oaId',width:100,align:'center'},
-            {title:'请假原因',field:'reason',width:340,align:'center'},
-            {title:'备注',field:'remark',width:200,align:'center'}
+            {title:'OA单号',field:'oaId',width:100,fixed:false,align:'center'},
+            {title:'请假原因',field:'reason',width:320,fixed:false,align:'center'},
+            {title:'备注',field:'remark',width:100,fixed:true,align:'center'}
         ]]
 
 
@@ -129,6 +130,43 @@ function clearQuery(){
     $('#search_form').form('clear');
     queryList();
 }
+
+function exportInfo() {
+    var paramData=getFormData("search_form");
+    window.open('/holiday/exportHolidayRecord?' + $.param(paramData));
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 //假期余额-导入

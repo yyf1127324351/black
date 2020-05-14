@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.back.service.RedisService;
 import com.back.vo.UserVo;
 import com.common.session.SessionContainer;
-import com.constant.ConfigConstants;
 import com.constant.Constants;
 import com.utils.CookieUtils;
 import com.utils.DateUtils;
@@ -35,9 +34,10 @@ public class LoginInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object o) throws Exception {
         SessionContainer.clear();
-//        String servletPath = request.getServletPath();
-//        String requestUrl = request.getRequestURL().toString();
+        String servletPath = request.getServletPath();
+        String requestUrl = request.getRequestURL().toString();
 //        String requestUri = request.getRequestURI();
+        String redirectUrl = requestUrl.replace(servletPath, "");
 
         String tmpToken = request.getParameter(Constants.TMP_TOKEN);
         String cookieValue = CookieUtils.getCookieValue(request, Constants.TOKEN);
@@ -57,6 +57,7 @@ public class LoginInterceptor implements HandlerInterceptor {
                 //临时token验证 未通过
                 log.error("the token has already used:" + tmpToken);
                 SessionContainer.clear();
+                response.sendRedirect(redirectUrl);
                 return false;
             }
         } else if (StringUtils.isNotBlank(cookieValue)) {
@@ -71,7 +72,6 @@ public class LoginInterceptor implements HandlerInterceptor {
             }
             SessionContainer.setSession(userVo);
         } else {
-            String redirectUrl = ConfigConstants.LOGIN_REDIRECT_URL;
             if (WebUtils.isAjaxRequest(request)) {
                 Map<String, Object> ret = new HashMap<>();
                 ret.put("redirectUrl", redirectUrl);

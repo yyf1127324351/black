@@ -29,9 +29,6 @@ public class SessionContainer {
     public static String getLoginName() {
         return getSession() != null ? getSession().getLoginName() : null;
     }
-    public static String getUserNo() {
-        return getSession() != null ? getSession().getUserNo() : null;
-    }
     public static Long getUserId() {
         return getSession() != null ? getSession().getUserId() : null;
     }

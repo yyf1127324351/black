@@ -56,4 +56,10 @@
         FROM kq_holiday h
         <include refid="sql_where"/>
     </select>
+    <select id="getHolidayList" resultType="com.back.model.HolidayDto">
+        SELECT
+        <include refid="sql_column"/>
+        FROM kq_holiday h
+        <include refid="sql_where"/>
+    </select>
 </mapper>
