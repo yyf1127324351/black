@@ -53,7 +53,7 @@
 <div id="handleMenu" class="easyui-menu" style="width:120px;">
     <div id="menu_add" data-options="iconCls:'icon-add'">新增</div>
     <div id="menu_edit" data-options="iconCls:'icon-edit'">编辑</div>
-    <div id="menu_del" data-options="iconCls:'icon-remove'">失效</div>
+    <div id="menu_del" data-options="iconCls:'icon-remove'">删除</div>
 </div>
 
 <div style="display:none">

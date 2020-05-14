@@ -1,6 +1,6 @@
 package com.back.controller.systemManage;
 
-import com.back.model.Menu;
+import com.back.vo.MenuVo;
 import com.back.service.MenuService;
 import com.common.BaseResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +26,7 @@ public class MenuController {
 
     @RequestMapping("/getAllMenuTree")
     @ResponseBody
-    public List<Menu> getAllMenuTree(){
+    public List<MenuVo> getAllMenuTree(){
         return  menuService.getAllMenuTree();
     }
 
@@ -35,11 +35,11 @@ public class MenuController {
      * */
     @RequestMapping("/getMenuPageList")
     @ResponseBody
-    public BaseResponse getMenuPageList(Menu menu){
+    public BaseResponse getMenuPageList(MenuVo menuVo){
         try {
-            return menuService.getMenuPageList(menu);
+            return menuService.getMenuPageList(menuVo);
         }catch (Exception e){
-            log.error("getMenuPageListException:{}",e);
+            log.error("getMenuPageListException:{}",e.getMessage());
             return BaseResponse.error();
         }
 
@@ -49,14 +49,28 @@ public class MenuController {
      * */
     @RequestMapping("/addUpdateMenu")
     @ResponseBody
-    public BaseResponse addUpdateMenu(Menu menu){
+    public BaseResponse addUpdateMenu(MenuVo menuVo){
         try {
-            return menuService.addUpdateMenu(menu);
+            return menuService.addUpdateMenu(menuVo);
         }catch (Exception e){
-            log.error("getMenuPageListException:{}",e.getMessage());
+            log.error("addUpdateMenuException:{}",e.getMessage());
             return BaseResponse.error();
         }
     }
+    /**
+     * 删除菜单
+     * */
+    @RequestMapping("/deleteMenu")
+    @ResponseBody
+    public BaseResponse deleteMenu(MenuVo menuVo){
+        try {
+            return menuService.deleteMenu(menuVo);
+        }catch (Exception e){
+            log.error("deleteMenuException:{}",e.getMessage());
+            return BaseResponse.error();
+        }
+    }
+
 
 
 }

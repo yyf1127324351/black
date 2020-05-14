@@ -1,18 +1,20 @@
 package com.back.service;
 
-import com.back.model.Menu;
+import com.back.vo.MenuVo;
 import com.common.BaseResponse;
 
 import java.util.List;
 
 public interface MenuService {
-    List<Menu> leftLevel1List();
+    List<MenuVo> leftLevel1List();
 
-    List<Menu> leftLevel2List();
+    List<MenuVo> leftLevel2List();
 
-    List<Menu> getAllMenuTree();
+    List<MenuVo> getAllMenuTree();
 
-    BaseResponse getMenuPageList(Menu menu);
+    BaseResponse getMenuPageList(MenuVo menuVo);
 
-    BaseResponse addUpdateMenu(Menu menu);
+    BaseResponse addUpdateMenu(MenuVo menuVo);
+
+    BaseResponse deleteMenu(MenuVo menuVo);
 }

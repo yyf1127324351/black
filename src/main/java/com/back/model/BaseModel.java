@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.Date;
 import java.util.List;
 @Data
-public class BaseDto {
+public class BaseModel {
     /*数据库表基本字段*/
     private Integer deleted;
     private Long createUser;

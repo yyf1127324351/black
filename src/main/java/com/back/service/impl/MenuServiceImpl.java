@@ -1,7 +1,8 @@
 package com.back.service.impl;
 
 import com.back.dao.MenuDao;
-import com.back.model.Menu;
+import com.back.model.MenuDto;
+import com.back.vo.MenuVo;
 import com.back.service.MenuService;
 import com.common.BaseResponse;
 import com.common.session.SessionContainer;
@@ -27,41 +28,41 @@ public class MenuServiceImpl implements MenuService {
 
 
     @Override
-    public List<Menu> leftLevel1List() {
+    public List<MenuVo> leftLevel1List() {
         //查出一级菜单
-        List<Menu> left = menuDao.leftLevel1List(SessionContainer.getUserId());
+        List<MenuVo> left = menuDao.leftLevel1List(SessionContainer.getUserId());
         // 转化成easyui tree需要的树形数据
-        List<Menu> treeList = Menu.convertToTreeDataByParentId(left);
+        List<MenuVo> treeList = MenuVo.convertToTreeDataByParentId(left);
         this.sortMenuList(treeList);
         return treeList;
     }
 
     @Override
-    public List<Menu> leftLevel2List() {
+    public List<MenuVo> leftLevel2List() {
         //查出二级菜单
-        List<Menu> left = menuDao.leftLevel2List(SessionContainer.getUserId());
+        List<MenuVo> left = menuDao.leftLevel2List(SessionContainer.getUserId());
         // 转化成easyui tree需要的树形数据
-        List<Menu> treeList = Menu.convertToTreeDataByParentId(left);
+        List<MenuVo> treeList = MenuVo.convertToTreeDataByParentId(left);
         this.sortMenuList(treeList);
         return treeList;
     }
 
     @Override
-    public List<Menu> getAllMenuTree() {
-        List<Menu> list = new ArrayList<>();
+    public List<MenuVo> getAllMenuTree() {
+        List<MenuVo> list = new ArrayList<>();
         //查询出所有的菜单
-        List<Menu> menuList = menuDao.getAllMenuTree();
-        if (CollectionUtils.isNotEmpty(menuList)) {
-            List<Menu> newMenuList = Menu.convertToTreeDataByParentId(menuList);
-            Menu menu = new Menu();
-            menu.setId(0);
-            menu.setState("close");
-            menu.setText("菜单");
-            menu.setName("菜单");
-            menu.setHasChild(1);
-            menu.setLevel(0);
-            menu.setChildren(newMenuList);
-            list.add(menu);
+        List<MenuVo> menuVoList = menuDao.getAllMenuTree();
+        if (CollectionUtils.isNotEmpty(menuVoList)) {
+            List<MenuVo> newMenuVoList = MenuVo.convertToTreeDataByParentId(menuVoList);
+            MenuVo menuVo = new MenuVo();
+            menuVo.setId(0);
+            menuVo.setState("close");
+            menuVo.setText("菜单");
+            menuVo.setName("菜单");
+            menuVo.setHasChild(1);
+            menuVo.setLevel(0);
+            menuVo.setChildren(newMenuVoList);
+            list.add(menuVo);
         }
         return list;
 
@@ -94,41 +95,61 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public BaseResponse getMenuPageList(Menu menu) {
+    public BaseResponse getMenuPageList(MenuVo menuVo) {
         BaseResponse baseResponse = new BaseResponse();
-        if (StringUtils.isNotBlank(menu.getMenuIds())) {
-            List<String> ids = Arrays.asList(menu.getMenuIds().split(","));
-            menu.setIds(ids);
+        if (StringUtils.isNotBlank(menuVo.getMenuIds())) {
+            List<String> ids = Arrays.asList(menuVo.getMenuIds().split(","));
+            menuVo.setIds(ids);
         }
-        baseResponse.setTotal(menuDao.getMenuPageCount(menu));
-        List<Menu> list = menuDao.getMenuPageList(menu);
+        baseResponse.setTotal(menuDao.getMenuPageCount(menuVo));
+        List<MenuVo> list = menuDao.getMenuPageList(menuVo);
         baseResponse.setRows(list);
         return baseResponse;
     }
 
     @Override
-    public BaseResponse addUpdateMenu(Menu menu) {
-        if (null == menu.getId()) {
+    public BaseResponse addUpdateMenu(MenuVo menuVo) {
+        if (null == menuVo.getId()) {
             //新增菜单
-            menuDao.insert(menu);
+            menuDao.insert(menuVo);
             //更新父菜单 是否有子菜单字段
-            menu.setHasChild(1);
-            menuDao.updateParentMenuHasChildren(menu);
+            menuVo.setHasChild(1);
+            menuDao.updateParentMenuHasChildren(menuVo);
 
         }else {
             //更新菜单
-            menuDao.update(menu);
+            menuDao.update(menuVo);
         }
 
         return BaseResponse.success();
     }
 
+    @Override
+    public BaseResponse deleteMenu(MenuVo menuVo) {
+        if (StringUtils.isNotBlank(menuVo.getMenuIds())) {
+            List<String> ids = Arrays.asList(menuVo.getMenuIds().split(","));
+            menuVo.setIds(ids);
+            //逻辑删除菜单
+            menuDao.deleteMenu(menuVo);
+            //如果该菜单的父菜单下无菜单了，就将父菜单 是否有子菜单更新为： 无
+            List<MenuDto> menuDtoList = menuDao.getMenuByParentId(menuVo.getParentId());
+            if (CollectionUtils.isEmpty(menuDtoList)) {
+                menuVo.setHasChild(0);
+                menuDao.updateParentMenuHasChildren(menuVo);
+            }
+            return BaseResponse.success();
+        }else {
+            return BaseResponse.paramError("菜单参数为空");
+        }
+
+    }
+
     // 排序
-    private void sortMenuList(List<Menu> list) {
-        list.sort(comparing(Menu::getSortNumber));
-        for (Menu menu : list) {
-            if (CollectionUtils.isNotEmpty(menu.getChildren())) {
-                this.sortMenuList(menu.getChildren());
+    private void sortMenuList(List<MenuVo> list) {
+        list.sort(comparing(MenuVo::getSortNumber));
+        for (MenuVo menuVo : list) {
+            if (CollectionUtils.isNotEmpty(menuVo.getChildren())) {
+                this.sortMenuList(menuVo.getChildren());
             }
         }
     }

@@ -1,12 +1,13 @@
-package com.back.model;
+package com.back.vo;
 
+import com.back.model.BaseModel;
 import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class Menu extends BaseDto {
+public class MenuVo extends BaseModel {
 
 	private Integer id;
 	private String name;
@@ -23,7 +24,7 @@ public class Menu extends BaseDto {
 	private String state;//'open' 或 'closed'，默认：'open'
 	private Boolean checked;
 	private String iconCls;
-	private List<Menu> children;
+	private List<MenuVo> children;
 
 	//点击菜单树查询参数
 	private String menuIds;
@@ -34,15 +35,15 @@ public class Menu extends BaseDto {
 	/**
 	 * 转化成easyui tree需要的树形数据
 	 */
-	public static List<Menu> convertToTreeDataByParentId(List<Menu> tdList) {
-		List<Menu> nodeList = new ArrayList<>();
-		for (Menu node1 : tdList) {
+	public static List<MenuVo> convertToTreeDataByParentId(List<MenuVo> tdList) {
+		List<MenuVo> nodeList = new ArrayList<>();
+		for (MenuVo node1 : tdList) {
 			node1.setText(node1.getName());//填充tree显示文本
 			if (node1.getType() == 1) {//功能点特殊图标
 				node1.setIconCls("icon-tip");
 			}
 			boolean mark = false;
-			for (Menu node2 : tdList) {
+			for (MenuVo node2 : tdList) {
 				if (node1.getParentId() != null && node1.getParentId().equals(node2.getId())) {
 					mark = true;
 					if (node2.getChildren() == null) {
@@ -62,8 +63,8 @@ public class Menu extends BaseDto {
 
 
 	//填充是否有权限
-	public static void fillChecked(List<Menu> allFunctions, List<Long> ownFunctionIdList) {
-		for (Menu pf : allFunctions) {
+	public static void fillChecked(List<MenuVo> allFunctions, List<Long> ownFunctionIdList) {
+		for (MenuVo pf : allFunctions) {
 			if (ownFunctionIdList.contains(pf.getId())) {
 				pf.setChecked(true);
 			}
@@ -73,18 +74,18 @@ public class Menu extends BaseDto {
 	/**
 	 * 生成一个tree，最外面再包一层
 	 */
-	public static Menu genRootTree(Integer id, String text, List<Menu> phList) {
-		Menu portalRoot = new Menu(id, text);
-		portalRoot.setChildren(Menu.convertToTreeDataByParentId(phList));
+	public static MenuVo genRootTree(Integer id, String text, List<MenuVo> phList) {
+		MenuVo portalRoot = new MenuVo(id, text);
+		portalRoot.setChildren(MenuVo.convertToTreeDataByParentId(phList));
 		return portalRoot;
 	}
 
-	public Menu(Integer id, String text) {
+	public MenuVo(Integer id, String text) {
 		super();
 		this.id = id;
 		this.text = text;
 	}
 
-	public Menu() {
+	public MenuVo() {
 	}
 }

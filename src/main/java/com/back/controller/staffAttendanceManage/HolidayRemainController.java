@@ -1,6 +1,6 @@
 package com.back.controller.staffAttendanceManage;
 
-import com.back.model.HolidayRemainDto;
+import com.back.model.HolidayRemainModel;
 import com.back.service.HolidayRemainService;
 import com.common.BaseResponse;
 import org.slf4j.Logger;
@@ -34,7 +34,7 @@ public class HolidayRemainController {
      * */
     @RequestMapping("/holidayRemainList")
     @ResponseBody
-    public BaseResponse holidayRemainList(HolidayRemainDto holidayRemainDto){
+    public BaseResponse holidayRemainList(HolidayRemainModel holidayRemainDto){
         //分页参数
         try {
             return holidayRemainService.getHolidayRemainList(holidayRemainDto);

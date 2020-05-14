@@ -9,31 +9,9 @@ $(document).ready(function () {
     $('#menu_tree').tree({
         url: "/menu/getAllMenuTree",
         cascadeCheck: false,
-        onSelect: function (node) {
+        onClick: function (node) {
             //点击查询
-            var finalMenuIds = node.id; //顶层id
-            var childrenList = node.children; //第一层子节点
-            if (null != childrenList && childrenList.length > 0) {
-                for (var i = 0; i < childrenList.length; i++) {
-                    var menu = childrenList[i];
-                    finalMenuIds = finalMenuIds + "," + menu.id;
-                    var childrenList2 = menu.children;
-                    if (null != childrenList2 && childrenList2.length > 0) {
-                        for (var j = 0; j < childrenList2.length; j++) {
-                            var menu2 = childrenList2[j];
-                            finalMenuIds = finalMenuIds + "," + menu2.id;
-                            var childrenList3 = menu2.children;
-                            if (null != childrenList3 && childrenList3.length > 0) {
-                                for (var k = 0; k < childrenList3.length; k++) {
-                                    var menu3 = childrenList3[k];
-                                    finalMenuIds = finalMenuIds + "," + menu3.id;
-                                }
-                            }
-                        }
-                    }
-                }
-
-            }
+            var finalMenuIds = getMenuIds(node);
             treeClickQueryList(finalMenuIds);
         },
         onBeforeExpand: function (node) {
@@ -72,7 +50,16 @@ $(document).ready(function () {
                     } else if(item.text == '编辑') {
                         updateMenu(node);
                     } else if(item.text == '删除') {
-                        deleteMenu(node);
+                        if(node.hasChild == 1) {
+                            layer.confirm('该菜单下包含子菜单，确认全部删除吗？', {icon: 3},function () {
+                                deleteMenu(node);
+                            });
+                        }else {
+                            layer.confirm('确认删除？', {icon: 3},function () {
+                                deleteMenu(node);
+                            });
+                        }
+
                     }
                 }
 
@@ -146,19 +133,25 @@ $(document).ready(function () {
                 console.log(data.data);
             }
         },
+        onClickRow:function (rowIndex, rowData) {
+            var menuId = rowData.id;
+            var node = $('#menu_tree').tree('find', menuId);
+            $('#menu_tree').tree('expandTo', node.target);
+            $('#menu_tree').tree('select', node.target);
+        },
         frozenColumns: [[
-            {title: '操作', field: 'id', width: 100, align: 'center',
-                formatter: function (val, row) {
-                    var id = row.id;
-                    var html = "";
-                    html = html + '<a class="sel_btn ch_cls" onclick="edit(' + id + ')" style="text-decoration:none;">编辑</a>';
-                    return html;
-                }
-            },
-            {title: '菜单名称', field: 'name', width: 190, align: 'center'}
+            // {title: '操作', field: 'id', width: 100, align: 'center',
+            //     formatter: function (val, row) {
+            //         var id = row.id;
+            //         var html = "";
+            //         html = html + '<a class="sel_btn ch_cls" onclick="editMenu()" style="text-decoration:none;">编辑</a>';
+            //         return html;
+            //     }
+            // },
+            {title: '菜单名称', field: 'name', width: 230, align: 'center'}
         ]],
         columns: [[
-            {title: '权限编码', field: 'code', width: 230, align: 'center'},
+            {title: '权限编码', field: 'code', width: 280, align: 'center'},
             {title: '类型', field: 'type', width: 50, align: 'center', sortable: true,
                 formatter: function (val,row) {
                     var level = row.level;
@@ -171,6 +164,7 @@ $(document).ready(function () {
                     }
                 }
             },
+            {title: '菜单ID', field: 'id', width: 80, align: 'center'},
             {title: '父菜单ID', field: 'parentId', width: 80, align: 'center'},
             {title: '级别', field: 'level', width: 50, align: 'center', sortable: true},
             {title: '菜单地址', field: 'url', width: 400, align: 'left', sortable: true},
@@ -183,16 +177,7 @@ $(document).ready(function () {
                     }
                 }
             },
-            {title: '排序值', field: 'sortNumber', width: 50, align: 'center', sortable: true},
-            {title: '状态', field: 'deleted', width: 70, align: 'center', sortable: true,
-                formatter: function (val) {
-                    if (val == 0) {
-                        return "使用中";
-                    } else {
-                        return "已删除";
-                    }
-                }
-            }
+            {title: '排序值', field: 'sortNumber', width: 50, align: 'center', sortable: true}
         ]]
 
 
@@ -200,6 +185,33 @@ $(document).ready(function () {
 
 
 });
+
+function getMenuIds(node) {
+    var finalMenuIds = node.id; //顶层id
+    var childrenList = node.children; //第一层子节点
+    if (null != childrenList && childrenList.length > 0) {
+        for (var i = 0; i < childrenList.length; i++) {
+            var menu = childrenList[i];
+            finalMenuIds = finalMenuIds + "," + menu.id;
+            var childrenList2 = menu.children;
+            if (null != childrenList2 && childrenList2.length > 0) {
+                for (var j = 0; j < childrenList2.length; j++) {
+                    var menu2 = childrenList2[j];
+                    finalMenuIds = finalMenuIds + "," + menu2.id;
+                    var childrenList3 = menu2.children;
+                    if (null != childrenList3 && childrenList3.length > 0) {
+                        for (var k = 0; k < childrenList3.length; k++) {
+                            var menu3 = childrenList3[k];
+                            finalMenuIds = finalMenuIds + "," + menu3.id;
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+    return finalMenuIds;
+}
 
 function queryList() {
     var data = getFormData("search_form");
@@ -214,6 +226,7 @@ function treeClickQueryList(menuIds) {
 
 function clearQuery() {
     $('#search_form').form('clear');
+    $('#menu_tree').tree('reload');
     queryList();
 }
 
@@ -268,14 +281,14 @@ function updateMenu(node) {
     $('#code').textbox('setText',node.code);
     $('#url').textbox('setText',node.url);
     $('#sortNumber').numberbox('setValue',node.sortNumber);
-    $('#menu_tree').tree('reload');
     var parent = $('#menu_tree').tree('getParent', node.target);
+    $('#parentId').val(parent.id);
     $('#parentName').textbox('setText',parent.name);
 
 }
 
+
 function addUpdateMenu() {
-    debugger;
     var id = $('#id').val();
     var name = $('#name').textbox('getText').replace(/\s+/g, "");
     var code = $('#code').textbox('getText').replace(/\s+/g, "");
@@ -320,9 +333,42 @@ function addUpdateMenu() {
             $.messager.progress('close');
             if(result.code == 200){
                 layer.alert('操作成功', {icon: 6, title: "提示"});
+                queryList();
                 $("#addEditMenuDialog").dialog('close');
                 $('#menu_tree').tree('reload');
+            }else {
+                layer.alert(result.message, {icon: 5, title: "提示"});
+            }
+        },
+        error :function(){
+            $.messager.progress('close');
+            layer.alert('系统异常', {icon: 5, title: "提示"});
+        }
+    });
+}
+
+function deleteMenu(node) {
+    //判断该菜单的父菜单有几个子菜单，如果有仅一个子菜单（即被删除的），则该父菜单需要更新为无子菜单。
+    var finalMenuIds = getMenuIds(node);
+    var id = node.id;
+    var parentId = node.parentId;
+    $.messager.progress();	//防止重复提交
+    $.ajax({
+        type : "POST",
+        url : "/menu/deleteMenu",
+        data : {
+            "id": id,
+            "parentId":parentId,
+            "menuIds":finalMenuIds
+        },
+        dataType: "json",
+        success : function(result) {
+            $.messager.progress('close');
+            if(result.code == 200){
+                layer.alert('操作成功', {icon: 6, title: "提示"});
                 queryList();
+                $("#addEditMenuDialog").dialog('close');
+                $('#menu_tree').tree('reload');
             }else {
                 layer.alert(result.message, {icon: 5, title: "提示"});
             }

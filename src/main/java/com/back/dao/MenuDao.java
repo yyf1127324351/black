@@ -1,25 +1,30 @@
 package com.back.dao;
 
-import com.back.model.Menu;
+import com.back.model.MenuDto;
+import com.back.vo.MenuVo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 public interface MenuDao {
 
-    List<Menu> leftLevel1List(@Param("userId") Long userId);
+    List<MenuVo> leftLevel1List(@Param("userId") Long userId);
 
-    List<Menu> leftLevel2List(@Param("userId") Long userId);
+    List<MenuVo> leftLevel2List(@Param("userId") Long userId);
 
-    List<Menu> getAllMenuTree();
+    List<MenuVo> getAllMenuTree();
 
-    Long getMenuPageCount(Menu menu);
+    Long getMenuPageCount(MenuVo menuVo);
 
-    List<Menu> getMenuPageList(Menu menu);
+    List<MenuVo> getMenuPageList(MenuVo menuVo);
 
-    void insert(Menu menu);
+    void insert(MenuVo menuVo);
 
-    void updateParentMenuHasChildren(Menu menu);
+    void updateParentMenuHasChildren(MenuVo menuVo);
 
-    void update(Menu menu);
+    void update(MenuVo menuVo);
+
+    List<MenuDto> getMenuByParentId(@Param("parentId") Integer parentId);
+
+    void deleteMenu(MenuVo menuVo);
 }

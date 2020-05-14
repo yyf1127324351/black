@@ -1,11 +1,11 @@
 package com.back.dao;
 
-import com.back.model.HolidayRemainDto;
+import com.back.model.HolidayRemainModel;
 
 import java.util.List;
 
 public interface HolidayRemainDao {
-    Long countHolidayRemain(HolidayRemainDto holidayRemainDto);
+    Long countHolidayRemain(HolidayRemainModel holidayRemainDto);
 
-    List<HolidayRemainDto> getHolidayRemainList(HolidayRemainDto holidayRemainDto);
+    List<HolidayRemainModel> getHolidayRemainList(HolidayRemainModel holidayRemainDto);
 }

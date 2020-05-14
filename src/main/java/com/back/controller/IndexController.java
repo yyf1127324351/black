@@ -1,6 +1,6 @@
 package com.back.controller;
 
-import com.back.model.Menu;
+import com.back.vo.MenuVo;
 import com.back.service.MenuService;
 import com.common.session.SessionContainer;
 import org.apache.commons.collections.CollectionUtils;
@@ -24,17 +24,17 @@ public class IndexController {
         ModelAndView mv = new ModelAndView("index/index");
 
         // 顶级菜单权限控制
-        List<Menu> level1List = menuService.leftLevel1List();
-        List<Menu> level2List = menuService.leftLevel2List();
+        List<MenuVo> level1List = menuService.leftLevel1List();
+        List<MenuVo> level2List = menuService.leftLevel2List();
         if (CollectionUtils.isNotEmpty(level2List)) {
-            for (Menu menu1 : level1List) {
-                List<Menu> children = new ArrayList<>();
-                for (Menu p2 : level2List) {
-                    if (menu1.getId().toString().equals(p2.getParentId().toString())) {
+            for (MenuVo menuVo1 : level1List) {
+                List<MenuVo> children = new ArrayList<>();
+                for (MenuVo p2 : level2List) {
+                    if (menuVo1.getId().toString().equals(p2.getParentId().toString())) {
                         children.add(p2);
                     }
                 }
-                menu1.setChildren(children);
+                menuVo1.setChildren(children);
             }
         }
 
