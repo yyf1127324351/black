@@ -13,7 +13,6 @@ public class HolidayVo extends BaseVo {
     private BigDecimal hours;
     private String startTime;
     private String endTime;
-    private Integer year;
     private String reason;
     private String remark;
     private Integer systemSource;

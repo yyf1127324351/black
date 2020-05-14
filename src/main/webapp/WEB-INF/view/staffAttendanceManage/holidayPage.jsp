@@ -20,7 +20,7 @@
             <div class="search-row">
                 <div class="form-group">
                     <label class="search-label">姓名:</label>
-                    <input name="operatorName" class="easyui-textbox" type="text" style="width: 120px;">
+                    <input name="staffName" class="easyui-textbox" type="text" style="width: 120px;">
                 </div>
             </div>
         </div>
@@ -33,16 +33,10 @@
         <table class="button_table">
             <td style="height: 20px;width: 100%">
                 <a class="easyui-linkbutton toolButton" onclick="queryList()" data-options="iconCls:'icon-search'" >搜索</a>
-                <a class="easyui-linkbutton toolButton" id="reset-btn" data-options="iconCls:'icon-clear'"style="margin-top: 2px" >重置</a>
-                <a class="easyui-linkbutton toolButton" onclick="importInfo()" data-options="iconCls:'icon-undo'" style="margin-top: 2px">导出</a>
-                <a class="easyui-linkbutton toolButton" onclick="javascript:openAddDialog()" id="add-btn" data-options="iconCls:'icon-add'" style="margin-top: 2px">新增</a>
-                <a class="easyui-linkbutton toolButton" onclick="javascript:openImportOrAddDialog(1)" data-options="iconCls:'icon-undo'" style="margin-top: 2px">导入</a>
-                <a class="easyui-linkbutton toolButton" id="export-answer-btn" data-options="iconCls:'icon-redo'" style="margin-top: 2px">答题导出</a>
-                <a class="easyui-linkbutton toolButton" id="enter-interview-btn" data-options="iconCls:'icon-man'" style="margin-top: 2px">进入面试环节</a>
-                <a class="easyui-linkbutton toolButton" id="template-btn" data-options="iconCls:'icon-edit'" style="margin-top: 2px">列表模板设置</a>
-                <a class="easyui-linkbutton toolButton" id="resume-select" data-options="iconCls:'icon-edit'" style="margin-top: 2px">需求部门筛选</a>
-                <a href="/zhaopin/downloadAts" class="easyui-linkbutton toolButton" id="download-ats-btn" data-options="iconCls:'icon-edit'" style="margin-top: 2px">下载插件</a>
-                <a class="easyui-linkbutton toolButton"  data-options="iconCls:'fa fa-tags'" onclick="javascript:addTagsDialog()" style="margin-top: 2px">打标签</a>
+                <a class="easyui-linkbutton toolButton" onclick="clearQuery()" data-options="iconCls:'icon-clear'"style="margin-top: 2px" >重置</a>
+                <a class="easyui-linkbutton toolButton" onclick="addInfo()" data-options="iconCls:'icon-add'"style="margin-top: 2px" >新增</a>
+                <a class="easyui-linkbutton toolButton" onclick="importInfo()" data-options="iconCls:'icon-undo'" style="margin-top: 2px">导入</a>
+                <a class="easyui-linkbutton toolButton" onclick="exportInfo()" data-options="iconCls:'icon-redo'" style="margin-top: 2px">导出</a>
             </td>
         </table>
     </div>
@@ -50,55 +44,51 @@
 </div>
 
 <div style="display:none">
-    <div id="editHolidayDialog" class="dialog">
-        <form id="edit_holiday_form"  name= "edit_holiday_form" method = 'post'  action="">
-            <input type="hidden" id="id" name="id"/>
-            <table style="width:95%;margin:10px 10px 0 20px;">
-                <tr style="height:30px;">
-                    <td>年份:</td>
-                    <td style="align:center;">
-                    <td >
-                        <input class="textbox" id="theYear" name="year" type="theYear" readonly="readonly" style="width: 150px;" >
-                    </td>
-                    </td>
-                </tr>
-                <tr style="height:30px;">
-                    <td>员工工号:</td>
-                    <td style="align:center;">
-                    <td >
-                        <input class="textbox" id="operatorNo" name="operatorNo" type="text" readonly="readonly" style="width: 150px;">
-                    </td>
-                    </td>
-                </tr>
-                <tr style="height:30px;">
-                    <td>员工姓名:</td>
-                    <td style="align:center;">
-                    <td >
-                        <input class="textbox" id="operatorName" name="operatorName" type="text" readonly="readonly" style="width: 150px;">
-                    </td>
-                    </td>
-                </tr>
-                <tr style="height:30px;">
-                    <td>年假调整天数:</td>
-                    <td style="align:center;">
-                    <td >
-                        <input prompt="请填数字(单位：天)" class="easyui-numberbox" precision="4" max="999.9999" id="adjustmentYearlyHoliday" name="adjustmentYearlyHoliday" type="text"  style="width: 150px;" />
-                    </td>
-                    </td>
-                </tr>
-                <tr style="height:30px;">
-                    <td>调休假调整小时数:</td>
-                    <td style="align:center;">
-                    <td >
-                        <input prompt="请填数字(单位：小时)" class="easyui-numberbox"  precision="2" max="999.99" id="adjustmentExchangeHoliday" name="adjustmentExchangeHoliday" type="text" style="width: 150px;"/>
-                    </td>
-                    </td>
-                </tr>
+    <div id="addEditDialog" class="dialog">
+        <input type="hidden" id="id" name="id"/>
+        <table style="width:95%;margin:10px 10px 0 20px;">
+            <tr style="height:30px;">
+                <th style="width: 70px;text-align:right;" >菜单名称：<font size="3" color="red">*</font></th>
+                <td style="align:center;">
+                    <input id="name" class="easyui-textbox" prompt="1/30" type="text" style="width: 400px;"data-options="validType:'length[1,30]'"/>
+                </td>
 
-            </table>
+            </tr>
+            <tr style="height:30px;">
+                <th style="width: 75px;text-align:right;">权限编码：<font size="3" color="red">*</font></th>
+                <td style="align:center;">
+                    <input id="code" class="easyui-textbox" prompt="1/50" type="text" style="width: 400px;"data-options="validType:'length[1,50]'"/>
+                </td>
+            </tr>
+            <tr id="url_tr" style="height:30px;">
+                <th style="width: 75px;text-align:right;">菜单地址：<font size="3" color="red">*</font></th>
+                <td style="align:center;">
+                    <input id="url" class="easyui-textbox" prompt="1/100" type="text" style="width: 400px;"data-options="validType:'length[1,100]'"/>
+                </td>
+            </tr>
+            <tr style="height:30px;">
+                <th style="width: 75px;text-align:right;">类型：<font size="3" color="red">*</font></th>
+                <td style="align:center;">
+                    <input type="hidden" id="type"/>
+                    <input type="hidden" id="level"/>
+                    <input id="typeName" class="easyui-textbox" readonly="readonly" prompt="1/50" type="text" style="width: 400px;"data-options="validType:'length[1,50]'"/>
+                </td>
+            </tr>
+            <tr style="height:30px;">
+                <th style="width: 75px;text-align:right;">父菜单名：<font size="3" color="red">*</font></th>
+                <td style="align:center;">
+                    <input type="hidden" id="parentId"/>
+                    <input id="parentName" class="easyui-textbox" readonly="readonly" prompt="1/50" type="text" style="width: 400px;"data-options="validType:'length[1,50]'"/>
+                </td>
+            </tr>
+            <tr style="height:30px;">
+                <th style="width: 75px;text-align:right;">排序值：<font size="3" color="red">*</font></th>
+                <td style="align:center;">
+                    <input id="sortNumber" type="text" class="easyui-numberbox" prompt="请输入正整数" style="width: 400px;" data-options="min:0,precision:0"/>
+                </td>
+            </tr>
 
-            </table>
-        </form>
+        </table>
     </div>
 </div>
 

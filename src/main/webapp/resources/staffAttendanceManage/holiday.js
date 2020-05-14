@@ -36,19 +36,40 @@ $(function() {
                     return html;
                 }
             },
-            {title:'员工姓名',field:'staffName',width:80,align:'center'}
+            {title:'员工姓名',field:'staffName',width:120,align:'center'}
         ]],
         columns:[[
             {title:'假期类型',field:'holidayType',width:80,align:'center'},
             {title:'请假时长(小时)',field:'hours',width:100,align:'center',sortable:true},
-            {title:'年份',field:'year',width:80,align:'center',sortable:true},
             {title:'请假开始时间',field:'startTime',width:160,align:'center',sortable:true},
             {title:'请假结束时间',field:'endTime',width:160,align:'center',sortable:true},
-            {title:'状态',field:'status',width:100,align:'center',sortable:true},
-            {title:'数据来源',field:'systemSource',width:100,align:'center',sortable:true},
-            {title:'OA单号',field:'oaId',width:100,align:'center',sortable:true},
-            {title:'请假原因',field:'reason',width:300,align:'center',sortable:true},
-            {title:'备注',field:'remark',width:200,align:'center',sortable:true}
+            {title:'状态',field:'status',width:100,align:'center',
+                formatter:function(val){
+                   if (val == 1) {
+                       return "审批中";
+                   }else if(val == 2) {
+                       return "撤回";
+                   }else if(val == 3) {
+                       return "完成";
+                   }else {
+                       return "撤销";
+                   }
+                }
+            },
+            {title:'数据来源',field:'systemSource',width:100,align:'center',
+                formatter:function(val){
+                    if (val == 1) {
+                        return "OA";
+                    }else if(val == 2) {
+                        return "HR";
+                    }else {
+                        return "导入";
+                    }
+                }
+            },
+            {title:'OA单号',field:'oaId',width:100,align:'center'},
+            {title:'请假原因',field:'reason',width:340,align:'center'},
+            {title:'备注',field:'remark',width:200,align:'center'}
         ]]
 
 
@@ -98,14 +119,15 @@ $(function() {
 
 });
 
-//假期余额-搜索
+//搜索
 function queryList(){
     var data=getFormData("search_form");
     $('#data_table').datagrid({url:'/holiday/getHolidayPageList',queryParams:data});
 }
-//假期余额-重置查询条件输入框
-function clearFormData(){
-    $('#searchForm').form('clear');
+//重置查询条件输入框
+function clearQuery(){
+    $('#search_form').form('clear');
+    queryList();
 }
 
 

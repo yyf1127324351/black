@@ -11,7 +11,6 @@
         h.hours as hours,
         h.start_time as startTime,
         h.end_time as endTime,
-        h.year as year,
         h.reason as reason,
         h.remark as remark,
         h.system_source as systemSource,
@@ -26,8 +25,19 @@
         h.update_time as updateTime
     </sql>
     <sql id="sql_where">
-        <if test="staffName !=null and staffName!=''">
-            and h.staff_name like '%${staffName}%'
+        <where>
+                h.deleted = 0
+            <if test="staffName !=null and staffName!=''">
+                and h.staff_name like CONCAT('%',#{staffName},'%')
+            </if>
+        </where>
+    </sql>
+    <sql id="sql_order">
+        <if test="sort == null and order == null ">
+            ORDER BY h.create_time DESC
+        </if>
+        <if test="sort !=null and order!=null">
+            ORDER BY ${sort} ${order}
         </if>
     </sql>
 
@@ -36,7 +46,7 @@
         <include refid="sql_column"/>
         FROM kq_holiday h
         <include refid="sql_where"/>
-        ORDER BY h.create_time DESC
+        <include refid="sql_order"/>
         <if test="page !=null ">
             limit #{start} , #{rows}
         </if>

@@ -16,7 +16,6 @@ public class HolidayDto extends BaseDto {
     private BigDecimal hours;
     private String startTime;
     private String endTime;
-    private Integer year;
     private String reason;
     private String remark;
     private Integer systemSource;
