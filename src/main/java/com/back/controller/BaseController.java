@@ -4,7 +4,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
 import java.util.HashMap;
@@ -52,27 +51,36 @@ public class BaseController {
 			// 读取cookie
 //			hashMap.putAll(ReadCookieMap(request));
 		}
+
+		/*easyui分页字段*/
 		if (StringUtils.isNotBlank(request.getParameter("rows")) && StringUtils.isNotBlank(request.getParameter("page"))){
 			int rows = Integer.valueOf(request.getParameter("rows"));
 			int page = Integer.valueOf(request.getParameter("page"));
 			int nowPage =(page - 1) * rows;
-			hashMap.put("page", nowPage);
-			hashMap.put("rows", rows);
+			hashMap.put("start", nowPage);
+			hashMap.put("limit", rows);
+		}
+		/*easyui排序字段*/
+		if (StringUtils.isNotBlank(request.getParameter("sort")) && StringUtils.isNotBlank(request.getParameter("order"))) {
+			String sort = request.getParameter("sort");
+			String order = request.getParameter("order");
+			hashMap.put("sort", sort);
+			hashMap.put("order", order);
 		}
 		return hashMap;
 	}
-	/**
-	 * 将cookie封装到Map里面
-	 */
-	private static Map<String, String> ReadCookieMap(HttpServletRequest request) {
-		Map<String, String> cookieMap = new HashMap<>();
-		Cookie[] cookies = request.getCookies();
-		if (null != cookies) {
-			for (Cookie cookie : cookies) {
-				cookieMap.put(cookie.getName(), cookie.getValue());
-			}
-		}
-		return cookieMap;
-	}
+//	/**
+//	 * 将cookie封装到Map里面
+//	 */
+//	private static Map<String, String> ReadCookieMap(HttpServletRequest request) {
+//		Map<String, String> cookieMap = new HashMap<>();
+//		Cookie[] cookies = request.getCookies();
+//		if (null != cookies) {
+//			for (Cookie cookie : cookies) {
+//				cookieMap.put(cookie.getName(), cookie.getValue());
+//			}
+//		}
+//		return cookieMap;
+//	}
 
 }

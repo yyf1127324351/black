@@ -37,7 +37,7 @@
             ORDER BY h.create_time DESC
         </if>
         <if test="sort !=null and order!=null">
-            ORDER BY ${sort} ${order}
+            ORDER BY h.${sort} ${order}
         </if>
     </sql>
 
