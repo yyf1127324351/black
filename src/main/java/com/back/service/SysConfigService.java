@@ -12,5 +12,7 @@ public interface SysConfigService {
 
     BaseResponse getSysConfigPageList(HashMap<String, Object> map);
 
-    void updateSysConfigType(SysConfigTypeDto paramModel);
+    void updateSysConfigType(SysConfigTypeDto sysConfigTypeDto);
+
+    void addSysConfigType(SysConfigTypeDto sysConfigTypeDto);
 }

@@ -56,6 +56,20 @@ public class SysConfigController extends BaseController {
     /**
      * 更新参数类型
      */
+    @RequestMapping("/addSysConfigType")
+    @ResponseBody
+    public BaseResponse addSysConfigType(SysConfigTypeDto paramModel) {
+        try {
+            sysConfigService.addSysConfigType(paramModel);
+            return BaseResponse.success();
+        } catch (Exception e) {
+            log.error("addSysConfigType:{}", e.getMessage());
+            return BaseResponse.error();
+        }
+    }
+    /**
+     * 更新参数类型
+     */
     @RequestMapping("/updateSysConfigType")
     @ResponseBody
     public BaseResponse updateSysConfigType(SysConfigTypeDto paramModel) {

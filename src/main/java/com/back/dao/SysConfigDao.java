@@ -13,5 +13,7 @@ public interface SysConfigDao {
 
     List<SysConfigValueDto> getSysConfigPageList(HashMap<String, Object> map);
 
-    void updateSysConfigType();
+    void updateSysConfigType(SysConfigTypeDto paramModel);
+
+    void addSysConfigType(SysConfigTypeDto sysConfigTypeDto);
 }

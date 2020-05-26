@@ -54,6 +54,7 @@ $(document).ready(function () {
                     } else if(item.text == '编辑参数类型') {
                         $('#addEditTypeDialog').dialog('setTitle','编辑参数类型');
                         $('#addEditTypeDialog').dialog('open');
+                        $('#id').val(node.id);
                         $('#typeCode1').textbox('setText',node.code);
                         $('#typeName1').textbox('setText',node.text);
                         $('#sortNumber1').numberbox('setValue',node.sort);
@@ -164,11 +165,12 @@ $(document).ready(function () {
             },
             {title: '参数键Key', field: 'paramKey', width: 80, align: 'center'},
             {title: '参数值Value', field: 'paramValue', width: 230, align: 'center'},
-            {title: '参数类型', field: 'typeName', width: 200, align: 'center'},
-            {title: '参数类型编码', field: 'typeCode', width: 200, align: 'center'},
-            {title: '参数类型ID', field: 'typeId', width: 100, align: 'center'}
+            {title: '参数类型', field: 'typeName', width: 200, align: 'center'}
+
         ]],
         columns: [[
+            {title: '参数类型编码', field: 'typeCode', width: 200, align: 'center'},
+            {title: '参数类型ID', field: 'typeId', width: 100, align: 'center'},
             {title: '参数描述', field: 'describe', width: 210, align: 'center'},
             {title: '参数备注', field: 'remark', width: 200, align: 'center'}
         ]]
@@ -196,10 +198,10 @@ function treeClickQueryList(typeId) {
     $('#data_table').datagrid({url: '/sysConfig/getSysConfigPageList', queryParams: data});
 }
 function addUpdateSysConfigType(){
-    var url = "/sysConfig/addSysConfigType";
+    var url = '/sysConfig/addSysConfigType';
     var id = $('#id').val();
     if (null != id && '' != id) {
-        url = "/sysConfig/updateSysConfigType";
+        url = '/sysConfig/updateSysConfigType';
     }
     var typeCode = $('#typeCode1').textbox('getText').replace(/\s+/g, "");
     var typeName = $('#typeName1').textbox('getText').replace(/\s+/g, "");

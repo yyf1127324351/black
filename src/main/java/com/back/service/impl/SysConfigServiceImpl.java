@@ -4,7 +4,6 @@ import com.back.dao.SysConfigDao;
 import com.back.model.SysConfigTypeDto;
 import com.back.model.SysConfigValueDto;
 import com.back.service.SysConfigService;
-import com.back.vo.MenuVo;
 import com.back.vo.TreeNode;
 import com.common.BaseResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +54,12 @@ public class SysConfigServiceImpl implements SysConfigService {
     }
 
     @Override
-    public void updateSysConfigType(SysConfigTypeDto paramModel) {
-        sysConfigDao.updateSysConfigType();
+    public void updateSysConfigType(SysConfigTypeDto sysConfigTypeDto) {
+        sysConfigDao.updateSysConfigType(sysConfigTypeDto);
+    }
+
+    @Override
+    public void addSysConfigType(SysConfigTypeDto sysConfigTypeDto) {
+        sysConfigDao.addSysConfigType(sysConfigTypeDto);
     }
 }

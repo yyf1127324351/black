@@ -2,6 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.back.dao.SysConfigDao">
+    <insert id="addSysConfigType">
+        INSERT INTO sys_config_type (
+          type_code,name,sort_number
+        )VALUES (
+          #{typeCode}, #{name}, #{sortNumber}
+        )
+    </insert>
 
     <select id="getAllConfigType" resultType="com.back.model.SysConfigTypeDto">
         SELECT
