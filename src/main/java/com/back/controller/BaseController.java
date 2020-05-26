@@ -58,7 +58,7 @@ public class BaseController {
 			int page = Integer.valueOf(request.getParameter("page"));
 			int nowPage =(page - 1) * rows;
 			hashMap.put("start", nowPage);
-			hashMap.put("limit", rows);
+			hashMap.put("rows", rows);
 		}
 		/*easyui排序字段*/
 		if (StringUtils.isNotBlank(request.getParameter("sort")) && StringUtils.isNotBlank(request.getParameter("order"))) {

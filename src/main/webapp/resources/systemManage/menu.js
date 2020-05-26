@@ -70,8 +70,8 @@ $(document).ready(function () {
             // node.id = node.id.split("_")[0];
         },
         onLoadSuccess: function (node) {
-            $(".tree-icon,.tree-file").removeClass("tree-icon tree-file");
-            $(".tree-icon,.tree-folder").removeClass("tree-icon tree-folder tree-folder-open tree-folder-closed");
+            // $(".tree-icon,.tree-file").removeClass("tree-icon tree-file"); //去掉 子图标
+            $(".tree-icon,.tree-folder").removeClass("tree-icon tree-folder tree-folder-open tree-folder-closed"); //去掉父图标
         }
     });
 
@@ -128,10 +128,6 @@ $(document).ready(function () {
         pageList: [50, 100, 200],
         toolbar: '#button_tab',
         onLoadSuccess: function (data) {
-            if (data.isOk == false) {
-                $.messager.alert('提示', data.msg);
-                console.log(data.data);
-            }
         },
         onClickRow:function (rowIndex, rowData) {
             var menuId = rowData.id;
@@ -213,8 +209,15 @@ function getMenuIds(node) {
     return finalMenuIds;
 }
 
+function clearQuery() {
+    $('#search_form').form('clear');
+    $('#menu_tree').tree('reload');
+    queryList();
+}
+
 function queryList() {
     var data = getFormData("search_form");
+    $('#menu_tree').tree('reload');
     $('#data_table').datagrid({url: '/menu/getMenuPageList', queryParams: data});
 }
 
@@ -222,12 +225,6 @@ function treeClickQueryList(menuIds) {
     var data = getFormData("search_form");
     data.menuIds = menuIds;
     $('#data_table').datagrid({url: '/menu/getMenuPageList', queryParams: data});
-}
-
-function clearQuery() {
-    $('#search_form').form('clear');
-    $('#menu_tree').tree('reload');
-    queryList();
 }
 
 function addMenu(node) {

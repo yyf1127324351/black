@@ -1,4 +1,4 @@
-package com.back.model;
+package com.back.vo;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -14,7 +14,7 @@ import java.util.List;
 @Setter
 public class TreeNode {
 
-    private Integer id;
+    private Long id;
     private String name;
     private String code;
     private Integer type;//类型 0菜单 1按钮
@@ -36,11 +36,6 @@ public class TreeNode {
 
     public TreeNode() {
         super();
-    }
-    public TreeNode(Integer id, String text) {
-        super();
-        this.id = id;
-        this.text = text;
     }
     /**
      * 转化成easyui tree需要的树形数据（原始数据只是一个list，转化后list中的对象children属性有list）

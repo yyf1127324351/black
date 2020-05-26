@@ -1,7 +1,10 @@
 package com.back.model;
 
 import lombok.Data;
-
+/**
+ * 菜单表实体类
+ * menu表
+ * */
 @Data
 public class MenuDto extends BaseDto {
     private Integer id;

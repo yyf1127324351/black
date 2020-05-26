@@ -13,7 +13,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations={"classpath:spring.xml","classpath:logback.xml", "classpath:spring-mvc.xml"})
+@ContextConfiguration(locations={"classpath:spring.xml", "classpath:spring-mvc.xml"})
 @WebAppConfiguration
 public class TestA {
     private static Logger logger = LoggerFactory.getLogger(TestA.class);
@@ -23,6 +23,12 @@ public class TestA {
 
     @Test
     public void test(){
+        String calculateDate = "2020-05-01";
+        String year = calculateDate.substring(0, 4);
+        String month = Integer.valueOf(calculateDate.substring(5, 7)).toString();
+        System.out.println("aaa");
+
+
 //        BaseResponse baseResponse = holidayService.getHolidayPageList(new Holiday());
 //        String redirectUrl = "http://192.168.4.6:8088/hr/goHr?lb_sso_token";
 //        String redirectUrl = "http://192.168.4.6:8088/hr/goHr";
@@ -34,10 +40,10 @@ public class TestA {
 //
 //        System.out.println(redirectUrl);
 
-       String domain = getCookieDomain("https://www.2345.com/");
-        System.out.println(domain);
-        String domain2 = get("https://www.2345.com/");
-        System.out.println(domain2);
+//       String domain = getCookieDomain("https://www.2345.com/");
+//        System.out.println(domain);
+//        String domain2 = get("https://www.2345.com/");
+//        System.out.println(domain2);
 
     }
 

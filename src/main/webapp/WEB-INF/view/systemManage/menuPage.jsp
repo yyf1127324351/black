@@ -30,12 +30,16 @@
                             <label class="search-label">菜单名称:</label>
                             <input name="name" class="easyui-textbox" type="text" style="width: 120px;">
                         </div>
+                        <div class="form-group">
+                            <a class="easyui-linkbutton" style="height: 22px" data-options="iconCls:'icon-search'" onclick="queryList()" >搜索</a>
+                            <a class="easyui-linkbutton" style="height: 22px" data-options="iconCls:'icon-clear'"  onclick="javascript:clearQuery()" >重置</a>
+                        </div>
                     </div>
                 </div>
             </form>
         </div>
         <div data-options="region:'center'">
-            <div id="button_tab" style="">
+           <%-- <div id="button_tab" style="">
                 <table class="button_table">
                     <td style="height: 20px;width: 100%">
                         <a class="easyui-linkbutton toolButton" onclick="queryList()"
@@ -44,7 +48,7 @@
                            style="margin-top: 2px">重置</a>
                     </td>
                 </table>
-            </div>
+            </div>--%>
             <table id="data_table" style="height: 100%;"></table>
         </div>
     </div>
