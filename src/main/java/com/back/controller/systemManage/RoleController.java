@@ -1,6 +1,7 @@
 package com.back.controller.systemManage;
 
 import com.back.controller.BaseController;
+import com.back.model.RoleDto;
 import com.back.service.RoleService;
 import com.common.BaseResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -45,4 +46,22 @@ public class RoleController extends BaseController{
         }
 
     }
+
+    /**
+     * 更新角色
+     */
+    @RequestMapping(value = "/updateRole", method = RequestMethod.POST)
+    @ResponseBody
+    public BaseResponse updateRole(RoleDto roleDto) {
+        try {
+            roleService.updateRole(roleDto);
+            return BaseResponse.success();
+        } catch (Exception e) {
+            log.error("updateRoleStatus:{}", e.getMessage());
+            return BaseResponse.error();
+        }
+
+    }
+
+
 }

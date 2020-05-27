@@ -103,6 +103,37 @@ function queryList() {
 function addUpdateRole() {
     
 }
+function offUseRole(id) {
+    updateRoleStatus(id,2);
+}
+function onUseRole(id) {
+    updateRoleStatus(id,1);
+}
+function updateRoleStatus(id,status){
+    $.messager.progress();	//防止重复提交
+    $.ajax({
+        type : "POST",
+        url : '/role/updateRole',
+        data : {
+            "id": id,
+            "status":status
+        },
+        dataType: "json",
+        success : function(result) {
+            $.messager.progress('close');
+            if(result.code == 200){
+                queryList();
+            }else {
+                layer.alert(result.message, {icon: 5, title: "提示"});
+            }
+        },
+        error :function(){
+            $.messager.progress('close');
+            layer.alert('系统异常', {icon: 5, title: "提示"});
+        }
+    });
+}
+
 
 function getFormData(form) {
     var array = $("#" + form).serializeArray();

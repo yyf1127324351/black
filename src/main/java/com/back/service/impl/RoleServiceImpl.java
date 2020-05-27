@@ -24,4 +24,9 @@ public class RoleServiceImpl implements RoleService{
         baseResponse.setRows(list);
         return baseResponse;
     }
+
+    @Override
+    public void updateRole(RoleDto roleDto) {
+        roleDao.updateRole(roleDto);
+    }
 }
