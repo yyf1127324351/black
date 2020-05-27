@@ -14,6 +14,7 @@ public class SysConfigValueDto extends BaseDto{
     private String paramValue; //参数值
     private String describe; //描述
     private String remark;//备注
+    private Integer status;//状态 1有效 2已失效
 
     //sys_config_type 表 name
     private String typeName; //参数类型

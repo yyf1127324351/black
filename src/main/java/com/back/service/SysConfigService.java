@@ -1,6 +1,7 @@
 package com.back.service;
 
 import com.back.model.SysConfigTypeDto;
+import com.back.model.SysConfigValueDto;
 import com.back.vo.TreeNode;
 import com.common.BaseResponse;
 
@@ -15,4 +16,10 @@ public interface SysConfigService {
     void updateSysConfigType(SysConfigTypeDto sysConfigTypeDto);
 
     void addSysConfigType(SysConfigTypeDto sysConfigTypeDto);
+
+    void addSysConfigValue(SysConfigValueDto sysConfigValueDto);
+
+    void deleteSysConfigType(Long typeId);
+
+    void updateSysConfigValue(SysConfigValueDto sysConfigValueDto);
 }

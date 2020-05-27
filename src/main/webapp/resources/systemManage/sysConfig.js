@@ -60,7 +60,7 @@ $(document).ready(function () {
                         $('#sortNumber1').numberbox('setValue',node.sort);
                     } else if(item.text == '删除参数类型') {
                         layer.confirm('确认删除该参数类型的所有系统参数？', {icon: 3},function () {
-                            deleteSysConfigType(node);
+                            deleteSysConfigType(node.id);
                         });
                     }
                 }
@@ -155,16 +155,34 @@ $(document).ready(function () {
             $('#sysConfig_tree').tree('select', node.target);
         },
         frozenColumns: [[
-            {title: '操作', field: 'id', width: 100, align: 'center',
-                formatter: function (val, row) {
-                    var id = row.id;
+            {title: '操作', field: 'id', width: 110, align: 'center',
+                formatter: function (val, row, index) {
                     var html = "";
-                    html = html + '<a class="sel_btn ch_cls" onclick="openEdit()" style="text-decoration:none;">编辑</a>';
+                    var status = row.status;
+                    var id = row.id;
+                    var typeId = row.typeId;
+                    if (status == 1){
+                        html = html + '<a class="sel_btn ch_cls" onclick="offUse(' + id + ',' + typeId + ')" style="text-decoration:none;">停用</a>&nbsp;';
+                        html = html + '<a class="sel_btn ch_cls" onclick="openEdit(' + index + ')" style="text-decoration:none;">编辑</a>';
+                    }else {
+                        html = html + '<a class="sel_btn ch_cls" onclick="onUse(' + id + ',' + typeId + ')" style="text-decoration:none;">启用</a>';
+                    }
                     return html;
                 }
             },
+            {title: '状态', field: 'status', width: 50, align: 'center',
+                formatter: function (val, row, index) {
+                    var status = row.status;
+                    if (status == 1) {
+                        return "使用中";
+                    }else {
+                        return "<font color='#216DDD'>已停用</font>";
+                    }
+
+                }
+            },
             {title: '参数键Key', field: 'paramKey', width: 80, align: 'center'},
-            {title: '参数值Value', field: 'paramValue', width: 230, align: 'center'},
+            {title: '参数值Value', field: 'paramValue', width: 220, align: 'center'},
             {title: '参数类型', field: 'typeName', width: 200, align: 'center'}
 
         ]],
@@ -244,6 +262,146 @@ function addUpdateSysConfigType(){
                 $('#sysConfig_tree').tree('reload');
                 queryList();
                 $("#addEditTypeDialog").dialog('close');
+            }else {
+                layer.alert(result.message, {icon: 5, title: "提示"});
+            }
+        },
+        error :function(){
+            $.messager.progress('close');
+            layer.alert('系统异常', {icon: 5, title: "提示"});
+        }
+    });
+
+}
+
+function deleteSysConfigType(typeId) {
+    $.messager.progress();	//防止重复提交
+    $.ajax({
+        type : "POST",
+        url : "/sysConfig/deleteSysConfigType",
+        data : {
+            "typeId": typeId
+        },
+        dataType: "json",
+        success : function(result) {
+            $.messager.progress('close');
+            if(result.code == 200){
+                layer.alert('操作成功', {icon: 6, title: "提示"});
+                $('#sysConfig_tree').tree('reload');
+                queryList();
+            }else {
+                layer.alert(result.message, {icon: 5, title: "提示"});
+            }
+        },
+        error :function(){
+            $.messager.progress('close');
+            layer.alert('系统异常', {icon: 5, title: "提示"});
+        }
+    });
+}
+function openEdit(index){
+    $("#data_table").datagrid('selectRow',index);
+    var row = $("#data_table").datagrid('getSelected');
+    $('#addEditDialog').dialog('setTitle','修改系统参数');
+    $('#addEditDialog').dialog('open');
+
+    $('#ValueId').val(row.id);
+    $('#paramKey').textbox('setText',row.paramKey);
+    $('#paramValue').textbox('setText',row.paramValue);
+    $('#describe').textbox('setText',row.describe);
+    $('#remark').textbox('setText',row.remark);
+
+    $('#typeName').textbox('setText',row.typeName);
+    $('#typeName').textbox('textbox').css('background','#ccc');
+    $('#typeCode').textbox('setText',row.typeCode);
+    $('#typeCode').textbox('textbox').css('background','#ccc');
+    $('#typeId').textbox('setText',row.typeId);
+    $('#typeId').textbox('textbox').css('background','#ccc');
+}
+
+function offUse(id,typeId) {
+    updateSysConfigValueStatus(id,typeId,2);
+}
+function onUse(id,typeId) {
+    updateSysConfigValueStatus(id,typeId,1);
+}
+function updateSysConfigValueStatus(id,typeId,status){
+    $.messager.progress();	//防止重复提交
+    $.ajax({
+        type : "POST",
+        url : '/sysConfig/updateSysConfigValue',
+        data : {
+            "id": id,
+            "status":status
+        },
+        dataType: "json",
+        success : function(result) {
+            $.messager.progress('close');
+            if(result.code == 200){
+                // queryList();
+                treeClickQueryList(typeId);
+            }else {
+                layer.alert(result.message, {icon: 5, title: "提示"});
+            }
+        },
+        error :function(){
+            $.messager.progress('close');
+            layer.alert('系统异常', {icon: 5, title: "提示"});
+        }
+    });
+}
+
+function addUpdateSysConfig() {
+    var url = '/sysConfig/addSysConfigValue';
+    var id = $('#valueId').val();
+    if (null != id && '' != id) {
+        url = '/sysConfig/updateSysConfigValue';
+    }
+    var paramKey = $('#paramKey').textbox('getText').replace(/\s+/g, "");
+    var paramValue = $('#paramValue').textbox('getText').replace(/\s+/g, "");
+    if (null == paramKey || '' == paramKey) {
+        layer.alert('参数键Key不能为空！', {icon: 0, title: "提示"});
+        return;
+    }
+    if (paramKey.length > 30){
+        layer.alert('参数键Key不能超过30个字符！', {icon: 0, title: "提示"});
+        return;
+    }
+    if (null == paramValue || '' == paramValue) {
+        layer.alert('参数值Value不能为空！', {icon: 0, title: "提示"});
+        return;
+    }
+    if (paramValue.length > 20){
+        layer.alert('参数值Value不能超过20个字符！', {icon: 0, title: "提示"});
+        return;
+    }
+    var describe = $('#describe').textbox('getText').replace(/\s+/g, "");
+    var remark = $('#remark').textbox('getText').replace(/\s+/g, "");
+    var typeName = $('#typeName').textbox('getText').replace(/\s+/g, "");
+    var typeCode = $('#typeCode').textbox('getText').replace(/\s+/g, "");
+    var typeId = $('#typeId').textbox('getText').replace(/\s+/g, "");
+    $.messager.progress();	//防止重复提交
+    $.ajax({
+        type : "POST",
+        url : url,
+        data : {
+            "id": id,
+            "paramKey":paramKey,
+            "paramValue":paramValue,
+            "describe":describe,
+            "remark":remark,
+            "typeName":typeName,
+            "typeCode":typeCode,
+            "typeId":typeId
+        },
+        dataType: "json",
+        success : function(result) {
+            $.messager.progress('close');
+            if(result.code == 200){
+                layer.alert('操作成功', {icon: 6, title: "提示"});
+                // queryList();
+                treeClickQueryList(typeId);
+                $("#addEditDialog").dialog('close');
             }else {
                 layer.alert(result.message, {icon: 5, title: "提示"});
             }

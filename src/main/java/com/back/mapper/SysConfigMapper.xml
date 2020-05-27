@@ -9,6 +9,13 @@
           #{typeCode}, #{name}, #{sortNumber}
         )
     </insert>
+    <insert id="addSysConfigValue">
+        INSERT INTO sys_config_value (
+          type_id,param_key,param_value,`describe`,remark
+        )VALUES (
+          #{typeId},#{paramKey},#{paramValue},#{describe},#{remark}
+        )
+    </insert>
 
     <select id="getAllConfigType" resultType="com.back.model.SysConfigTypeDto">
         SELECT
@@ -35,6 +42,9 @@
             </if>
             <if test="typeId !=null ">
                 and v.type_id = #{typeId}
+            </if>
+            <if test="status !=null and status != 0">
+                and v.status = #{status}
             </if>
             <if test="ids != null and ids.size()>0">
                 and t.id IN
@@ -69,6 +79,7 @@
         v.param_value AS paramValue,
         v.describe,
         v.remark as remark,
+        v.status as status,
         t.type_code as typeCode,
         t.name as typeName
         FROM sys_config_value v
@@ -97,6 +108,39 @@
             </if>
         </set>
         WHERE id = #{id}
+    </update>
+    <update id="updateSysConfigValue">
+        UPDATE sys_config_value
+        <set>
+            <if test="typeId != null and typeId != ''">
+                type_id = #{typeId},
+            </if>
+            <if test="paramKey != null and paramKey != ''">
+                param_key = #{paramKey},
+            </if>
+            <if test="paramValue != null and paramValue != ''">
+                param_value = #{paramValue},
+            </if>
+            <if test="describe != null ">
+                `describe` = #{describe},
+            </if>
+            <if test="remark != null ">
+                `remark` = #{remark},
+            </if>
+            <if test="status != null ">
+                status = #{status},
+            </if>
+            <if test="deleted != null ">
+                deleted = #{deleted}
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+    <update id="deleteSysConfigType">
+        UPDATE sys_config_type SET deleted = 1 WHERE id =#{typeId}
+    </update>
+    <update id="deleteSysConfigValueByTypeId">
+        UPDATE sys_config_value SET deleted = 1 WHERE type_id =#{typeId}
     </update>
 
 </mapper>

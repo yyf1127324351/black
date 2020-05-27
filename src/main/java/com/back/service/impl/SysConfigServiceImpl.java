@@ -62,4 +62,20 @@ public class SysConfigServiceImpl implements SysConfigService {
     public void addSysConfigType(SysConfigTypeDto sysConfigTypeDto) {
         sysConfigDao.addSysConfigType(sysConfigTypeDto);
     }
+
+    @Override
+    public void addSysConfigValue(SysConfigValueDto sysConfigValueDto) {
+        sysConfigDao.addSysConfigValue(sysConfigValueDto);
+    }
+
+    @Override
+    public void deleteSysConfigType(Long typeId) {
+        sysConfigDao.deleteSysConfigType(typeId);
+        sysConfigDao.deleteSysConfigValueByTypeId(typeId);
+    }
+
+    @Override
+    public void updateSysConfigValue(SysConfigValueDto sysConfigValueDto) {
+        sysConfigDao.updateSysConfigValue(sysConfigValueDto);
+    }
 }

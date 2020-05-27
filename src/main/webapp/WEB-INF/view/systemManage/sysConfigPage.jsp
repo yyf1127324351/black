@@ -63,6 +63,7 @@
 
 <div style="display:none">
     <div id="addEditDialog" class="dialog">
+        <input type="hidden" id="valueId"/>
         <table style="width:95%;margin:10px 10px 0 20px;">
             <tr style="height:30px;">
                 <th style="width: 110px;text-align:right;" >参数键Key：<font size="3" color="red">*</font></th>
