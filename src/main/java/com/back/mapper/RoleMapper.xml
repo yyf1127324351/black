@@ -32,6 +32,43 @@
             ORDER BY r.${sort} ${order}
         </if>
     </sql>
+    <insert id="addRole">
+        INSERT INTO auth_role (
+            role_code,
+            role_name,
+            status,
+            remark,
+            create_user
+        )VALUES (
+            #{roleCode}, #{roleName}, 1, #{remark}, #{createUser}
+        )
+    </insert>
+
+    <update id="updateRole">
+        UPDATE auth_role
+        <set>
+            update_time = #{updateTime},
+            <if test="roleCode != null and roleCode != ''">
+                role_code = #{roleCode},
+            </if>
+            <if test="roleName != null and roleName != ''">
+                role_name = #{roleName},
+            </if>
+            <if test="remark != null ">
+                `remark` = #{remark},
+            </if>
+            <if test="status != null ">
+                status = #{status},
+            </if>
+            <if test="deleted != null ">
+                deleted = #{deleted},
+            </if>
+            <if test="updateUser != null ">
+                update_user = #{updateUser},
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
 
     <select id="getRolePageList" resultType="com.back.model.RoleDto">
         SELECT
@@ -48,27 +85,5 @@
         FROM auth_role r
         <include refid="sql_where"/>
     </select>
-
-    <update id="updateRole">
-        UPDATE auth_role
-        <set>
-            <if test="roleCode != null and roleCode != ''">
-                role_code = #{roleCode},
-            </if>
-            <if test="roleName != null and roleName != ''">
-                role_name = #{roleName},
-            </if>
-            <if test="remark != null ">
-                `remark` = #{remark},
-            </if>
-            <if test="status != null ">
-                status = #{status},
-            </if>
-            <if test="deleted != null ">
-                deleted = #{deleted}
-            </if>
-        </set>
-        WHERE id = #{id}
-    </update>
 
 </mapper>

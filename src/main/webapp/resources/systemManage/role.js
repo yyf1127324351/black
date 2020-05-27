@@ -5,9 +5,9 @@ $(document).ready(function () {
         }
     };
 
-    $("#addEditDialog").dialog({
-        width:'600',
-        height:'330',
+    $("#addEditRoleDialog").dialog({
+        width:'440',
+        height:'195',
         close : true,
         shadow:false,
         modal:true,
@@ -21,7 +21,7 @@ $(document).ready(function () {
             text:'取消',
             iconCls:'icon-cancel',
             handler:function(){
-                $('#addEditDialog').dialog('close');
+                $('#addEditRoleDialog').dialog('close');
             }
         }],
         onClose:function(){
@@ -29,6 +29,7 @@ $(document).ready(function () {
             $('#id').val('');
             $('#roleCode').textbox('clear');
             $('#roleName').textbox('clear');
+            $('#remark').textbox('clear');
         },
         closable: true,
         closed: true   //已关闭
@@ -43,7 +44,6 @@ $(document).ready(function () {
         fitColumns: true, //自适应网格宽度
         showFooter: false, //是否显示最后一行，统计使用
         pagination: true,
-        checkbox: true,
         singleSelect: true,
         rownumbers: true,
         pageSize: 50,
@@ -52,14 +52,15 @@ $(document).ready(function () {
         onLoadSuccess: function (data) {
         },
         frozenColumns: [[
-            {title: '操作', field: 'id', width: 110, align: 'center',
-                formatter: function (val, row, index) {
+            {title: '操作', field: 'id', width: 180, align: 'center',
+                formatter: function (val, row) {
                     var html = "";
                     var status = row.status;
                     var id = row.id;
                     if (status == 1){
                         html = html + '<a class="sel_btn ch_cls" onclick="offUseRole(' + id + ')" style="text-decoration:none;">停用</a>&nbsp;';
-                        html = html + '<a class="sel_btn ch_cls" onclick="openEdit(' + index + ')" style="text-decoration:none;">编辑</a>';
+                        html = html + '<a class="sel_btn ch_cls" onclick="editInfo(' + id + ')" style="text-decoration:none;">编辑</a>&nbsp;';
+                        html = html + '<a class="sel_btn ch_cls" onclick="authEdit(' + id + ')" style="text-decoration:none;">分配权限</a>';
                     }else {
                         html = html + '<a class="sel_btn ch_cls" onclick="onUseRole(' + id + ')" style="text-decoration:none;">启用</a>';
                     }
@@ -82,7 +83,7 @@ $(document).ready(function () {
 
         ]],
         columns: [[
-            {title: '备注', field: 'remark', width: 200, align: 'center'}
+            {title: '备注', field: 'remark', width: 130, align: 'center'}
         ]]
 
 
@@ -99,9 +100,70 @@ function queryList() {
     var data = getFormData("search_form");
     $('#data_table').datagrid({url: '/role/getRolePageList', queryParams: data});
 }
+function addInfo() {
+    $('#addEditRoleDialog').dialog('setTitle','新增角色');
+    $('#addEditRoleDialog').dialog('open');
+}
+function editInfo(id) {
+    $('#addEditRoleDialog').dialog('setTitle','编辑角色');
+    $('#addEditRoleDialog').dialog('open');
+    var rowDate = $("#data_table").datagrid('getSelected');
+    $('#id').val(id);
+    $('#roleCode').textbox('setText',rowDate.roleCode);
+    $('#roleName').textbox('setText',rowDate.roleName);
+    $('#remark').textbox('setText',rowDate.remark);
+}
 
 function addUpdateRole() {
-    
+    var url = '/role/addRole';
+    var id = $('#id').val();
+    if (null != id && '' != id) {
+        url = '/role/updateRole';
+    }
+    var roleCode = $('#roleCode').textbox('getText').replace(/\s+/g, "");
+    var roleName = $('#roleName').textbox('getText').replace(/\s+/g, "");
+    var remark = $('#remark').textbox('getText').replace(/\s+/g, "");
+    if (null == roleCode || '' == roleCode) {
+        layer.alert('角色编码不能为空！', {icon: 0, title: "提示"});
+        return;
+    }
+    if (roleCode.length > 30){
+        layer.alert('角色编码不能超过30个字符！', {icon: 0, title: "提示"});
+        return;
+    }
+    if (null == roleName || '' == roleName) {
+        layer.alert('角色名称不能为空！', {icon: 0, title: "提示"});
+        return;
+    }
+    if (roleName.length > 20){
+        layer.alert('角色名称不能超过20个字符！', {icon: 0, title: "提示"});
+        return;
+    }
+    $.messager.progress();	//防止重复提交
+    $.ajax({
+        type : "POST",
+        url : url,
+        data : {
+            "id": id,
+            "roleCode":roleCode,
+            "roleName":roleName,
+            "remark":remark
+        },
+        dataType: "json",
+        success : function(result) {
+            $.messager.progress('close');
+            if(result.code == 200){
+                queryList();
+                $('#addEditRoleDialog').dialog('close');
+            }else {
+                layer.alert(result.message, {icon: 5, title: "提示"});
+            }
+        },
+        error :function(){
+            $.messager.progress('close');
+            layer.alert('系统异常', {icon: 5, title: "提示"});
+        }
+    });
 }
 function offUseRole(id) {
     updateRoleStatus(id,2);

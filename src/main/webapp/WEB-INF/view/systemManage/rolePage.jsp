@@ -47,19 +47,25 @@
     <table id="data_table" style="height: 100%;"></table>
 </div>
 <div style="display:none">
-    <div id="addEditDialog" class="dialog">
-        <input type="hidden" id="id" name="id"/>
-        <table style="width:95%;margin:10px 10px 0 20px;">
+    <div id="addEditRoleDialog" class="dialog">
+        <input type="hidden" id="id"/>
+        <table style="width:95%;margin:10px 10px 10px 10px;">
             <tr style="height:30px;">
-                <th style="width: 110px;text-align:right;" >角色编码：<font size="3" color="red">*</font></th>
+                <th style="width: 80px;text-align:right;" >角色编码：<font size="3" color="red">*</font></th>
                 <td style="align:center;">
                     <input id="roleCode" class="easyui-textbox" prompt="1/30" type="text" style="width: 300px;"data-options="validType:'length[1,30]'"/>
                 </td>
             </tr>
             <tr style="height:30px;">
-                <th style="width: 110px;text-align:right;">角色名称：<font size="3" color="red">*</font></th>
+                <th style="width: 80px;text-align:right;">角色名称：<font size="3" color="red">*</font></th>
                 <td style="align:center;">
                     <input id="roleName" class="easyui-textbox" prompt="1/30" type="text" style="width: 300px;"data-options="validType:'length[1,30]'"/>
+                </td>
+            </tr>
+            <tr style="height:30px;">
+                <th style="width: 80px;text-align:right;">备注：&nbsp;&nbsp;</th>
+                <td style="align:center;">
+                    <input id="remark" class="easyui-textbox"  type="text" style="width: 300px;"/>
                 </td>
             </tr>
 

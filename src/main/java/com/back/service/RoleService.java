@@ -9,4 +9,6 @@ public interface RoleService {
     BaseResponse getRolePageList(HashMap<String, Object> map);
 
     void updateRole(RoleDto roleDto);
+
+    void addRole(RoleDto roleDto);
 }

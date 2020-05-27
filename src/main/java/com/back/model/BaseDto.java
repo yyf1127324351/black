@@ -13,10 +13,10 @@ public class BaseDto {
     private Integer deleted;
     private Long createUser;
     private String createUserName;
-    private String createTime;
+    private Date createTime;
     private Long updateUser;
     private String updateUserName;
-    private String updateTime;
+    private Date updateTime;
 
     /*登陆人权限*/
 

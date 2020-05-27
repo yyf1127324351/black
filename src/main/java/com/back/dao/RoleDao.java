@@ -11,4 +11,6 @@ public interface RoleDao {
     List<RoleDto> getRolePageList(HashMap<String, Object> map);
 
     void updateRole(RoleDto roleDto);
+
+    void addRole(RoleDto roleDto);
 }

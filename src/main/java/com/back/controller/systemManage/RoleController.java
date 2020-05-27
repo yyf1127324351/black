@@ -18,7 +18,7 @@ import java.util.HashMap;
 @Controller
 @RequestMapping("/role")
 @Slf4j
-public class RoleController extends BaseController{
+public class RoleController extends BaseController {
 
     @Autowired
     RoleService roleService;
@@ -42,6 +42,22 @@ public class RoleController extends BaseController{
             return roleService.getRolePageList(map);
         } catch (Exception e) {
             log.error("getRolePageList:{}", e.getMessage());
+            return BaseResponse.error();
+        }
+
+    }
+
+    /**
+     * 添加角色
+     */
+    @RequestMapping(value = "/addRole", method = RequestMethod.POST)
+    @ResponseBody
+    public BaseResponse addRole(RoleDto roleDto) {
+        try {
+            roleService.addRole(roleDto);
+            return BaseResponse.success();
+        } catch (Exception e) {
+            log.error("addRole:{}", e.getMessage());
             return BaseResponse.error();
         }
 
