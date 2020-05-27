@@ -6,7 +6,10 @@ import java.util.Date;
 import java.util.List;
 @Data
 public class BaseDto {
+
     /*数据库表基本字段*/
+    private Integer status;
+    private String remark;
     private Integer deleted;
     private Long createUser;
     private String createUserName;
@@ -16,6 +19,5 @@ public class BaseDto {
     private String updateTime;
 
     /*登陆人权限*/
-    private List<String> deptAuthorityList;
 
 }

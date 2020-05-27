@@ -9,7 +9,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="renderer" content="webkit">
-    <title>后台系统登录</title>
+    <title>后台系统</title>
     <link rel="icon" type="image/x-ico" href="/resources/favicon.ico" mce_href="/resources/favicon.ico"/>
     <script type="text/javascript" src="/common/js/jquery-1.11.3.min.js?v=${v}"></script>
     <script type="text/javascript" src="/common/js/jquery.easyui.min.js?v=${v}"></script>
