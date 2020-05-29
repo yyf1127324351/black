@@ -58,11 +58,11 @@ $(document).ready(function () {
                     var status = row.status;
                     var id = row.id;
                     if (status == 1){
-                        html = html + '<a class="sel_btn ch_cls" onclick="offUseRole(' + id + ')" style="text-decoration:none;">停用</a>&nbsp;';
-                        html = html + '<a class="sel_btn ch_cls" onclick="editInfo(' + id + ')" style="text-decoration:none;">编辑</a>&nbsp;';
-                        html = html + '<a class="sel_btn ch_cls" onclick="authEdit(' + id + ')" style="text-decoration:none;">分配权限</a>';
+                        html = html + '<a class="sel_btn ch_cls" href="javascript:offUseRole(' + id + ')" style="text-decoration:none;">停用</a>&nbsp;';
+                        html = html + '<a class="sel_btn ch_cls" href="javascript:editInfo(' + id + ')" style="text-decoration:none;">编辑</a>&nbsp;';
+                        html = html + '<a class="sel_btn ch_cls" href="javascript:authEdit(' + id + ')" style="text-decoration:none;">分配权限</a>';
                     }else {
-                        html = html + '<a class="sel_btn ch_cls" onclick="onUseRole(' + id + ')" style="text-decoration:none;">启用</a>';
+                        html = html + '<a class="sel_btn ch_cls" href="javascript:onUseRole(' + id + ')" style="text-decoration:none;">启用</a>';
                     }
                     return html;
                 }

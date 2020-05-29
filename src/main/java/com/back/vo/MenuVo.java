@@ -60,25 +60,6 @@ public class MenuVo extends BaseVo {
 		return nodeList;
 	}
 
-
-	//填充是否有权限
-	public static void fillChecked(List<MenuVo> allFunctions, List<Long> ownFunctionIdList) {
-		for (MenuVo pf : allFunctions) {
-			if (ownFunctionIdList.contains(pf.getId())) {
-				pf.setChecked(true);
-			}
-		}
-	}
-
-	/**
-	 * 生成一个tree，最外面再包一层
-	 */
-	public static MenuVo genRootTree(Integer id, String text, List<MenuVo> phList) {
-		MenuVo portalRoot = new MenuVo(id, text);
-		portalRoot.setChildren(MenuVo.convertToTreeDataByParentId(phList));
-		return portalRoot;
-	}
-
 	public MenuVo(Integer id, String text) {
 		super();
 		this.id = id;

@@ -72,5 +72,6 @@
         </table>
     </div>
 </div>
+<div id="win"></div>
 </body>
 </html>
