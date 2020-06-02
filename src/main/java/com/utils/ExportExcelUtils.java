@@ -25,7 +25,7 @@ public class ExportExcelUtils {
             out.close();
         } catch (final Exception e) {
             e.printStackTrace();
-            log.error("exportFileException:", e.getMessage());
+            log.error("exportFileException:", e);
         }
     }
 

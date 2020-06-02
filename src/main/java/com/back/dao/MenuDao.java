@@ -2,6 +2,7 @@ package com.back.dao;
 
 import com.back.model.MenuDto;
 import com.back.vo.MenuVo;
+import com.back.vo.TreeNode;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -24,7 +25,9 @@ public interface MenuDao {
 
     void update(MenuVo menuVo);
 
-    List<MenuDto> getMenuByParentId(@Param("parentId") Integer parentId);
+    List<MenuDto> getMenuByParentId(@Param("parentId") Long parentId);
 
     void deleteMenu(MenuVo menuVo);
+
+    List<TreeNode> getAllMenuTreeNode();
 }

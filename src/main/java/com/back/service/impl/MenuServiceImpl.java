@@ -55,7 +55,7 @@ public class MenuServiceImpl implements MenuService {
         if (CollectionUtils.isNotEmpty(menuVoList)) {
             List<MenuVo> newMenuVoList = MenuVo.convertToTreeDataByParentId(menuVoList);
             MenuVo menuVo = new MenuVo();
-            menuVo.setId(0);
+            menuVo.setId(0L);
             menuVo.setState("close");
             menuVo.setText("菜单");
             menuVo.setName("菜单");

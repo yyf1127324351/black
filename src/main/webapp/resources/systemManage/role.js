@@ -1,3 +1,5 @@
+var roleAuth = {};
+
 $(document).ready(function () {
     document.onkeydown = function (e) {
         if (e.keyCode == '13') {
@@ -196,6 +198,106 @@ function updateRoleStatus(id,status){
     });
 }
 
+function authEdit(id) {
+    $("#win").append("<div id='new_win' class='easyui-dialog'>" +
+        "<div style='width:250px;float:left;'>" +
+        "<div style='color:red;margin-top: 10px; margin-left: 10px;font-weight:bold;'>1、菜单权限</div>" +
+        "<ul id='menu_manage_tree' class='easyui-tree' style='margin-left: 10px;'></ul>" +
+        "</div>" +
+        "<div style='width:250px;float:left;'>" +
+        "<div style='color:red;margin-top: 10px; margin-left: 10px;font-weight:bold;'>2、部门权限</div>" +
+        "<ul id='dept_manage_tree' class='easyui-tree' style='margin-left: 10px;'></ul>" +
+        "</div>" +
+        "<div style='width:250px;float:left;'>" +
+        "<div style='color:red;margin-top: 10px; margin-left: 10px;font-weight:bold;'>3、区域权限</div>" +
+        "<ul id='area_manage_tree' class='easyui-tree' style='margin-left: 10px;'></ul>" +
+        "</div>" +
+        "</div>");// 创建一个临时层，关闭销毁。
+    $('#new_win').dialog({
+        title:'人员权限编辑（实时）',
+        width:'800',
+        height:'90%',
+        iconCls:'icon-add',
+        shadow:false,
+        modal:true,
+        onOpen:function(){
+            showAuthTree(id);
+        },//回调onload函数
+        buttons:[{
+            text:'保存',
+            iconCls:'icon-ok',
+            handler:function(){
+                editAuthTree();
+            }
+        },{
+            text:'取消',
+            iconCls:'icon-cancel',
+            handler:function(){
+                $('#new_win').dialog('close');
+                roleAuth = {};
+            }
+        }],
+        onClose:function(){
+            $('#new_win').dialog("destroy");
+            roleAuth = {};
+        },
+        closable: true,
+        closed: true   //已关闭
+    });
+
+    $('#new_win').dialog('open');
+}
+//生成权限树
+function showAuthTree(id) {
+    $.ajax({
+        type : "POST",
+        url : '/role/getAuthTree',
+        data : {"roleId":id},
+        dataType: "json",
+        success : function(result) {
+            $.messager.progress('close');
+            if(result.code == 200){
+                $('#menu_manage_tree').tree({
+                    data: result.data.menuTreeData,
+                    animate: true,
+                    cascadeCheck :false,
+                    checkbox: true,
+                    lines: true,
+                    onLoadSuccess: function(node, data) {
+                        cleatTreeIcon();
+                        var nodes = $(this).tree('getChecked');
+                        roleAuth.menuAuthBefore = _.pluck(nodes, 'id');
+                    },
+                    onCheck: function(node, checked) {
+                        var checkOrNo = checked ? 'tree-checkbox1' : 'tree-checkbox0';
+                        $(node.target).parent('li').find('span.tree-checkbox').removeClass('tree-checkbox0 tree-checkbox1').addClass(checkOrNo);
+                    }
+                });
+                $('#area_manage_tree').tree({
+                    data: result.data.areaTreeData,
+                    animate: true,
+                    cascadeCheck: false,
+                    checkbox: true,
+                    lines: true,
+                    onLoadSuccess: function (node, data) {
+                        cleatTreeIcon();
+                        var nodes = $(this).tree('getChecked');
+                        roleAuth.areaAuthBefore = _.pluck(nodes, 'id');
+                    }
+                });
+
+            }else {
+                layer.alert(result.message, {icon: 5, title: "提示"});
+            }
+        },
+        error :function(){
+            $.messager.progress('close');
+            layer.alert('系统异常', {icon: 5, title: "提示"});
+        }
+    });
+}
+
+
 
 function getFormData(form) {
     var array = $("#" + form).serializeArray();
@@ -209,4 +311,9 @@ function getFormData(form) {
         }
     });
     return data;
+}
+
+function cleatTreeIcon(){
+    $(".tree-icon,.tree-file").removeClass("tree-icon tree-file");
+    $(".tree-icon,.tree-folder").removeClass("tree-icon tree-folder tree-folder-open tree-folder-closed");
 }

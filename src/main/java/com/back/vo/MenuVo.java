@@ -8,11 +8,11 @@ import java.util.List;
 @Data
 public class MenuVo extends BaseVo {
 
-	private Integer id;
+	private Long id;
 	private String name;
 	private String code;
 	private Integer type;//类型 0菜单 1功能点
-	private Integer parentId;
+	private Long parentId;
 	private Integer level;
 	private String url;
 	private Integer hasChild;
@@ -60,7 +60,7 @@ public class MenuVo extends BaseVo {
 		return nodeList;
 	}
 
-	public MenuVo(Integer id, String text) {
+	public MenuVo(Long id, String text) {
 		super();
 		this.id = id;
 		this.text = text;

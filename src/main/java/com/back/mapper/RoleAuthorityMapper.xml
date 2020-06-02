@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.back.dao.RoleAuthorityDao">
+    <select id="getMenuIdsByRoleId" resultType="com.back.model.RoleAuthorityDto">
+        select
+        id,
+        role_id roleId,
+        auth_id authId,
+        type type
+        FROM auth_role_authority
+        WHERE deleted = 0 and role_id = #{roleId}
+    </select>
+</mapper>

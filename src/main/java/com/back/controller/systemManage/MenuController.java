@@ -39,7 +39,7 @@ public class MenuController {
         try {
             return menuService.getMenuPageList(menuVo);
         }catch (Exception e){
-            log.error("getMenuPageListException:{}",e.getMessage());
+            log.error("getMenuPageListException:{}",e);
             return BaseResponse.error();
         }
 
@@ -53,7 +53,7 @@ public class MenuController {
         try {
             return menuService.addUpdateMenu(menuVo);
         }catch (Exception e){
-            log.error("addUpdateMenuException:{}",e.getMessage());
+            log.error("addUpdateMenuException:{}",e);
             return BaseResponse.error();
         }
     }
@@ -66,7 +66,7 @@ public class MenuController {
         try {
             return menuService.deleteMenu(menuVo);
         }catch (Exception e){
-            log.error("deleteMenuException:{}",e.getMessage());
+            log.error("deleteMenuException:{}",e);
             return BaseResponse.error();
         }
     }

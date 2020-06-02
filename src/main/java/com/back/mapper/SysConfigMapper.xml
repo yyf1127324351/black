@@ -143,4 +143,16 @@
         UPDATE sys_config_value SET deleted = 1 WHERE type_id =#{typeId}
     </update>
 
+    <select id="getAllAreaTreeNode" resultType="com.back.vo.TreeNode">
+        SELECT
+        v.param_key as id,
+        v.param_value as name,
+        v.param_value as text,
+        0 as parentId
+		FROM sys_config_type t
+		LEFT JOIN sys_config_value v on t.id = v.type_id
+		WHERE t.type_code = 'OfficeArea' and v.deleted = 0 and t.deleted = 0
+
+    </select>
+
 </mapper>

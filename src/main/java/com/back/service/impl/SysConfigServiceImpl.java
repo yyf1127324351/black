@@ -30,7 +30,7 @@ public class SysConfigServiceImpl implements SysConfigService {
             node.setId(e.getId());
             node.setText(e.getName());
             node.setCode(e.getTypeCode());
-            node.setSort(e.getSortNumber());
+            node.setSortNumber(e.getSortNumber());
             nodeList.add(node);
         });
 

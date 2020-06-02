@@ -40,7 +40,7 @@ public class HolidayController {
         try {
             return holidayService.getHolidayPageList(holidayVo);
         }catch (Exception e){
-            log.error("getHolidayPageListException:{}",e.getMessage());
+            log.error("getHolidayPageListException:{}",e);
             return BaseResponse.error();
         }
 
@@ -56,7 +56,7 @@ public class HolidayController {
             ExportExcelUtils.exportXlsxFile(response,workbook, fileName);
         } catch (Exception e) {
             e.printStackTrace();
-            log.error("getHolidayPageListException:{}",e.getMessage());
+            log.error("getHolidayPageListException:{}",e);
         }
 
     }

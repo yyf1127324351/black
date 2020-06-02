@@ -50,7 +50,7 @@ public class SysConfigController extends BaseController {
             HashMap<String, Object> map = getParametersMap(request);
             return sysConfigService.getSysConfigPageList(map);
         } catch (Exception e) {
-            log.error("getSysConfigPageList:{}", e.getMessage());
+            log.error("getSysConfigPageList:{}", e);
             return BaseResponse.error();
         }
 
@@ -65,7 +65,7 @@ public class SysConfigController extends BaseController {
             sysConfigService.addSysConfigType(paramModel);
             return BaseResponse.success();
         } catch (Exception e) {
-            log.error("addSysConfigType:{}", e.getMessage());
+            log.error("addSysConfigType:{}", e);
             return BaseResponse.error();
         }
     }
@@ -79,7 +79,7 @@ public class SysConfigController extends BaseController {
             sysConfigService.updateSysConfigType(paramModel);
             return BaseResponse.success();
         } catch (Exception e) {
-            log.error("updateSysConfigType:{}", e.getMessage());
+            log.error("updateSysConfigType:{}", e);
             return BaseResponse.error();
         }
     }
@@ -94,7 +94,7 @@ public class SysConfigController extends BaseController {
             sysConfigService.deleteSysConfigType(typeId);
             return BaseResponse.success();
         } catch (Exception e) {
-            log.error("deleteSysConfigType:{}", e.getMessage());
+            log.error("deleteSysConfigType:{}", e);
             return BaseResponse.error();
         }
     }
@@ -111,7 +111,7 @@ public class SysConfigController extends BaseController {
             sysConfigService.addSysConfigValue(sysConfigValueDto);
             return BaseResponse.success();
         } catch (Exception e) {
-            log.error("addSysConfigValue:{}", e.getMessage());
+            log.error("addSysConfigValue:{}", e);
             return BaseResponse.error();
         }
     }
@@ -125,7 +125,7 @@ public class SysConfigController extends BaseController {
             sysConfigService.updateSysConfigValue(sysConfigValueDto);
             return BaseResponse.success();
         } catch (Exception e) {
-            log.error("updateSysConfigValue:{}", e.getMessage());
+            log.error("updateSysConfigValue:{}", e);
             return BaseResponse.error();
         }
     }

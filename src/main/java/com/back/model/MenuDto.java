@@ -7,11 +7,11 @@ import lombok.Data;
  * */
 @Data
 public class MenuDto extends BaseDto {
-    private Integer id;
+    private Long id;
     private String name;
     private String code;
     private Integer type;//类型 0菜单 1功能点
-    private Integer parentId;
+    private Long parentId;
     private Integer level;
     private String url;
     private Integer hasChild;

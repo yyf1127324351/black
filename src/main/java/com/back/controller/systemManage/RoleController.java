@@ -4,6 +4,7 @@ import com.back.controller.BaseController;
 import com.back.model.RoleDto;
 import com.back.service.RoleService;
 import com.common.BaseResponse;
+import com.common.session.SessionContainer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/role")
@@ -41,7 +44,7 @@ public class RoleController extends BaseController {
             HashMap<String, Object> map = getParametersMap(request);
             return roleService.getRolePageList(map);
         } catch (Exception e) {
-            log.error("getRolePageList:{}", e.getMessage());
+            log.error("getRolePageList:{}", e);
             return BaseResponse.error();
         }
 
@@ -57,7 +60,7 @@ public class RoleController extends BaseController {
             roleService.addRole(roleDto);
             return BaseResponse.success();
         } catch (Exception e) {
-            log.error("addRole:{}", e.getMessage());
+            log.error("addRole:{}", e);
             return BaseResponse.error();
         }
 
@@ -73,11 +76,29 @@ public class RoleController extends BaseController {
             roleService.updateRole(roleDto);
             return BaseResponse.success();
         } catch (Exception e) {
-            log.error("updateRoleStatus:{}", e.getMessage());
+            log.error("updateRoleStatus:{}", e);
             return BaseResponse.error();
         }
 
     }
+
+    /**
+     * 获取所有的权限树
+     */
+    @RequestMapping(value = "/getAuthTree", method = RequestMethod.POST)
+    @ResponseBody
+    public BaseResponse getAuthTree(Long roleId) {
+        try {
+            Map<String, List> treeMap = roleService.getAuthTree(roleId);
+            return BaseResponse.success(treeMap);
+        } catch (Exception e) {
+            log.error("getAuthTree:{}", e);
+//            e.printStackTrace();
+            return BaseResponse.error();
+        }
+
+    }
+
 
 
 }

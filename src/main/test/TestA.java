@@ -23,9 +23,12 @@ public class TestA {
 
     @Test
     public void test(){
-        String calculateDate = "2020-05-01";
-        String year = calculateDate.substring(0, 4);
-        String month = Integer.valueOf(calculateDate.substring(5, 7)).toString();
+//        String calculateDate = "2020-05-01";
+//        String year = calculateDate.substring(0, 4);
+//        String month = Integer.valueOf(calculateDate.substring(5, 7)).toString();
+        String aa = "09:00:00";
+        aa = aa.substring(0, 5);
+
         System.out.println("aaa");
 
 

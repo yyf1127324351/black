@@ -2,6 +2,7 @@ package com.back.dao;
 
 import com.back.model.SysConfigTypeDto;
 import com.back.model.SysConfigValueDto;
+import com.back.vo.TreeNode;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.HashMap;
@@ -25,4 +26,6 @@ public interface SysConfigDao {
     void deleteSysConfigValueByTypeId(@Param("typeId") Long typeId);
 
     void updateSysConfigValue(SysConfigValueDto sysConfigValueDto);
+
+    List<TreeNode> getAllAreaTreeNode();
 }
