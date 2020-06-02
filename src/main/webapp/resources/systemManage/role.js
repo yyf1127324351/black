@@ -214,7 +214,7 @@ function authEdit(id) {
         "</div>" +
         "</div>");// 创建一个临时层，关闭销毁。
     $('#new_win').dialog({
-        title:'人员权限编辑（实时）',
+        title:'角色权限分配',
         width:'800',
         height:'90%',
         iconCls:'icon-add',
@@ -227,7 +227,7 @@ function authEdit(id) {
             text:'保存',
             iconCls:'icon-ok',
             handler:function(){
-                editAuthTree();
+                saveAuthTree(id);
             }
         },{
             text:'取消',
@@ -283,6 +283,17 @@ function showAuthTree(id) {
                         cleatTreeIcon();
                         var nodes = $(this).tree('getChecked');
                         roleAuth.areaAuthBefore = _.pluck(nodes, 'id');
+                    },
+                    onCheck: function(node, checked) {
+                        debugger;
+                        var checkOrNo = checked ? 'tree-checkbox1' : 'tree-checkbox0';
+                        $(node.target).parent('li').find('span.tree-checkbox').removeClass('tree-checkbox0 tree-checkbox1').addClass(checkOrNo);
+                        if (checkOrNo == 'tree-checkbox0'){
+                            //如果没有子节点 将父节去掉选中
+                        }else {
+                            //如果本次勾选的是子节点，那么 判断同级别子节点是否全部选中，如果全部选中，则选中父节点
+                        }
+
                     }
                 });
 
@@ -295,6 +306,35 @@ function showAuthTree(id) {
             layer.alert('系统异常', {icon: 5, title: "提示"});
         }
     });
+}
+
+function saveAuthTree(id) {
+    //菜单
+    debugger;
+    roleAuth.menuAuthAfter = _.pluck($('#menu_manage_tree').tree('getChecked'), 'id');
+    var menuAuthAdd = _.difference(roleAuth.menuAuthAfter, roleAuth.menuAuthBefore);
+    var menuAuthDelete = _.difference(roleAuth.menuAuthBefore, roleAuth.menuAuthAfter);
+
+    //地区
+    roleAuth.areaAuthAfter = _.pluck($('#area_manage_tree').tree('getChecked'), 'id');
+    if(_.contains(roleAuth.areaAuthAfter, 0)) {
+        roleAuth.areaAuthAfter = [0];
+    }
+    var areaAuthAdd = _.difference( roleAuth.areaAuthAfter, roleAuth.areaAuthBefore);
+    var areaAuthDelete = _.difference(roleAuth.areaAuthBefore, roleAuth.areaAuthAfter);
+    if(_.isEqual(roleAuth.menuAuthAfter, roleAuth.menuAuthBefore)
+       && _.isEqual(roleAuth.areaAuthAfter, roleAuth.areaAuthBefore)){
+        layer.alert('没有修改的内容！', {icon: 0, title: "提示"});
+        return false;
+    }
+    var param = {
+        menuAuthAdd: menuAuthAdd,
+        menuAuthDelete: menuAuthDelete,
+        areaAuthAdd: areaAuthAdd,
+        areaAuthDelete: areaAuthDelete,
+        id: id
+    }
+    
 }
 
 
