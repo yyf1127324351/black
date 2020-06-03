@@ -1,5 +1,6 @@
 package com.back.service;
 
+import com.back.model.RoleAuthorityDto;
 import com.back.model.RoleDto;
 import com.common.BaseResponse;
 
@@ -15,4 +16,6 @@ public interface RoleService {
     void addRole(RoleDto roleDto);
 
     Map<String,List> getAuthTree(Long roleId);
+
+    void saveAuthTree(RoleAuthorityDto roleAuthorityDto);
 }

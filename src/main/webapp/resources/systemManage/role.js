@@ -285,13 +285,23 @@ function showAuthTree(id) {
                         roleAuth.areaAuthBefore = _.pluck(nodes, 'id');
                     },
                     onCheck: function(node, checked) {
-                        debugger;
                         var checkOrNo = checked ? 'tree-checkbox1' : 'tree-checkbox0';
                         $(node.target).parent('li').find('span.tree-checkbox').removeClass('tree-checkbox0 tree-checkbox1').addClass(checkOrNo);
                         if (checkOrNo == 'tree-checkbox0'){
-                            //如果没有子节点 将父节去掉选中
+                            //如果勾掉子节点，则将父节点也勾掉
+                            $($($("#area_manage_tree").children('li').get(0)).children('div').get(0)).find('span.tree-checkbox').removeClass('tree-checkbox0 tree-checkbox1').addClass(checkOrNo);
                         }else {
                             //如果本次勾选的是子节点，那么 判断同级别子节点是否全部选中，如果全部选中，则选中父节点
+                            var checkedList =  _.pluck($('#area_manage_tree').tree('getChecked'), 'id');
+                            if (0 == checkedList[0]){
+                                checkedList = checkedList.splice(1);
+                            }
+                            var areaTreeList = result.data.areaTreeData;
+                            var childrenList = areaTreeList[0].children;
+                            if (checkedList.length == childrenList.length) {
+                                $($($("#area_manage_tree").children('li').get(0)).children('div').get(0)).find('span.tree-checkbox').removeClass('tree-checkbox0 tree-checkbox1').addClass(checkOrNo);
+                            }
+
                         }
 
                     }
@@ -309,17 +319,14 @@ function showAuthTree(id) {
 }
 
 function saveAuthTree(id) {
-    //菜单
     debugger;
+    //菜单
     roleAuth.menuAuthAfter = _.pluck($('#menu_manage_tree').tree('getChecked'), 'id');
     var menuAuthAdd = _.difference(roleAuth.menuAuthAfter, roleAuth.menuAuthBefore);
     var menuAuthDelete = _.difference(roleAuth.menuAuthBefore, roleAuth.menuAuthAfter);
 
     //地区
     roleAuth.areaAuthAfter = _.pluck($('#area_manage_tree').tree('getChecked'), 'id');
-    if(_.contains(roleAuth.areaAuthAfter, 0)) {
-        roleAuth.areaAuthAfter = [0];
-    }
     var areaAuthAdd = _.difference( roleAuth.areaAuthAfter, roleAuth.areaAuthBefore);
     var areaAuthDelete = _.difference(roleAuth.areaAuthBefore, roleAuth.areaAuthAfter);
     if(_.isEqual(roleAuth.menuAuthAfter, roleAuth.menuAuthBefore)
@@ -327,13 +334,40 @@ function saveAuthTree(id) {
         layer.alert('没有修改的内容！', {icon: 0, title: "提示"});
         return false;
     }
-    var param = {
-        menuAuthAdd: menuAuthAdd,
-        menuAuthDelete: menuAuthDelete,
-        areaAuthAdd: areaAuthAdd,
-        areaAuthDelete: areaAuthDelete,
-        id: id
+    if (0 == areaAuthAdd[0]){
+        areaAuthAdd = areaAuthAdd.splice(1);
     }
+    if (0 == areaAuthDelete[0]){
+        areaAuthDelete = areaAuthDelete.splice(1);
+    }
+
+    $.messager.progress();	//防止重复提交
+    $.ajax({
+        type: "POST",
+        url: '/role/saveAuthTree',
+        data: {
+            'menuAuthAdd': menuAuthAdd,
+            'menuAuthDelete':menuAuthDelete,
+            'areaAuthAdd':areaAuthAdd,
+            'areaAuthDelete':areaAuthDelete,
+            'roleId':id
+        },
+        dataType: "json",
+        traditional:true,
+        success: function (result) {
+            $.messager.progress('close');
+            if(result.code == 200){
+                $('#new_win').dialog('close'); roleAuth = {};
+                layer.alert(result.message, {icon: 6, title: "提示"});
+            }else {
+                layer.alert(result.message, {icon: 5, title: "提示"});
+            }
+        },
+        error :function(){
+            $.messager.progress('close');
+            layer.alert('系统异常', {icon: 5, title: "提示"});
+        }
+    });
     
 }
 

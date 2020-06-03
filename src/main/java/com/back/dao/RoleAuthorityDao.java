@@ -7,4 +7,8 @@ import java.util.List;
 
 public interface RoleAuthorityDao {
     List<RoleAuthorityDto> getMenuIdsByRoleId(@Param("roleId") Long roleId);
+
+    void addRoleAuthority(@Param("list") List<RoleAuthorityDto> list);
+
+    void deleteRoleAuthority(@Param("list") List<RoleAuthorityDto> list);
 }

@@ -1,6 +1,7 @@
 package com.back.controller.systemManage;
 
 import com.back.controller.BaseController;
+import com.back.model.RoleAuthorityDto;
 import com.back.model.RoleDto;
 import com.back.service.RoleService;
 import com.common.BaseResponse;
@@ -8,6 +9,7 @@ import com.common.session.SessionContainer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -93,7 +95,24 @@ public class RoleController extends BaseController {
             return BaseResponse.success(treeMap);
         } catch (Exception e) {
             log.error("getAuthTree:{}", e);
-//            e.printStackTrace();
+            e.printStackTrace();
+            return BaseResponse.error();
+        }
+
+    }
+
+    /**
+     * 更新角色对应的权限
+     */
+    @RequestMapping(value = "/saveAuthTree", method = RequestMethod.POST)
+    @ResponseBody
+    public BaseResponse saveAuthTree(RoleAuthorityDto roleAuthorityDto) {
+        try {
+            roleService.saveAuthTree(roleAuthorityDto);
+            return BaseResponse.success("权限保存成功");
+        } catch (Exception e) {
+            log.error("saveAuthTree:{}", e);
+            e.printStackTrace();
             return BaseResponse.error();
         }
 
