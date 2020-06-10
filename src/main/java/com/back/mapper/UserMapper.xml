@@ -3,6 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.back.dao.UserDao">
     <sql id="sql_column">
+        u.id id,
         u.id userId,
         u.id userNo,
         u.user_name userName,

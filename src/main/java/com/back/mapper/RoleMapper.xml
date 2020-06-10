@@ -12,7 +12,12 @@
     </sql>
     <sql id="sql_where">
         <where>
-            r.deleted = 0
+            <if test="deleted !=null and deleted != 0">
+                and r.deleted = #{deleted}
+            </if>
+            <if test="deleted ==null or deleted == 0">
+                and r.deleted = 0
+            </if>
             <if test="roleCode !=null and roleCode!=''">
                 and r.role_code like CONCAT('%',#{roleCode},'%')
             </if>
@@ -82,6 +87,12 @@
     </select>
     <select id="getRolePageCount" resultType="java.lang.Long">
         SELECT count(1)
+        FROM auth_role r
+        <include refid="sql_where"/>
+    </select>
+    <select id="getRoleList" resultType="com.back.model.RoleDto">
+        SELECT
+        <include refid="sql_column"/>
         FROM auth_role r
         <include refid="sql_where"/>
     </select>

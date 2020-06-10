@@ -4,6 +4,46 @@ $(document).ready(function () {
             queryList();
         }
     };
+    $("#distributeRoleDialog").dialog({
+        title: '分配角色',
+        width:'440',
+        height:'195',
+        shadow:false,
+        modal:true,
+        closable: true,
+        closed: true,
+        buttons:[{
+            text: '保存',
+            iconCls: 'icon-ok',
+            handler: function() {
+
+            }
+        },{
+            text: '取消',
+            iconCls: 'icon-cancel',
+            handler: function() {
+                $("#distributeRoleDialog").dialog('close');
+            }
+        }],
+        onClose:function() {
+            $("#loginName").textbox("clear");
+            $("#userName").textbox("clear");
+            $("#roleIds").combobox("clear");
+            $("id").val('');
+        },
+        closable: true,
+        closed: true   //已关闭
+    });
+
+
+    $("#roleIds").combobox({
+        url:'/role/getRoleList',
+        valueField:'id',
+        textField:'roleName',
+        // editable:false,
+        multiple: true
+    });
+
 
     $("#data_table").datagrid({
         queryParams: getFormData("search_form"), //参数
@@ -20,6 +60,7 @@ $(document).ready(function () {
         pageList: [50, 100, 200],
         toolbar: '#button_tab',
         onLoadSuccess: function (data) {
+            $("#data_table").datagrid("clearSelections").datagrid("clearChecked");
         },
         frozenColumns: [[
             {title: '操作', field: 'id', width: 180, align: 'center',
@@ -54,6 +95,13 @@ function queryList() {
     $('#data_table').datagrid({url: '/userRole/getUserRolePageList', queryParams: data});
 }
 
+function distributeRole(id) {
+    $('#distributeRoleDialog').dialog('open');
+    var rowDate = $("#data_table").datagrid('getSelected');
+    $('#id').val(id);
+    $('#loginName').textbox('setText',rowDate.loginName);
+    $('#userName').textbox('setText',rowDate.userName);
+}
 
 
 

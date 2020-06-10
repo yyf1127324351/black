@@ -49,7 +49,22 @@ public class RoleController extends BaseController {
         }
 
     }
+    /**
+     * 获取所有角色
+     */
+    @RequestMapping(value = "/getRoleList", method = RequestMethod.POST)
+    @ResponseBody
+    public List<RoleDto> getRoleList(RoleDto roleDto) {
+        try {
+            roleDto.setStatus(1);
+            roleDto.setDeleted(0);
+            return roleService.getRoleList(roleDto);
+        } catch (Exception e) {
+            log.error("getRolePageList:{}", e);
+            return null;
+        }
 
+    }
     /**
      * 添加角色
      */

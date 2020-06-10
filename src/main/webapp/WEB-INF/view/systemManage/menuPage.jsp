@@ -88,14 +88,14 @@
                 <td style="align:center;">
                     <input type="hidden" id="type"/>
                     <input type="hidden" id="level"/>
-                    <input id="typeName" class="easyui-textbox" readonly="readonly" prompt="1/50" type="text" style="width: 400px;"data-options="validType:'length[1,50]'"/>
+                    <input id="typeName" class="easyui-textbox" readonly="readonly" prompt="1/50" type="text" style="width: 400px;"data-options="disabled:true, validType:'length[1,50]'"/>
                 </td>
             </tr>
             <tr style="height:30px;">
                 <th style="width: 75px;text-align:right;">父菜单名：<font size="3" color="red">*</font></th>
                 <td style="align:center;">
                     <input type="hidden" id="parentId"/>
-                    <input id="parentName" class="easyui-textbox" readonly="readonly" prompt="1/50" type="text" style="width: 400px;"data-options="validType:'length[1,50]'"/>
+                    <input id="parentName" class="easyui-textbox" readonly="readonly" prompt="1/50" type="text" style="width: 400px;"data-options="disabled:true, validType:'length[1,50]'"/>
                 </td>
             </tr>
             <tr style="height:30px;">

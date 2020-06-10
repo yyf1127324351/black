@@ -43,11 +43,11 @@ $(document).ready(function () {
                         $('#addEditDialog').dialog('open');
 
                         $('#typeName').textbox('setText',node.text);
-                        $('#typeName').textbox('textbox').css('background','#ccc');
+                        // $('#typeName').textbox('textbox').css('background','#ccc');
                         $('#typeCode').textbox('setText',node.code);
-                        $('#typeCode').textbox('textbox').css('background','#ccc');
+                        // $('#typeCode').textbox('textbox').css('background','#ccc');
                         $('#typeId').textbox('setText',node.id);
-                        $('#typeId').textbox('textbox').css('background','#ccc');
+                        // $('#typeId').textbox('textbox').css('background','#ccc');
                     }else if(item.text == '新增参数类型') {
                         $('#addEditTypeDialog').dialog('setTitle','新增参数类型');
                         $('#addEditTypeDialog').dialog('open');
@@ -312,11 +312,11 @@ function openEdit(index){
     $('#remark').textbox('setText',row.remark);
 
     $('#typeName').textbox('setText',row.typeName);
-    $('#typeName').textbox('textbox').css('background','#ccc');
+    // $('#typeName').textbox('textbox').css('background','#ccc');
     $('#typeCode').textbox('setText',row.typeCode);
-    $('#typeCode').textbox('textbox').css('background','#ccc');
+    // $('#typeCode').textbox('textbox').css('background','#ccc');
     $('#typeId').textbox('setText',row.typeId);
-    $('#typeId').textbox('textbox').css('background','#ccc');
+    // $('#typeId').textbox('textbox').css('background','#ccc');
 }
 
 function offUse(id,typeId) {

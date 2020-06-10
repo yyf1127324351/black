@@ -13,4 +13,6 @@ public interface RoleDao {
     void updateRole(RoleDto roleDto);
 
     void addRole(RoleDto roleDto);
+
+    List<RoleDto> getRoleList(RoleDto roleDto);
 }

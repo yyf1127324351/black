@@ -44,7 +44,31 @@
     <table id="data_table" style="height: 100%;"></table>
 </div>
 
-
+<div style="display:none;">
+    <div id="distributeRoleDialog" class="dialog">
+        <input type="hidden" id="id"/>
+        <table style="width:95%;margin:10px 10px 10px 10px;">
+            <tr style="height:30px;">
+                <th style="width:70px; text-align: right">姓名：<font size="3" color="red">*</font></th>
+                <td>
+                    <input type="text" class="easyui-textbox" id="userName" readonly="readonly" data-options="disabled:true" style="width:300px" />
+                </td>
+            </tr>
+            <tr style="height:30px;">
+                <th style="text-align: right">账号：<font size="3" color="red">*</font></th>
+                <td>
+                    <input type="text" class="easyui-textbox" id="loginName" readonly="readonly" data-options="disabled:true" style="width:300px" />
+                </td>
+            </tr>
+            <tr style="height:30px;">
+                <th style="text-align: right">角色：<font size="3" color="red">*</font></th>
+                <td>
+                    <input type="text" class="easyui-combobox" id="roleIds" style="width:300px" />
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
 
 </body>
 </html>

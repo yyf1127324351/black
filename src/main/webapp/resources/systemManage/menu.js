@@ -246,13 +246,13 @@ function addMenu(node) {
         $('#typeName').textbox('setText','按钮');
         $('#url_tr').hide();
     }
-    $('#typeName').textbox('textbox').css('background','#ccc');
+    // $('#typeName').textbox('textbox').css('background','#ccc');
     var nextLevel = level + 1;
     $('#level').val(nextLevel);
     var menuName = node.name;
     $('#parentId').val(id);
     $('#parentName').textbox('setText',menuName);
-    $('#parentName').textbox('textbox').css('background','#ccc');
+    // $('#parentName').textbox('textbox').css('background','#ccc');
 
 
 }
@@ -272,8 +272,8 @@ function updateMenu(node) {
         $('#typeName').textbox('setText', '按钮');
         $('#url_tr').hide();
     }
-    $('#typeName').textbox('textbox').css('background','#ccc');
-    $('#parentName').textbox('textbox').css('background','#ccc');
+    // $('#typeName').textbox('textbox').css('background','#ccc');
+    // $('#parentName').textbox('textbox').css('background','#ccc');
     $('#name').textbox('setText',node.name);
     $('#code').textbox('setText',node.code);
     $('#url').textbox('setText',node.url);

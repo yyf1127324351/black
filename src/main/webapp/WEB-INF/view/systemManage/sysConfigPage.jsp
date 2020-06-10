@@ -92,19 +92,19 @@
             <tr style="height:30px;">
                 <th style="width: 110px;text-align:right;">参数类型：<font size="3" color="red">*</font></th>
                 <td style="align:center;">
-                    <input id="typeName" type="text" class="easyui-textbox" readonly="readonly"  style="width: 400px;"/>
+                    <input id="typeName" type="text" class="easyui-textbox" readonly="readonly" data-options="disabled:true" style="width: 400px;"/>
                 </td>
             </tr>
             <tr style="height:30px;">
                 <th style="width: 110px;text-align:right;">参数类型编码：<font size="3" color="red">*</font></th>
                 <td style="align:center;">
-                    <input id="typeCode" type="text" class="easyui-textbox" readonly="readonly" style="width: 400px;"/>
+                    <input id="typeCode" type="text" class="easyui-textbox" readonly="readonly" data-options="disabled:true" style="width: 400px;"/>
                 </td>
             </tr>
             <tr style="height:30px;">
                 <th style="width: 110px;text-align:right;">参数值类型ID：<font size="3" color="red">*</font></th>
                 <td style="align:center;">
-                    <input id="typeId" type="text" class="easyui-textbox" readonly="readonly" style="width: 400px;"/>
+                    <input id="typeId" type="text" class="easyui-textbox" readonly="readonly" data-options="disabled:true" style="width: 400px;"/>
                 </td>
             </tr>
 

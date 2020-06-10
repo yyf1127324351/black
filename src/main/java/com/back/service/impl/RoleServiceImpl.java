@@ -132,6 +132,11 @@ public class RoleServiceImpl implements RoleService{
 
     }
 
+    @Override
+    public List<RoleDto> getRoleList(RoleDto roleDto) {
+        return roleDao.getRoleList(roleDto);
+    }
+
     private void handleAddList(Long authId, int type, Long roleId, List<RoleAuthorityDto> addList) {
         RoleAuthorityDto dto = new RoleAuthorityDto();
         dto.setType(type);
