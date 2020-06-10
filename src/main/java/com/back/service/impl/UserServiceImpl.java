@@ -1,11 +1,15 @@
 package com.back.service.impl;
 
 import com.back.dao.UserDao;
+import com.back.model.UserDto;
 import com.back.service.UserService;
 import com.back.vo.UserVo;
+import com.common.BaseResponse;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,5 +39,23 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateLoginPassword(Map<Object, String> map) {
         userDao.updateLoginPassword(map);
+    }
+
+    @Override
+    public BaseResponse getUerRolePageList(HashMap<String, Object> map) {
+        BaseResponse baseResponse = new BaseResponse();
+        baseResponse.setTotal(userDao.getUserRolePageCount(map));
+        List<UserDto> list = userDao.getUserRolePageList(map);
+        if (CollectionUtils.isNotEmpty(list)) {
+
+        }
+
+        //
+//        List<Long> userIds = list.stream().collect()
+
+
+
+        baseResponse.setRows(list);
+        return baseResponse;
     }
 }

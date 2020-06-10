@@ -38,7 +38,7 @@ $(document).ready(function () {
     });
 
     $("#data_table").datagrid({
-        queryParams: getFormData("searchForm"), //参数
+        queryParams: getFormData("search_form"), //参数
         url: '/role/getRolePageList',
         method: 'post',
         loadMsg: "数据装载中,请稍等....",
@@ -62,7 +62,7 @@ $(document).ready(function () {
                     if (status == 1){
                         html = html + '<a class="sel_btn ch_cls" href="javascript:offUseRole(' + id + ')" style="text-decoration:none;">停用</a>&nbsp;';
                         html = html + '<a class="sel_btn ch_cls" href="javascript:editInfo(' + id + ')" style="text-decoration:none;">编辑</a>&nbsp;';
-                        html = html + '<a class="sel_btn ch_cls" href="javascript:authEdit(' + id + ')" style="text-decoration:none;">分配权限</a>';
+                        html = html + '<a class="sel_btn ch_cls" href="javascript:distributeAuth(' + id + ')" style="text-decoration:none;">分配权限</a>';
                     }else {
                         html = html + '<a class="sel_btn ch_cls" href="javascript:onUseRole(' + id + ')" style="text-decoration:none;">启用</a>';
                     }
@@ -198,7 +198,7 @@ function updateRoleStatus(id,status){
     });
 }
 
-function authEdit(id) {
+function distributeAuth(id) {
     $("#win").append("<div id='new_win' class='easyui-dialog'>" +
         "<div style='width:250px;float:left;'>" +
         "<div style='color:red;margin-top: 10px; margin-left: 10px;font-weight:bold;'>1、菜单权限</div>" +

@@ -133,7 +133,7 @@ $(document).ready(function () {
     });
 
     $("#data_table").datagrid({
-        queryParams: getFormData("searchForm"), //参数
+        queryParams: getFormData("search_form"), //参数
         url: '/sysConfig/getSysConfigPageList',
         method: 'post',
         loadMsg: "数据装载中,请稍等....",

@@ -2,6 +2,40 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.back.dao.UserDao">
+    <sql id="sql_column">
+        u.id userId,
+        u.id userNo,
+        u.user_name userName,
+        u.login_name loginName,
+        u.status status
+    </sql>
+    <sql id="sql_where">
+        <where>
+            u.status = 1
+            <if test="userName !=null and userName!=''">
+                and u.user_name like CONCAT('%',#{userName},'%')
+            </if>
+            <if test="loginName !=null and loginName!=''">
+                and u.loginName like CONCAT('%',#{loginName},'%')
+            </if>
+            <if test="userNo !=null and userNo!=''">
+                and u.id like CONCAT('%',#{userNo},'%')
+            </if>
+            <if test="status !=null and status != 0">
+                and u.status = #{status}
+            </if>
+        </where>
+    </sql>
+    <sql id="sql_order">
+        <if test="sort == null and order == null ">
+            ORDER BY u.id asc
+        </if>
+        <if test="sort !=null and order!=null">
+            ORDER BY u.${sort} ${order}
+        </if>
+    </sql>
+
+
     <update id="updateLoginPassword">
         UPDATE user
         SET login_password = #{newPassword}
@@ -47,5 +81,20 @@
         count(1)
         FROM user u
         WHERE u.status = 1 and u.id = #{userId} and u.login_password = #{loginPassword}
+    </select>
+    <select id="getUserRolePageList" resultType="com.back.model.UserDto">
+        SELECT
+        <include refid="sql_column"/>
+        FROM user u
+        <include refid="sql_where"/>
+        <include refid="sql_order"/>
+        <if test="page !=null ">
+            limit #{start} , #{rows}
+        </if>
+    </select>
+    <select id="getUserRolePageCount" resultType="java.lang.Long">
+        SELECT count(1)
+        FROM user u
+        <include refid="sql_where"/>
     </select>
 </mapper>

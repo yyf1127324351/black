@@ -9,6 +9,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -26,8 +28,12 @@ public class TestA {
 //        String calculateDate = "2020-05-01";
 //        String year = calculateDate.substring(0, 4);
 //        String month = Integer.valueOf(calculateDate.substring(5, 7)).toString();
-        String aa = "09:00:00";
-        aa = aa.substring(0, 5);
+//        String aa = "09:00:00";
+//        aa = aa.substring(0, 5);
+        List<Integer> list2 = new ArrayList<>();
+
+        List<Integer> list = new ArrayList<>();
+        list2.addAll(list);
 
         System.out.println("aaa");
 
