@@ -21,4 +21,6 @@ public interface UserDao {
     List<UserDto> getUserRolePageList(HashMap<String, Object> map);
 
     Long getUserRolePageCount(HashMap<String, Object> map);
+
+    List<Long> getUserRoleIds(@Param("userId") Long userId);
 }

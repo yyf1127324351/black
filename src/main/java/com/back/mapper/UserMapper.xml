@@ -98,4 +98,9 @@
         FROM user u
         <include refid="sql_where"/>
     </select>
+    <select id="getUserRoleIds" resultType="java.lang.Long">
+        select role_id
+        from auth_user_role
+        WHERE deleted = 0 and user_id = #{userId};
+    </select>
 </mapper>

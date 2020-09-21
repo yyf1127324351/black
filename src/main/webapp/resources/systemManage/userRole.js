@@ -16,7 +16,7 @@ $(document).ready(function () {
             text: '保存',
             iconCls: 'icon-ok',
             handler: function() {
-
+                saveUserRole();
             }
         },{
             text: '取消',
@@ -29,7 +29,7 @@ $(document).ready(function () {
             $("#loginName").textbox("clear");
             $("#userName").textbox("clear");
             $("#roleIds").combobox("clear");
-            $("id").val('');
+            $("#userId").val('');
         },
         closable: true,
         closed: true   //已关闭
@@ -47,7 +47,7 @@ $(document).ready(function () {
 
     $("#data_table").datagrid({
         queryParams: getFormData("search_form"), //参数
-        url: '/userRole/getUerRolePageList',
+        url: '/userRole/getUserRolePageList',
         method: 'post',
         loadMsg: "数据装载中,请稍等....",
         nowrap: true, //单元格内容是否可换行
@@ -66,8 +66,8 @@ $(document).ready(function () {
             {title: '操作', field: 'id', width: 180, align: 'center',
                 formatter: function (val, row) {
                     var html = "";
-                    var id = row.id;
-                    html = html + '<a class="sel_btn ch_cls" href="javascript:distributeRole(' + id + ')" style="text-decoration:none;">分配角色</a>';
+                    var userId = row.id;
+                    html = html + '<a class="sel_btn ch_cls" href="javascript:distributeRole(' + userId + ')" style="text-decoration:none;">分配角色</a>';
                     return html;
                 }
             },
@@ -95,12 +95,54 @@ function queryList() {
     $('#data_table').datagrid({url: '/userRole/getUserRolePageList', queryParams: data});
 }
 
-function distributeRole(id) {
+//打开分配角色dialog
+function distributeRole(userId) {
     $('#distributeRoleDialog').dialog('open');
     var rowDate = $("#data_table").datagrid('getSelected');
-    $('#id').val(id);
-    $('#loginName').textbox('setText',rowDate.loginName);
-    $('#userName').textbox('setText',rowDate.userName);
+    $('#userId').val(rowDate.userId);
+    $('#loginName').textbox('setText', rowDate.loginName);
+    $('#userName').textbox('setText', rowDate.userName);
+
+}
+
+//保存用户角色
+function saveUserRole() {
+    var userId = $('#userId').val();
+    var roleIds = $('#roleIds').combobox('getValues');
+    if (null == roleIds || roleIds.length <1) {
+        layer.alert('角色不能为空！', {icon: 0, title: "提示"});
+        return false;
+    }
+    var userRoleList = new Array();
+    for(var i=0; i<roleIds.length; i++) {
+        userRoleList[i] = roleIds[i];
+    }
+    debugger;
+    $.messager.progress();	//防止重复提交
+    $.ajax({
+        type : "POST",
+        url : '/userRole/saveUserRole',
+        data : {
+            "userId": userId,
+            "userRoleIds":'1,2'
+            // "userRoleList":userRoleList
+        },
+        dataType: "json",
+        success : function(result) {
+            $.messager.progress('close');
+            if(result.code == 200){
+                layer.alert('操作成功', {icon: 6, title: "提示"});
+                queryList();
+                $("#distributeRoleDialog").dialog('close');
+            }else {
+                layer.alert(result.message, {icon: 5, title: "提示"});
+            }
+        },
+        error :function(){
+            $.messager.progress('close');
+            layer.alert('系统异常', {icon: 5, title: "提示"});
+        }
+    });
 }
 
 

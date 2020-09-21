@@ -15,6 +15,7 @@ public class UserDto extends BaseDto{
     private String encPassword;// 密文密码
 
     private String userRoleName;
-    private List<Long> userRoleList;
+    private String userRoleIds;
+    private List<String> userRoleList;
 
 }

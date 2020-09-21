@@ -96,5 +96,22 @@
         FROM auth_role r
         <include refid="sql_where"/>
     </select>
+    <select id="getUserRoleByUserIds" resultType="com.back.model.UserDto">
+        SELECT
+            u.id,
+            u.user_name,
+            r.role_id,
+            ar.role_name
+        FROM
+            auth_user_role r
+        LEFT JOIN `user` u ON r.user_id = u.id
+        LEFT JOIN auth_role ar ON r.role_id = ar.id
+        where
+        ar.status = 1 and ar.deleted = 0
+        and u.id IN
+        <foreach collection="userIds" item="item" separator="," open="(" close=")" >
+            #{item}
+        </foreach>
+    </select>
 
 </mapper>

@@ -1,5 +1,6 @@
 package com.back.service;
 
+import com.back.model.UserDto;
 import com.back.vo.UserVo;
 import com.common.BaseResponse;
 
@@ -18,4 +19,6 @@ public interface UserService {
     void updateLoginPassword(Map<Object, String> map);
 
     BaseResponse getUerRolePageList(HashMap<String, Object> map);
+
+    BaseResponse saveUserRole(UserDto userDto);
 }

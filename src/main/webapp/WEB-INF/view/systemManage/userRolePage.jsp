@@ -46,7 +46,7 @@
 
 <div style="display:none;">
     <div id="distributeRoleDialog" class="dialog">
-        <input type="hidden" id="id"/>
+        <input type="hidden" id="userId"/>
         <table style="width:95%;margin:10px 10px 10px 10px;">
             <tr style="height:30px;">
                 <th style="width:70px; text-align: right">姓名：<font size="3" color="red">*</font></th>
